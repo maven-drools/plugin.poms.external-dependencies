@@ -23,7 +23,6 @@ import org.apache.maven.plugin.MojoExecutionException;
  * Echoes 'Hello world!' to the log.
  *
  * @goal sayhi
- * @phase process-sources
  */
 public class GreetingsPlugin extends AbstractMojo {
 
