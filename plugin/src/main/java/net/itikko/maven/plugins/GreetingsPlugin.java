@@ -26,7 +26,12 @@ import org.apache.maven.plugin.MojoExecutionException;
  */
 public class GreetingsPlugin extends AbstractMojo {
 
+  /**
+   * @parameter expression="${greeting}" default-value="Hello World!"
+   */
+  private String message;
+
   public void execute() throws MojoExecutionException {
-    getLog().info("Hello world!");
+    getLog().info(message);
   }
 }

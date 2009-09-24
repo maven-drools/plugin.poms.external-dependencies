@@ -5,7 +5,9 @@
 
   <groupId>net.itikko.maven.plugins.test</groupId>
   <artifactId>drools-packager-test</artifactId>
+
   <version>0.1-SNAPSHOT</version>
+  <packaging>emma-rule-package</packaging>
 
   <name>Drools Packager Plugin (Test)</name>
   <url>http://maven.apache.org</url>
@@ -17,6 +19,10 @@
         <groupId>net.itikko.maven.plugins</groupId>
         <artifactId>drools-packager</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <extensions>true</extensions>
+        <configuration>
+          <message>Hello my dear :-)</message>
+        </configuration>
       </plugin>
     </plugins>
   </build>

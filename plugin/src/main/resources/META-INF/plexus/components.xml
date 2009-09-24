@@ -1,0 +1,14 @@
+<component-set>
+  <components>
+    <component>
+      <role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
+      <role-hint>emma-rule-package</role-hint>
+      <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
+      <configuration>
+        <phases>
+          <validate>net.itikko.maven.plugins:drools-packager:sayhi</validate>
+        </phases>
+      </configuration>
+    </component>
+  </components>
+</component-set>
