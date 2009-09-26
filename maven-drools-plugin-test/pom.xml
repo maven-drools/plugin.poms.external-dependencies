@@ -25,13 +25,12 @@
   <artifactId>maven-drools-plugin-test</artifactId>
   <version>0.1-SNAPSHOT</version>
   <packaging>rules</packaging>
+  <name>Drools Plugin for Maven2 (Test)</name>
+  <url>http://wiki.github.com/akonermann/Drools-Plugin-for-Maven2</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-
-  <name>Drools Plugin for Maven2 (Test)</name>
-  <url>git://github.com/akonermann/Drools-Plugin-for-Maven2.git</url>
 
   <build>
     <plugins>
