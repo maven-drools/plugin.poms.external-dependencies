@@ -24,8 +24,8 @@
       <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
       <configuration>
         <phases>
+          <process-resources>org.apache.maven.plugins:maven-resources-plugin:resources</process-resources>
           <validate>net.itikko.maven.plugins:maven-drools-plugin:echo</validate>
-          <generate-sources>net.itikko.maven.plugins:maven-drools-plugin:echo</generate-sources>
         </phases>
       </configuration>
     </component>
