@@ -24,14 +24,14 @@
   <groupId>net.itikko.maven.plugins.test</groupId>
   <artifactId>maven-drools-plugin-test</artifactId>
   <version>0.1-SNAPSHOT</version>
-  <packaging>binary-drools-package</packaging>
+  <packaging>rules</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <name>Drools Plugin for Maven2 (Test)</name>
-  <url>http://maven.apache.org</url>
+  <url>git://github.com/akonermann/Drools-Plugin-for-Maven2.git</url>
 
   <build>
     <plugins>
