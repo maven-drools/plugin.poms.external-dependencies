@@ -23,10 +23,11 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.jfrog.maven.annomojo.annotations.MojoGoal;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
 
-@MojoGoal("sayhi")
+@MojoGoal("echo")
 public class GreetingsPlugin extends AbstractMojo {
 
   @MojoParameter(expression = "${greeting}", defaultValue = "Hello World!")
+  @SuppressWarnings("unusedPrivate")
   private String message;
 
   public void execute() throws MojoExecutionException {

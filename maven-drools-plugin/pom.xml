@@ -22,8 +22,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>net.itikko.maven.plugins</groupId>
-  <artifactId>drools-packager</artifactId>
-  <name>Drools Packager Plugin</name>
+  <artifactId>maven-drools-plugin</artifactId>
+  <name>Drools Plugin for Maven2</name>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 

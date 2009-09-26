@@ -22,25 +22,22 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>net.itikko.maven.plugins.test</groupId>
-  <artifactId>drools-packager-test</artifactId>
-
+  <artifactId>maven-drools-plugin-test</artifactId>
   <version>0.1-SNAPSHOT</version>
-  <packaging>emma-rule-package</packaging>
+  <packaging>binary-drools-package</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-
-  <name>Drools Packager Plugin (Test)</name>
+  <name>Drools Plugin for Maven2 (Test)</name>
   <url>http://maven.apache.org</url>
-
 
   <build>
     <plugins>
       <plugin>
         <groupId>net.itikko.maven.plugins</groupId>
-        <artifactId>drools-packager</artifactId>
+        <artifactId>maven-drools-plugin</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <extensions>true</extensions>
         <configuration>
