@@ -10,6 +10,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="Maven: org.easytesting:fest-assert:1.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.easytesting:fest-util:1.1" level="project" />
   </component>
 </module>
 

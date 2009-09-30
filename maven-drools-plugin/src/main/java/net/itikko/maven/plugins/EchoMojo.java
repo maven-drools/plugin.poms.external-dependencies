@@ -18,18 +18,48 @@
  */
 package net.itikko.maven.plugins;
 
+import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
 import org.jfrog.maven.annomojo.annotations.MojoGoal;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
+import org.jfrog.maven.annomojo.annotations.MojoRequiresDependencyResolution;
 
-@MojoGoal("echo")
+import java.util.List;
+
+@MojoGoal(EchoMojo.GOAL)
+@MojoRequiresDependencyResolution("compile")
 public class EchoMojo extends AbstractMojo {
 
   @MojoParameter(expression = "${greeting}", defaultValue = "Hello World!")
+  @SuppressWarnings("UnusedDeclaration")
   private String message;
+
+  @MojoParameter(defaultValue = "${project.dependencies}", readonly = true, required = true)
+  @SuppressWarnings("UnusedDeclaration")
+  private List<Dependency> dependencies;
+
+  @MojoParameter(defaultValue = "${project}")
+  @SuppressWarnings("UnusedDeclaration")
+  private MavenProject project;
+
+  public static final String GOAL = "echo";
 
   public void execute() throws MojoExecutionException {
     getLog().info(message);
+    for (Dependency dependency : dependencies) {
+      StringBuilder sb = new StringBuilder();
+      sb.append(dependency.getGroupId());
+      sb.append("-");
+      sb.append(dependency.getGroupId());
+      sb.append("-");
+      sb.append(dependency.getVersion());
+      sb.append(" / ");
+      sb.append(dependency.getClassifier());
+      sb.append(" / ");
+      sb.append(dependency.getSystemPath());
+      getLog().info(sb.toString());
+    }
   }
 }
