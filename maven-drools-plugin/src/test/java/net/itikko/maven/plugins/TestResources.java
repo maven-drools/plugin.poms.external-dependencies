@@ -18,28 +18,6 @@
  */
 package net.itikko.maven.plugins;
 
-import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import static org.fest.assertions.Assertions.assertThat;
-
-import java.io.File;
-
-public class CompileMojoTest extends AbstractMojoTestCase {
-
-  public void setUp() throws Exception {
-    super.setUp();
-  }
-
-  public void testMojoLookupSucceeds() throws Exception {
-    File testPom = new File(getBasedir(), TestResources.DISCOVERY_POM);
-    CompileMojo mojo = (CompileMojo) lookupMojo(CompileMojo.GOAL, testPom);
-
-    assertThat(mojo).as("CompileMojo instance").isNotNull();
-  }
-
-  public void testExecute() throws Exception {
-    File testPom = new File(getBasedir(), TestResources.DISCOVERY_POM);
-    CompileMojo mojo = (CompileMojo) lookupMojo(CompileMojo.GOAL, testPom);
-
-    assertThat(mojo).as("CompileMojo instance").isNotNull();
-  }
+public class TestResources {
+  public static final String DISCOVERY_POM = "target/test-classes/unit-testing/discovery.pom.xml";
 }

@@ -30,7 +30,7 @@ public class EchoMojoTest extends AbstractMojoTestCase {
   }
 
   public void testMojoLookupSucceeds() throws Exception {
-    File testPom = new File(getBasedir(), "target/test-classes/unit-testing/discovery.pom.xml");
+    File testPom = new File(getBasedir(), TestResources.DISCOVERY_POM);
     EchoMojo mojo = (EchoMojo) lookupMojo(EchoMojo.GOAL, testPom);
 
     assertThat(mojo).as("EchoMojo instance").isNotNull();
