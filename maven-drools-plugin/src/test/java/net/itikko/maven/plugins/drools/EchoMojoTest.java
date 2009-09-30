@@ -16,30 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.itikko.maven.plugins;
+package net.itikko.maven.plugins.drools;
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.File;
 
-public class CompileMojoTest extends AbstractMojoTestCase {
+public class EchoMojoTest extends AbstractMojoTestCase {
 
   public void setUp() throws Exception {
     super.setUp();
   }
 
   public void testMojoLookupSucceeds() throws Exception {
-    File testPom = new File(getBasedir(), TestResources.DISCOVERY_POM);
-    CompileMojo mojo = (CompileMojo) lookupMojo(CompileMojo.GOAL, testPom);
+    File testPom = new File(getBasedir(), ConfigurationResources.DISCOVERY_POM);
+    EchoMojo mojo = (EchoMojo) lookupMojo(EchoMojo.GOAL, testPom);
 
-    assertThat(mojo).as("CompileMojo instance").isNotNull();
-  }
-
-  public void testExecute() throws Exception {
-    File testPom = new File(getBasedir(), TestResources.DISCOVERY_POM);
-    CompileMojo mojo = (CompileMojo) lookupMojo(CompileMojo.GOAL, testPom);
-
-    assertThat(mojo).as("CompileMojo instance").isNotNull();
+    assertThat(mojo).as("EchoMojo instance").isNotNull();
   }
 }
