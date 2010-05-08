@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Ansgar Konermann <konermann@itikko.net>
+ * Copyright (c) 2009-2010 Ansgar Konermann <konermann@itikko.net>
  *
  * This file is part of the Maven 2 Drools Plugin.
  *
@@ -18,6 +18,10 @@
  */
 package net.itikko.maven.plugins.drools;
 
-public class ConfigurationResources {
-  public static final String DISCOVERY_POM = "target/test-classes/unit-testing/discovery.pom.xml";
+public abstract class TestResources {
+
+  private static final String BASEDIR = "target/test-classes/unit-testing/";
+
+  public static final String DISCOVERY_POM = BASEDIR + "discovery.pom.xml";
+  public static final String COMPILE_EMPTY_FILE = BASEDIR + "compile-empty.pom.xml";
 }

@@ -16,18 +16,16 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<component-set>
-  <components>
-    <component>
-      <role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
-      <role-hint>rules</role-hint>
-      <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
-      <configuration>
-        <phases>
-          <process-classes>net.itikko.maven.plugins:maven-drools-plugin:echo</process-classes>
-          <compile>net.itikko.maven.plugins:maven-drools-plugin:compile</compile>
-        </phases>
-      </configuration>
-    </component>
-  </components>
-</component-set>
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-drools-plugin</artifactId>
+        <configuration>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

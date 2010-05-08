@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Ansgar Konermann <konermann@itikko.net>
+ * Copyright (c) 2009-2010 Ansgar Konermann <konermann@itikko.net>
  *
  * This file is part of the Maven 2 Drools Plugin.
  *
@@ -51,13 +51,13 @@ public class EchoMojo extends AbstractMojo {
     for (Dependency dependency : dependencies) {
       StringBuilder sb = new StringBuilder();
       sb.append(dependency.getGroupId());
-      sb.append("-");
+      sb.append(":");
       sb.append(dependency.getGroupId());
-      sb.append("-");
+      sb.append(":");
       sb.append(dependency.getVersion());
-      sb.append(" / ");
+      sb.append(": ");
       sb.append(dependency.getClassifier());
-      sb.append(" / ");
+      sb.append(":");
       sb.append(dependency.getSystemPath());
       getLog().info(sb.toString());
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009 Ansgar Konermann <konermann@itikko.net>
+ * Copyright (c) 2009-2010 Ansgar Konermann <konermann@itikko.net>
  *
  * This file is part of the Maven 2 Drools Plugin.
  *
@@ -19,9 +19,10 @@
 package net.itikko.maven.plugins.drools;
 
 import org.apache.maven.plugin.testing.AbstractMojoTestCase;
-import static org.fest.assertions.Assertions.assertThat;
 
 import java.io.File;
+
+import static org.fest.assertions.Assertions.assertThat;
 
 public class CompileMojoTest extends AbstractMojoTestCase {
 
@@ -30,9 +31,13 @@ public class CompileMojoTest extends AbstractMojoTestCase {
   }
 
   public void testMojoLookupSucceeds() throws Exception {
-    File testPom = new File(getBasedir(), ConfigurationResources.DISCOVERY_POM);
+    File testPom = new File(getBasedir(), TestResources.DISCOVERY_POM);
     CompileMojo mojo = (CompileMojo) lookupMojo(CompileMojo.GOAL, testPom);
 
     assertThat(mojo).as("CompileMojo instance").isNotNull();
   }
+
+//  public void testMojoCompilesEmptyDroolsFile throws Exception {
+//    File testPom = new File(getBasedir(), )
+//  }
 }
