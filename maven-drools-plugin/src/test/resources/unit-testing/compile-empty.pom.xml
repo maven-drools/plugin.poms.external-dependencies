@@ -18,12 +18,12 @@
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0">
 
+  <compileSourceRoots>src/main/rules</compileSourceRoots>
   <build>
     <plugins>
       <plugin>
         <artifactId>maven-drools-plugin</artifactId>
-        <configuration>
-        </configuration>
+        <configuration/>
       </plugin>
     </plugins>
   </build>

@@ -23,5 +23,5 @@ public abstract class TestResources {
   private static final String BASEDIR = "target/test-classes/unit-testing/";
 
   public static final String DISCOVERY_POM = BASEDIR + "discovery.pom.xml";
-  public static final String COMPILE_EMPTY_FILE = BASEDIR + "compile-empty.pom.xml";
+  public static final String COMPILE_EMPTY_FILE_POM = BASEDIR + "compile-empty.pom.xml";
 }

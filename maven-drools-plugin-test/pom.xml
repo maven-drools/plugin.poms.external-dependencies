@@ -25,8 +25,8 @@
   <artifactId>maven-drools-plugin-test</artifactId>
   <version>0.1-SNAPSHOT</version>
   <name>Drools Plugin for Maven2 (Test)</name>
-  <url>http://wiki.github.com/akonermann/Drools-Plugin-for-Maven2</url>
-  <packaging>rules</packaging>
+  <url>http://wiki.github.com/ansgarkonermann/Drools-Plugin-for-Maven2</url>
+  <packaging>drools</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -36,7 +36,7 @@
     <dependency>
       <groupId>org.easytesting</groupId>
       <artifactId>fest-assert</artifactId>
-      <version>1.1</version>
+      <version>1.2</version>
     </dependency>
   </dependencies>
 

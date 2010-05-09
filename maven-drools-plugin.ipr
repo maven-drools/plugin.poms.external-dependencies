@@ -110,7 +110,7 @@
     <connections />
   </component>
   <component name="DBNavigator.Project.DataEditorManager">
-    <record-editor-column-sorting value="" />
+    <record-editor-column-sorting value="INDEXED" />
   </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
     <autoscroll-to-editor value="false" />
@@ -1024,6 +1024,17 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/codehaus/plexus/plexus-archiver/1.0-alpha-7/plexus-archiver-1.0-alpha-7-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="Maven: org.easytesting:fest-assert:1.2">
+      <CLASSES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/easytesting/fest-assert/1.2/fest-assert-1.2.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$MAVEN_REPOSITORY$/org/easytesting/fest-assert/1.2/fest-assert-1.2-javadoc.jar!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$MAVEN_REPOSITORY$/org/easytesting/fest-assert/1.2/fest-assert-1.2-sources.jar!/" />
       </SOURCES>
     </library>
   </component>

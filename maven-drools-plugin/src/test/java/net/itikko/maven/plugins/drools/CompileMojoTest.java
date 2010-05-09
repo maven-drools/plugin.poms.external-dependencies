@@ -37,7 +37,10 @@ public class CompileMojoTest extends AbstractMojoTestCase {
     assertThat(mojo).as("CompileMojo instance").isNotNull();
   }
 
-//  public void testMojoCompilesEmptyDroolsFile throws Exception {
-//    File testPom = new File(getBasedir(), )
-//  }
+  public void testMojoCompilesEmptyDroolsFile() throws Exception {
+    File testPom = new File(getBasedir(), TestResources.COMPILE_EMPTY_FILE_POM);
+    CompileMojo compileMojo = (CompileMojo) lookupMojo(CompileMojo.GOAL, testPom);
+
+    compileMojo.execute();
+  }
 }

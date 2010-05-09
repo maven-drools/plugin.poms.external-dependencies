@@ -26,7 +26,7 @@
   <name>Drools Plugin for Maven2</name>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
-  <url>http://wiki.github.com/akonermann/Drools-Plugin-for-Maven2</url>
+  <url>http://wiki.github.com/ansgarkonermann/Drools-Plugin-for-Maven2</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

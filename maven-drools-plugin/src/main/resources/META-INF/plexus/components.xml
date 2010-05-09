@@ -20,12 +20,12 @@
   <components>
     <component>
       <role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
-      <role-hint>rules</role-hint>
+      <role-hint>drools</role-hint>
       <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
       <configuration>
         <phases>
-          <process-classes>net.itikko.maven.plugins:maven-drools-plugin:echo</process-classes>
           <compile>net.itikko.maven.plugins:maven-drools-plugin:compile</compile>
+          <process-classes>net.itikko.maven.plugins:maven-drools-plugin:echo</process-classes>
         </phases>
       </configuration>
     </component>
