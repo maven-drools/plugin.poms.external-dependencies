@@ -16,18 +16,20 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<component-set>
-  <components>
-    <component>
-      <role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
-      <role-hint>drools</role-hint>
-      <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
-      <configuration>
-        <phases>
-          <process-resources>org.apache.maven.plugins:maven-resources-plugin:resources</process-resources>
-          <compile>de.lightful.maven.plugins:maven-drools-plugin:compile</compile>
-        </phases>
-      </configuration>
-    </component>
-  </components>
-</component-set>
+<lifecycles>
+  <lifecycle>
+    <id>drools-lifecycle</id>
+    <phases>
+      <phase>
+        <id>compile</id>
+        <executions>
+          <execution>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </phase>
+    </phases>
+  </lifecycle>
+</lifecycles>

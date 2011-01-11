@@ -20,34 +20,21 @@ package de.lightful.maven.plugins.drools.integrationtests;
 
 import org.apache.maven.it.Verifier;
 import org.apache.maven.it.util.ResourceExtractor;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.File;
 
 @Test
-public class CanCompileMinimumDrlFile {
+public class CanCompileMinimumDrlFileTest {
 
   public void testCanCompileMinimumDrlFile() throws Exception {
-
     File testDirectory = ResourceExtractor.simpleExtractResources(getClass(), "compile");
-
     Verifier verifier = new Verifier(testDirectory.getAbsolutePath());
 
-//    File resourceDir = ResourceExtractor.simpleExtractResources(TestResources.class, TestResources.COMPILE_MINIMUM_DRL_POM);
-//    File settingsFile = ResourceExtractor.simpleExtractResources(TestResources.class, TestResources.SETTINGS_FILE_FOR_INTEGRATION_TESTS);
-//    File baseDir = ResourceExtractor.simpleExtractResources(getClass(), "/compile");
-//
-//    Verifier verifier = new Verifier(baseDir.getAbsolutePath(), settingsFile.getAbsolutePath());
-//    final String logFileName = verifier.getLogFileName();
-//    verifier.setDebug(true);
-//    verifier.setMavenDebug(true);
-//    verifier.executeGoal("clean");
-//    verifier.verifyErrorFreeLog();
-  }
-
-  @DataProvider(name = "xyzDataPro")
-  private Object[][] getTestData() {
-    return new Object[][] {};
+    final String logFileName = verifier.getLogFileName();
+    verifier.setDebug(true);
+    verifier.setMavenDebug(true);
+    verifier.executeGoal("clean");
+    verifier.verifyErrorFreeLog();
   }
 }

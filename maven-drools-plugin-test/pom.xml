@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2009-2010 Ansgar Konermann <konermann@itikko.net>
+  ~ Copyright (c) 2009-2011 Ansgar Konermann <konermann@itikko.net>
   ~
   ~ This file is part of the Maven 2 Drools Plugin.
   ~
@@ -24,9 +24,8 @@
   <groupId>net.itikko.maven.plugins.test</groupId>
   <artifactId>maven-drools-plugin-test</artifactId>
   <version>0.1-SNAPSHOT</version>
-  <name>Drools Plugin for Maven2 (Test)</name>
+  <name>drools-plugin :: integration-test</name>
   <url>http://wiki.github.com/ansgarkonermann/Drools-Plugin-for-Maven2</url>
-  <packaging>drools</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -38,20 +37,12 @@
       <artifactId>fest-assert</artifactId>
       <version>1.2</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.maven.shared</groupId>
+      <artifactId>maven-verifier</artifactId>
+      <version>1.2</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>net.itikko.maven.plugins</groupId>
-        <artifactId>maven-drools-plugin</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <extensions>true</extensions>
-        <configuration>
-          <message>Hello my dear :-)</message>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>
