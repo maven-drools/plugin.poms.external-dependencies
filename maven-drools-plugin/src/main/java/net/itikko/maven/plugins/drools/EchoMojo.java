@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2010 Ansgar Konermann <konermann@itikko.net>
+ * Copyright (c) 2009-2011 Ansgar Konermann <konermann@itikko.net>
  *
  * This file is part of the Maven 2 Drools Plugin.
  *
@@ -33,15 +33,12 @@ import java.util.List;
 public class EchoMojo extends AbstractMojo {
 
   @MojoParameter(expression = "${greeting}", defaultValue = "Hello World!")
-  @SuppressWarnings("UnusedDeclaration")
   private String message;
 
   @MojoParameter(defaultValue = "${project.dependencies}", readonly = true, required = true)
-  @SuppressWarnings("UnusedDeclaration")
   private List<Dependency> dependencies;
 
   @MojoParameter(defaultValue = "${project}")
-  @SuppressWarnings("UnusedDeclaration")
   private MavenProject project;
 
   public static final String GOAL = "echo";

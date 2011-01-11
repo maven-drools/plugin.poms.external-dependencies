@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2009-2010 Ansgar Konermann <konermann@itikko.net>
+  ~ Copyright (c) 2009-2011 Ansgar Konermann <konermann@itikko.net>
   ~
   ~ This file is part of the Maven 2 Drools Plugin.
   ~
@@ -21,15 +21,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>net.itikko.maven.plugins</groupId>
+  <groupId>de.lightful.maven.plugins</groupId>
   <artifactId>maven-drools-plugin</artifactId>
   <name>Drools Plugin for Maven2</name>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
+
   <url>http://wiki.github.com/ansgarkonermann/Drools-Plugin-for-Maven2</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <dependency.drools.version>5.1.1</dependency.drools.version>
+    <dependency.maven.version>3.0.1</dependency.maven.version>
+    <dependency.maven-project.version>3.0-alpha-2</dependency.maven-project.version>
+
   </properties>
 
   <dependencies>
@@ -38,61 +44,74 @@
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
-      <version>2.2.1</version>
+      <version>${dependency.maven.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-model</artifactId>
-      <version>2.2.1</version>
+      <version>${dependency.maven.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-project</artifactId>
-      <version>2.2.1</version>
+      <version>${dependency.maven-project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-artifact</artifactId>
-      <version>2.2.1</version>
+      <version>${dependency.maven.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jfrog.maven.annomojo</groupId>
       <artifactId>maven-plugin-anno</artifactId>
-      <version>1.3.1</version>
+      <version>1.4.0</version>
     </dependency>
 
     <!-- Drools Dependencies: -->
-
     <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-api</artifactId>
-      <version>5.0.1</version>
+      <version>${dependency.drools.version}</version>
     </dependency>
     <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-compiler</artifactId>
-      <version>5.0.1</version>
+      <version>${dependency.drools.version}</version>
     </dependency>
 
 
     <!-- Test Dependencies -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.7</version>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>5.14.2</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.easytesting</groupId>
       <artifactId>fest-assert</artifactId>
-      <version>1.1</version>
+      <version>1.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.plugin-testing</groupId>
+      <artifactId>maven-plugin-testing-harness</artifactId>
+      <version>2.0-alpha-1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.shared</groupId>
-      <artifactId>maven-plugin-testing-harness</artifactId>
-      <version>1.1</version>
+      <artifactId>maven-verifier</artifactId>
+      <version>1.2</version>
       <scope>test</scope>
+    </dependency>
+
+    <!-- Utilities: -->
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-util</artifactId>
+      <version>1.1.1</version>
+      <!-- for Arrays.format() -->
     </dependency>
 
 
@@ -104,6 +123,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
         <configuration>
           <source>1.5</source>
           <target>1.5</target>
@@ -113,20 +133,22 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-plugin-plugin</artifactId>
-        <version>2.4.3</version>
+        <version>2.6</version>
         <dependencies>
           <dependency>
             <groupId>org.jfrog.maven.annomojo</groupId>
             <artifactId>maven-plugin-tools-anno</artifactId>
-            <version>1.3.1</version>
+            <version>1.4.0</version>
             <scope>runtime</scope>
           </dependency>
+
         </dependencies>
       </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.5</version>
         <configuration>
           <uniqueVersion>false</uniqueVersion>
         </configuration>
@@ -140,8 +162,14 @@
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.6</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-archetype-plugin</artifactId>
-        <version>2.0-alpha-4</version>
+        <version>2.0</version>
       </plugin>
 
     </plugins>
@@ -163,6 +191,5 @@
       <layout>default</layout>
     </snapshotRepository>
   </distributionManagement>
-
 
 </project>

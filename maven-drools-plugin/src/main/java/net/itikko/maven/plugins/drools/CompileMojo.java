@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2009-2010 Ansgar Konermann <konermann@itikko.net>
+ * Copyright (c) 2009-2011 Ansgar Konermann <konermann@itikko.net>
  *
  * This file is part of the Maven 2 Drools Plugin.
  *
@@ -22,6 +22,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
+import org.fest.util.Arrays;
 import org.jfrog.maven.annomojo.annotations.MojoGoal;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
 
@@ -33,26 +34,17 @@ public class CompileMojo extends AbstractMojo {
   public static final String GOAL = "compile";
 
   @MojoParameter(
-      description = "Where are the *.drl source files located",
-      defaultValue = "${project.build.sourceDirectory}",
+      description = "Rule Source Roots",
       required = true
   )
-  private String sourceDirectory;
-
-  @MojoParameter(
-      description = "Compile Source Roots",
-      defaultValue = "${project.compileSourceRoots}",
-      required = true
-  )
-  private List<String> compileSourceRoots;
+  private List<String> ruleSourceRoots;
 
   @MojoParameter(defaultValue = "${project}")
   private MavenProject project;
 
   public void execute() throws MojoExecutionException, MojoFailureException {
     getLog().info("This is the compiler plugin");
-
-    getLog().info("Source directory: " + sourceDirectory);
-    getLog().info("CompileSourceRoots: " + compileSourceRoots);
+    getLog().info("RuleSourceRoots: " + Arrays.format(ruleSourceRoots));
+//    project.getBuild().
   }
 }
