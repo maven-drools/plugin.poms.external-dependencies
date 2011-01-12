@@ -27,14 +27,29 @@ import java.io.File;
 @Test
 public class CanCompileMinimumDrlFileTest {
 
-  public void testCanCompileMinimumDrlFile() throws Exception {
+  public void testCanCallCleanGoal() throws Exception {
     File testDirectory = ResourceExtractor.simpleExtractResources(getClass(), "compile");
     Verifier verifier = new Verifier(testDirectory.getAbsolutePath());
-
     final String logFileName = verifier.getLogFileName();
+
     verifier.setDebug(true);
     verifier.setMavenDebug(true);
     verifier.executeGoal("clean");
     verifier.verifyErrorFreeLog();
+  }
+
+  @Test
+  public void testCanCompileMinimumDrlFile() throws Exception {
+    File testDirectory = ResourceExtractor.simpleExtractResources(getClass(), "compile");
+    Verifier verifier = new Verifier(testDirectory.getAbsolutePath());
+    final String logFileName = verifier.getLogFileName();
+    verifier.executeGoal("clean");
+
+//    verifier.setDebug(true);
+//    verifier.setMavenDebug(true);
+    verifier.executeGoal("compile");
+    verifier.verifyErrorFreeLog();
+
+    verifier.assertFilePresent("target/rulepackages/plugintest.artifact-1.0.0.pkg");
   }
 }

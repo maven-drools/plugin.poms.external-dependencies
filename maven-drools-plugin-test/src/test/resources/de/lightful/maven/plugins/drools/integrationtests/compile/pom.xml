@@ -19,24 +19,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>plugin-test.group</groupId>
-  <artifactId>plugin-test.artifact</artifactId>
+  <groupId>de.lightful.maven.plugins.plugintest.drools</groupId>
+  <artifactId>plugintest.artifact</artifactId>
   <version>1.0.0</version>
   <packaging>drools</packaging>
 
   <build>
     <plugins>
       <plugin>
-        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <groupId>de.lightful.maven.plugins</groupId>
         <artifactId>maven-drools-plugin</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <extensions>true</extensions>
         <configuration>
-          <ruleSourceRoots>
-            <ruleSourceRoot>src/main/rules</ruleSourceRoot>
-          </ruleSourceRoots>
+          <passes>
+            <pass>
+              <ruleSourceRoot>${basedir}/src/main/rules/pass-one</ruleSourceRoot>
+            </pass>
+          </passes>
         </configuration>
-
       </plugin>
     </plugins>
   </build>
