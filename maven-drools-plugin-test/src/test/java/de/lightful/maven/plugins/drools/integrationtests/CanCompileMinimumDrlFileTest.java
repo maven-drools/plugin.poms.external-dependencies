@@ -20,12 +20,19 @@ package de.lightful.maven.plugins.drools.integrationtests;
 
 import org.apache.maven.it.Verifier;
 import org.apache.maven.it.util.ResourceExtractor;
+import org.drools.definition.KnowledgePackage;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.util.Collection;
+
+import static org.fest.assertions.Assertions.assertThat;
 
 @Test
 public class CanCompileMinimumDrlFileTest {
+
+  private static final String DROOLS_KNOWLEDGE_PACKAGE_EXTENSION = ".dkp";
+  private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
 
   public void testCanCallCleanGoal() throws Exception {
     File testDirectory = ResourceExtractor.simpleExtractResources(getClass(), "compile");
@@ -39,7 +46,7 @@ public class CanCompileMinimumDrlFileTest {
   }
 
   @Test
-  public void testCanCompileMinimumDrlFile() throws Exception {
+  public void testDoesCreateOutputFile() throws Exception {
     File testDirectory = ResourceExtractor.simpleExtractResources(getClass(), "compile");
     Verifier verifier = new Verifier(testDirectory.getAbsolutePath());
     final String logFileName = verifier.getLogFileName();
@@ -50,6 +57,21 @@ public class CanCompileMinimumDrlFileTest {
     verifier.executeGoal("compile");
     verifier.verifyErrorFreeLog();
 
-    verifier.assertFilePresent("target/rulepackages/plugintest.artifact-1.0.0.pkg");
+    verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
+  }
+
+  @Test
+  public void testOutputFileContainsDroolsKnowledgePackages() throws Exception {
+    File testDirectory = ResourceExtractor.simpleExtractResources(getClass(), "compile");
+    Verifier verifier = new Verifier(testDirectory.getAbsolutePath());
+    final String logFileName = verifier.getLogFileName();
+    verifier.executeGoal("clean");
+    verifier.executeGoal("compile");
+    verifier.verifyErrorFreeLog();
+
+    verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
+    File knowledgeFile = new File(verifier.getBasedir() + File.separator + EXPECTED_OUTPUT_FILE);
+    assertThat(knowledgeFile.exists()).as("Knowledge File exists").isTrue();
+    Collection<KnowledgePackage>
   }
 }

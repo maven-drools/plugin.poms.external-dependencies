@@ -29,6 +29,10 @@ import org.fest.util.Arrays;
 import org.jfrog.maven.annomojo.annotations.MojoGoal;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 @MojoGoal(CompileMojo.GOAL)
 public class CompileMojo extends AbstractMojo {
 
@@ -47,7 +51,7 @@ public class CompileMojo extends AbstractMojo {
   private static final int FIRST_PASS_NUMBER = 1;
   private Build build;
   private static final String DROOLS_PACKAGING_IDENTIFIER = "drools";
-  private static final String DROOLS_PACKAGE_EXTENSION = ".dkp"; // stands for Drools Knowledge Package(s)
+  private static final String DROOLS_KNOWLEDGE_PACKAGE_EXTENSION = ".dkp"; // stands for Drools Knowledge Package(s)
 
   public void execute() throws MojoExecutionException, MojoFailureException {
     final Log log = getLog();
@@ -105,11 +109,50 @@ public class CompileMojo extends AbstractMojo {
     }
     build = project.getBuild();
     final String currentFinalName = build.getFinalName();
-    if (!currentFinalName.endsWith(DROOLS_PACKAGE_EXTENSION)) {
-      build.setFinalName(currentFinalName + DROOLS_PACKAGE_EXTENSION);
+    if (!currentFinalName.endsWith(DROOLS_KNOWLEDGE_PACKAGE_EXTENSION)) {
+      build.setFinalName(currentFinalName + DROOLS_KNOWLEDGE_PACKAGE_EXTENSION);
     }
-    String outputFile = build.getFinalName();
-    log.info("Writing XXXX bytes into output file " + outputFile);
+    String outputFileName = build.getFinalName();
+    writeFinalOutputFile(outputFileName);
+  }
+
+  private void writeFinalOutputFile(String outputFileName) {
+    final String buildDirectoryName = project.getBuild().getDirectory();
+    File buildDirectory = new File(buildDirectoryName);
+    File outputFile = new File(buildDirectoryName + File.separator + outputFileName);
+
+    final Log log = getLog();
+    final String absoluteOutputFileName = outputFile.getAbsolutePath();
+    log.info("Writing XXXX bytes into output file " + absoluteOutputFileName);
+
+    if (!buildDirectory.exists()) {
+      log.debug("Output directory " + buildDirectory.getAbsolutePath() + " does not exist, creating.");
+      buildDirectory.mkdirs();
+    }
+
+    if (outputFile.exists()) {
+      log.warn("Output file " + absoluteOutputFileName + " exists, overwriting.");
+      if (!outputFile.delete()) {
+        log.error("Unable to delete " + absoluteOutputFileName + "!");
+      }
+      else {
+        try {
+          outputFile.createNewFile();
+        }
+        catch (IOException e) {
+          log.error("Unable to create output file " + absoluteOutputFileName + "!", e);
+        }
+      }
+    }
+
+    try {
+      PrintWriter printWriter = new PrintWriter(outputFile);
+      printWriter.append("THIS IS THE NEW KNOWLEDGE :-)");
+      printWriter.close();
+    }
+    catch (IOException e) {
+      log.error("Unable to write compiled knowledge into output file!", e);
+    }
   }
 
   private void executePass(Pass pass) {

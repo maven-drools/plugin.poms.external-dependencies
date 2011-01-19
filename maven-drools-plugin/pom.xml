@@ -21,9 +21,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>de.lightful</groupId>
+    <artifactId>parent</artifactId>
+    <version>1.0</version>
+  </parent>
+
   <groupId>de.lightful.maven.plugins</groupId>
   <artifactId>maven-drools-plugin</artifactId>
-  <name>drools :: compiler plugin</name>
+  <name>plugin</name>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
@@ -176,21 +182,21 @@
     </plugins>
   </build>
 
-  <distributionManagement>
-    <repository>
-      <id>nexus@home</id>
-      <uniqueVersion>false</uniqueVersion>
-      <name>Ansgars Privates Repository (Releases)</name>
-      <url>http://www.bln.itikko.net:8080/nexus/content/repositories/releases/</url>
-      <layout>default</layout>
-    </repository>
-    <snapshotRepository>
-      <uniqueVersion>false</uniqueVersion>
-      <id>nexus@home</id>
-      <name>Ansgars Privates Repository (Snapshots)</name>
-      <url>http://www.bln.itikko.net:8080/nexus/content/repositories/snapshots/</url>
-      <layout>default</layout>
-    </snapshotRepository>
-  </distributionManagement>
+  <!--<distributionManagement>-->
+  <!--<repository>-->
+  <!--<id>nexus@home</id>-->
+  <!--<uniqueVersion>false</uniqueVersion>-->
+  <!--<name>Ansgars Privates Repository (Releases)</name>-->
+  <!--<url>http://www.bln.itikko.net:8080/nexus/content/repositories/releases/</url>-->
+  <!--<layout>default</layout>-->
+  <!--</repository>-->
+  <!--<snapshotRepository>-->
+  <!--<uniqueVersion>false</uniqueVersion>-->
+  <!--<id>nexus@home</id>-->
+  <!--<name>Ansgars Privates Repository (Snapshots)</name>-->
+  <!--<url>http://www.bln.itikko.net:8080/nexus/content/repositories/snapshots/</url>-->
+  <!--<layout>default</layout>-->
+  <!--</snapshotRepository>-->
+  <!--</distributionManagement>-->
 
 </project>
