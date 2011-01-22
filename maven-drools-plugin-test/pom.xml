@@ -90,6 +90,11 @@
       <scope>test</scope>
       <type>pom</type>
     </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <version>5.1.1</version>
+    </dependency>
 
   </dependencies>
 

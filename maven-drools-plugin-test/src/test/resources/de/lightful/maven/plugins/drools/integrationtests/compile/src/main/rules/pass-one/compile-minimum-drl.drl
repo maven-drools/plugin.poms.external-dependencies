@@ -1,6 +1,6 @@
 package test;
 
-dialect java;
+dialect "java"
 
 rule "test rule"
   when

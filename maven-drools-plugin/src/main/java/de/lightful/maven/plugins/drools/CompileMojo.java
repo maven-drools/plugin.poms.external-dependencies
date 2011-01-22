@@ -25,13 +25,20 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.DirectoryScanner;
+import org.drools.builder.KnowledgeBuilder;
+import org.drools.builder.KnowledgeBuilderError;
+import org.drools.builder.KnowledgeBuilderErrors;
+import org.drools.builder.KnowledgeBuilderFactory;
+import org.drools.builder.ResourceType;
+import org.drools.core.util.DroolsStreamUtils;
+import org.drools.io.ResourceFactory;
 import org.fest.util.Arrays;
 import org.jfrog.maven.annomojo.annotations.MojoGoal;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @MojoGoal(CompileMojo.GOAL)
 public class CompileMojo extends AbstractMojo {
@@ -53,6 +60,8 @@ public class CompileMojo extends AbstractMojo {
   private static final String DROOLS_PACKAGING_IDENTIFIER = "drools";
   private static final String DROOLS_KNOWLEDGE_PACKAGE_EXTENSION = ".dkp"; // stands for Drools Knowledge Package(s)
 
+  private KnowledgeBuilder knowledgeBuilder;
+
   public void execute() throws MojoExecutionException, MojoFailureException {
     final Log log = getLog();
     log.info("This is the compiler plugin");
@@ -63,8 +72,7 @@ public class CompileMojo extends AbstractMojo {
     dumpPassesConfiguration();
 
     runAllPasses();
-
-//    project.getBuild().
+    writeOutputFile();
   }
 
   private void fixupPassesInformation() {
@@ -98,7 +106,6 @@ public class CompileMojo extends AbstractMojo {
     for (Pass pass : passes) {
       executePass(pass);
     }
-    writeOutputFile();
   }
 
   private void writeOutputFile() {
@@ -146,9 +153,7 @@ public class CompileMojo extends AbstractMojo {
     }
 
     try {
-      PrintWriter printWriter = new PrintWriter(outputFile);
-      printWriter.append("THIS IS THE NEW KNOWLEDGE :-)");
-      printWriter.close();
+      DroolsStreamUtils.streamOut(new FileOutputStream(outputFile), knowledgeBuilder.getKnowledgePackages(), false);
     }
     catch (IOException e) {
       log.error("Unable to write compiled knowledge into output file!", e);
@@ -167,8 +172,62 @@ public class CompileMojo extends AbstractMojo {
 
     final String[] filesToCompile = scanner.getIncludedFiles();
     for (String fileToCompile : filesToCompile) {
-      log.info("  Compiling rule file '" + fileToCompile + "' ...");
+      compileRuleFile(pass.getRuleSourceRoot(), fileToCompile);
     }
     log.info("Done with compiler pass '" + pass.getName() + "'.");
+  }
+
+  private void compileRuleFile(File ruleSourceRoot, String nameOfFileToCompile) {
+    final Log log = getLog();
+    File fileToCompile = new File(ruleSourceRoot, nameOfFileToCompile);
+    log.info("  Compiling rule file '" + fileToCompile.getAbsolutePath() + "' ...");
+    KnowledgeBuilder knowledgeBuilder = getKnowledgeBuilder();
+    knowledgeBuilder.add(ResourceFactory.newFileResource(fileToCompile), detectTypeOf(fileToCompile));
+    handleErrors(knowledgeBuilder, fileToCompile);
+  }
+
+  private void handleErrors(KnowledgeBuilder knowledgeBuilder, File fileToCompile) {
+    final Log log = getLog();
+    final KnowledgeBuilderErrors errors = knowledgeBuilder.getErrors();
+    if (errors.isEmpty()) {
+      log.debug("Compilation of " + fileToCompile.getAbsolutePath() + " completed successfully.");
+      return;
+    }
+    log.error("Error(s) occurred while compiling " + fileToCompile + ":");
+    log.error(formatErrors(errors));
+  }
+
+  private String formatErrors(KnowledgeBuilderErrors errors) {
+    StringBuilder builder = new StringBuilder();
+    int i = 1;
+    for (KnowledgeBuilderError error : errors) {
+      builder.append("Error #" + i + " ");
+      builder.append("occurred in line(s) ");
+      final int[] errorLines = error.getErrorLines();
+      for (int errorLineIndex = 0; errorLineIndex < errorLines.length; errorLineIndex++) {
+        builder.append(errorLines[errorLineIndex]);
+        if (errorLineIndex + 1 < errorLines.length) {
+          builder.append(", ");
+        }
+      }
+      builder.append(": ");
+      builder.append(error.getMessage());
+    }
+    return builder.toString();
+  }
+
+  private ResourceType detectTypeOf(File fileToCompile) {
+    return ResourceType.DRL;
+  }
+
+  private KnowledgeBuilder getKnowledgeBuilder() {
+    if (knowledgeBuilder == null) {
+      knowledgeBuilder = createNewKnowledgeBuilder();
+    }
+    return knowledgeBuilder;
+  }
+
+  private KnowledgeBuilder createNewKnowledgeBuilder() {
+    return KnowledgeBuilderFactory.newKnowledgeBuilder();
   }
 }

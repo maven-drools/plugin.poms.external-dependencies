@@ -20,10 +20,12 @@ package de.lightful.maven.plugins.drools.integrationtests;
 
 import org.apache.maven.it.Verifier;
 import org.apache.maven.it.util.ResourceExtractor;
+import org.drools.core.util.DroolsStreamUtils;
 import org.drools.definition.KnowledgePackage;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.Collection;
 
 import static org.fest.assertions.Assertions.assertThat;
@@ -72,6 +74,17 @@ public class CanCompileMinimumDrlFileTest {
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
     File knowledgeFile = new File(verifier.getBasedir() + File.separator + EXPECTED_OUTPUT_FILE);
     assertThat(knowledgeFile.exists()).as("Knowledge File exists").isTrue();
-    Collection<KnowledgePackage>
+
+    Object streamedInObject = DroolsStreamUtils.streamIn(new FileInputStream(knowledgeFile));
+    assertThat(streamedInObject).as("object read from stream").isNotNull().isInstanceOf(Collection.class);
+    Collection<?> loadedObjects = Collection.class.cast(streamedInObject);
+    int i = 1;
+    for (Object loadedObject : loadedObjects) {
+      assertThat(loadedObject).as("object #" + i + " from read collection").isInstanceOf(KnowledgePackage.class);
+      i++;
+    }
+
+    Collection<KnowledgePackage> knowledgePackages = (Collection<KnowledgePackage>) loadedObjects;
+    assertThat(knowledgePackages).as("collection of knowledge packages").hasSize(1);
   }
 }
