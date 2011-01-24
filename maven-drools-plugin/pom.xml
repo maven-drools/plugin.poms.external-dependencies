@@ -28,15 +28,14 @@
 
   <groupId>de.lightful.maven.plugins</groupId>
   <artifactId>maven-drools-plugin</artifactId>
-  <name>plugin</name>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
+  <name>plugin :: mojos</name>
 
   <url>http://wiki.github.com/ansgarkonermann/Drools-Plugin-for-Maven2</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
     <dependency.drools.version>5.1.1</dependency.drools.version>
     <dependency.maven.version>3.0.2</dependency.maven.version>
 
@@ -78,6 +77,11 @@
       <version>1.1-SNAPSHOT</version>
       <type>pom</type>
     </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <version>[5.1.1]</version>
+    </dependency>
 
     <!-- Test Dependencies -->
     <dependency>
@@ -85,6 +89,13 @@
       <artifactId>testng</artifactId>
       <version>5.14.2</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <!-- maven-verifier 1.2 requires JUnit 3.8.2 -->
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.easytesting</groupId>
@@ -98,6 +109,25 @@
       <version>2.0-alpha-1</version>
       <scope>test</scope>
     </dependency>
+    <dependency> <!-- for integration testing: -->
+      <groupId>org.apache.maven.shared</groupId>
+      <artifactId>maven-verifier</artifactId>
+      <version>1.2</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- slf4j: -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.6.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.6.1</version>
+      <scope>test</scope>
+    </dependency>
 
     <!-- Utilities: -->
     <dependency>
@@ -106,8 +136,6 @@
       <version>1.1.4</version>
       <!-- for Arrays.format() -->
     </dependency>
-
-
   </dependencies>
 
   <build>
@@ -174,22 +202,5 @@
 
     </plugins>
   </build>
-
-  <!--<distributionManagement>-->
-  <!--<repository>-->
-  <!--<id>nexus@home</id>-->
-  <!--<uniqueVersion>false</uniqueVersion>-->
-  <!--<name>Ansgars Privates Repository (Releases)</name>-->
-  <!--<url>http://www.bln.itikko.net:8080/nexus/content/repositories/releases/</url>-->
-  <!--<layout>default</layout>-->
-  <!--</repository>-->
-  <!--<snapshotRepository>-->
-  <!--<uniqueVersion>false</uniqueVersion>-->
-  <!--<id>nexus@home</id>-->
-  <!--<name>Ansgars Privates Repository (Snapshots)</name>-->
-  <!--<url>http://www.bln.itikko.net:8080/nexus/content/repositories/snapshots/</url>-->
-  <!--<layout>default</layout>-->
-  <!--</snapshotRepository>-->
-  <!--</distributionManagement>-->
 
 </project>
