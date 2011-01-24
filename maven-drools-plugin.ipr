@@ -42,8 +42,11 @@
       </value>
     </option>
   </component>
+  <component name="CompilerAPISettings">
+    <option name="MAXIMUM_HEAP_SIZE" value="256" />
+  </component>
   <component name="CompilerConfiguration">
-    <option name="DEFAULT_COMPILER" value="Javac" />
+    <option name="DEFAULT_COMPILER" value="compAPI" />
     <resourceExtensions>
       <entry name=".+\.(properties|xml|html|dtd|tld)" />
       <entry name=".+\.(gif|png|jpeg|jpg)" />
@@ -371,6 +374,11 @@
           <module name="learning-tests" />
           <module name="drools-dependencies" />
           <module name="parent" />
+          <module name="all-modules" />
+          <module name="integration-testing" />
+          <module name="test-basics" />
+          <module name="dependencies.drools" />
+          <module name="mojos" />
         </modules>
       </facet-type>
     </autodetection-disabled>
@@ -401,7 +409,7 @@
     <dependencies />
   </component>
   <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_STRING" value="-target 1.5" />
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-target 1.6" />
   </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />
@@ -424,12 +432,12 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/maven-drools-plugin/pom.xml" />
-        <option value="$PROJECT_DIR$/maven-drools-plugin-test/pom.xml" />
         <option value="$PROJECT_DIR$/maven-drools-plugin/src/test/resources/integration-tests/CompileMojo/pom.xml" />
         <option value="$PROJECT_DIR$/drools-plugin.integration-test.1/pom.xml" />
         <option value="$PROJECT_DIR$/learning-tests/pom.xml" />
         <option value="$PROJECT_DIR$/drools-dependencies/pom.xml" />
         <option value="$PROJECT_DIR$/parent/pom.xml" />
+        <option value="$PROJECT_DIR$/all-modules/pom.xml" />
       </list>
     </option>
     <option name="activeProfiles">
@@ -574,18 +582,19 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/drools-dependencies/drools-dependencies.iml" filepath="$PROJECT_DIR$/drools-dependencies/drools-dependencies.iml" />
+      <module fileurl="file://$PROJECT_DIR$/all-modules/all-modules.iml" filepath="$PROJECT_DIR$/all-modules/all-modules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dependencies.drools/dependencies.drools.iml" filepath="$PROJECT_DIR$/dependencies.drools/dependencies.drools.iml" />
       <module fileurl="file://$PROJECT_DIR$/learning-tests/learning-tests.iml" filepath="$PROJECT_DIR$/learning-tests/learning-tests.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin-test/maven-drools-plugin-test.iml" filepath="$PROJECT_DIR$/maven-drools-plugin-test/maven-drools-plugin-test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin-test/maven-drools-plugin-test.iml" filepath="$PROJECT_DIR$/maven-drools-plugin-test/maven-drools-plugin-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mojos/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/mojos/maven-drools-plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mojos/mojos.iml" filepath="$PROJECT_DIR$/mojos/mojos.iml" />
       <module fileurl="file://$PROJECT_DIR$/parent/parent.iml" filepath="$PROJECT_DIR$/parent/parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test-basics/test-basics.iml" filepath="$PROJECT_DIR$/test-basics/test-basics.iml" />
     </modules>
   </component>
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="Sun JDK 1.6.0 Update 20" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="Sun JDK 1.6.0 Update 20" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="SvnBranchConfigurationManager">
@@ -959,17 +968,6 @@
         <root url="jar://$MAVEN_REPOSITORY$/org/drools/drools-core/5.1.1/drools-core-5.1.1-sources.jar!/" />
       </SOURCES>
     </library>
-    <library name="Maven: org.easytesting:fest-assert:1.2">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/easytesting/fest-assert/1.2/fest-assert-1.2.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/easytesting/fest-assert/1.2/fest-assert-1.2-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/easytesting/fest-assert/1.2/fest-assert-1.2-sources.jar!/" />
-      </SOURCES>
-    </library>
     <library name="Maven: org.easytesting:fest-assert:1.3">
       <CLASSES>
         <root url="jar://$MAVEN_REPOSITORY$/org/easytesting/fest-assert/1.3/fest-assert-1.3.jar!/" />
@@ -979,17 +977,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/org/easytesting/fest-assert/1.3/fest-assert-1.3-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: org.easytesting:fest-util:1.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/easytesting/fest-util/1.1/fest-util-1.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/org/easytesting/fest-util/1.1/fest-util-1.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/org/easytesting/fest-util/1.1/fest-util-1.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: org.easytesting:fest-util:1.1.4">

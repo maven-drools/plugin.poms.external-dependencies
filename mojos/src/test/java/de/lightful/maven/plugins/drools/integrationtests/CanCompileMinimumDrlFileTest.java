@@ -17,6 +17,7 @@
  */
 package de.lightful.maven.plugins.drools.integrationtests;
 
+import de.lightful.maven.plugins.testing.VerifyUsingProject;
 import org.apache.maven.it.VerificationException;
 import org.apache.maven.it.Verifier;
 import org.apache.maven.it.util.ResourceExtractor;
@@ -30,6 +31,7 @@ import org.testng.annotations.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -37,6 +39,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
 @Test
+@VerifyUsingProject("compile_single_file")
 public class CanCompileMinimumDrlFileTest {
 
   private Logger log = LoggerFactory.getLogger(CanCompileMinimumDrlFileTest.class);
@@ -45,23 +48,36 @@ public class CanCompileMinimumDrlFileTest {
   private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
 
   private Verifier verifier;
-  private String logFileName;
 
   @BeforeMethod
-  public void setUpVerifier() {
-    final String testDirectoryName = "compile_single_file";
+  public void setUpVerifier(Method testMethod) {
+    final String testDirectoryName = obtainTestDirectoryName(testMethod);
     File testDirectory;
     try {
       testDirectory = ResourceExtractor.simpleExtractResources(getClass(), testDirectoryName);
       verifier = new Verifier(testDirectory.getAbsolutePath());
-      logFileName = verifier.getLogFileName();
     }
     catch (IOException e) {
-      fail("Unable to extract integration test resources from directory " + testDirectoryName + ".", e);
+      fail("Unable to extract integration test resources from directory '" + testDirectoryName + "'.", e);
     }
     catch (VerificationException e) {
       fail("Unable to construct Maven Verifier from project in directory " + testDirectoryName + ".", e);
     }
+  }
+
+  private String obtainTestDirectoryName(Method testMethod) {
+    final VerifyUsingProject annotationOnMethod = testMethod.getAnnotation(VerifyUsingProject.class);
+    if (annotationOnMethod != null) {
+      return annotationOnMethod.value();
+    }
+
+    final Class<?> declaringClass = testMethod.getDeclaringClass();
+    final VerifyUsingProject annotationOnClass = declaringClass.getAnnotation(VerifyUsingProject.class);
+    if (annotationOnClass == null) {
+      throw new IllegalArgumentException("No @" + VerifyUsingProject.class.getSimpleName() + " annotation found on " +
+                                         "test method or test class. Don't know where to take project definition from.");
+    }
+    return annotationOnClass.value();
   }
 
   public void testCanCallCleanGoal() throws Exception {
