@@ -17,6 +17,7 @@
  */
 package de.lightful.maven.plugins.drools.integrationtests;
 
+import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
 import org.apache.maven.it.VerificationException;
 import org.apache.maven.it.Verifier;
@@ -33,13 +34,16 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
 @Test
 @VerifyUsingProject("compile_single_file")
+@ExecuteGoals("clean")
 public class CanCompileMinimumDrlFileTest {
 
   private Logger log = LoggerFactory.getLogger(CanCompileMinimumDrlFileTest.class);
@@ -50,12 +54,18 @@ public class CanCompileMinimumDrlFileTest {
   private Verifier verifier;
 
   @BeforeMethod
-  public void setUpVerifier(Method testMethod) {
+  private void setUpVerifier(Method testMethod) {
+    System.out.println("setUpVerifier(" + testMethod.getName() + ")");
     final String testDirectoryName = obtainTestDirectoryName(testMethod);
     File testDirectory;
     try {
       testDirectory = ResourceExtractor.simpleExtractResources(getClass(), testDirectoryName);
       verifier = new Verifier(testDirectory.getAbsolutePath());
+      String[] goals = obtainGoalsToExecute(testMethod);
+      assertThat(goals.length).as("Number of goals to execute").isGreaterThan(0);
+      for (String goal : goals) {
+        verifier.executeGoal(goal);
+      }
     }
     catch (IOException e) {
       fail("Unable to extract integration test resources from directory '" + testDirectoryName + "'.", e);
@@ -63,6 +73,20 @@ public class CanCompileMinimumDrlFileTest {
     catch (VerificationException e) {
       fail("Unable to construct Maven Verifier from project in directory " + testDirectoryName + ".", e);
     }
+  }
+
+  private String[] obtainGoalsToExecute(Method testMethod) {
+    List<String> goals = new ArrayList<String>();
+    final Class<?> declaringClass = testMethod.getDeclaringClass();
+    final ExecuteGoals annotationOnClass = declaringClass.getAnnotation(ExecuteGoals.class);
+    if (annotationOnClass != null) {
+      goals.addAll(Arrays.asList(annotationOnClass.value()));
+    }
+    final ExecuteGoals annotationOnMethod = testMethod.getAnnotation(ExecuteGoals.class);
+    if (annotationOnMethod != null) {
+      goals.addAll(Arrays.asList(annotationOnMethod.value()));
+    }
+    return goals.toArray(new String[goals.size()]);
   }
 
   private String obtainTestDirectoryName(Method testMethod) {
@@ -80,28 +104,22 @@ public class CanCompileMinimumDrlFileTest {
     return annotationOnClass.value();
   }
 
+  @Test
   public void testCanCallCleanGoal() throws Exception {
-    verifier.setDebug(true);
-    verifier.setMavenDebug(true);
-    verifier.executeGoal("clean");
     verifier.verifyErrorFreeLog();
   }
 
   @Test
+  @ExecuteGoals("compile")
   public void testDoesCreateOutputFile() throws Exception {
-    verifier.executeGoal("clean");
-    verifier.executeGoal("compile");
     verifier.verifyErrorFreeLog();
-
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
   }
 
   @Test
+  @ExecuteGoals("compile")
   public void testOutputFileContainsDroolsKnowledgePackages() throws Exception {
-    verifier.executeGoal("clean");
-    verifier.executeGoal("compile");
     verifier.verifyErrorFreeLog();
-
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
     File knowledgeFile = new File(verifier.getBasedir() + File.separator + EXPECTED_OUTPUT_FILE);
     assertThat(knowledgeFile.exists()).as("Knowledge File exists").isTrue();

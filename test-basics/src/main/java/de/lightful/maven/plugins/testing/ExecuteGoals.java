@@ -25,14 +25,13 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Indicates the test class annotated by this annotation is a maven verifier-driven test and should use the test project from the
- * resources directory specified as {@link #value()}.
+ * Indicates which maven goals should be executed by the maven verifier before a certain test method is called.
  *
  * @author Ansgar Konermann
  */
 @Retention(RUNTIME)
 @Target( {TYPE, METHOD})
-public @interface VerifyUsingProject {
+public @interface ExecuteGoals {
 
-  String value();
+  String[] value();
 }

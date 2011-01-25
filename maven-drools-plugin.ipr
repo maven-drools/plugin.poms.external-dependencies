@@ -367,20 +367,7 @@
   </component>
   <component name="FacetAutodetectingManager">
     <autodetection-disabled>
-      <facet-type id="osgiBundleFacetType">
-        <modules>
-          <module name="maven-drools-plugin-test" />
-          <module name="maven-drools-plugin" />
-          <module name="learning-tests" />
-          <module name="drools-dependencies" />
-          <module name="parent" />
-          <module name="all-modules" />
-          <module name="integration-testing" />
-          <module name="test-basics" />
-          <module name="dependencies.drools" />
-          <module name="mojos" />
-        </modules>
-      </facet-type>
+      <facet-type id="osgiBundleFacetType" />
     </autodetection-disabled>
   </component>
   <component name="IdProvider" IDEtalkID="A9665D941F7443A862F307695D2AB2D4" />
@@ -431,13 +418,7 @@
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/maven-drools-plugin/pom.xml" />
-        <option value="$PROJECT_DIR$/maven-drools-plugin/src/test/resources/integration-tests/CompileMojo/pom.xml" />
-        <option value="$PROJECT_DIR$/drools-plugin.integration-test.1/pom.xml" />
-        <option value="$PROJECT_DIR$/learning-tests/pom.xml" />
-        <option value="$PROJECT_DIR$/drools-dependencies/pom.xml" />
-        <option value="$PROJECT_DIR$/parent/pom.xml" />
-        <option value="$PROJECT_DIR$/all-modules/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
     <option name="activeProfiles">
@@ -582,13 +563,17 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/all-modules/all-modules.iml" filepath="$PROJECT_DIR$/all-modules/all-modules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/all-modules.iml" filepath="$PROJECT_DIR$/all-modules.iml" />
+      <module fileurl="file://$PROJECT_DIR$/all-modules.iml" filepath="$PROJECT_DIR$/all-modules.iml" />
       <module fileurl="file://$PROJECT_DIR$/dependencies.drools/dependencies.drools.iml" filepath="$PROJECT_DIR$/dependencies.drools/dependencies.drools.iml" />
-      <module fileurl="file://$PROJECT_DIR$/learning-tests/learning-tests.iml" filepath="$PROJECT_DIR$/learning-tests/learning-tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dependencies.drools/dependencies.drools.iml" filepath="$PROJECT_DIR$/dependencies.drools/dependencies.drools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mojos/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/mojos/maven-drools-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/mojos/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/mojos/maven-drools-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/mojos/mojos.iml" filepath="$PROJECT_DIR$/mojos/mojos.iml" />
       <module fileurl="file://$PROJECT_DIR$/parent/parent.iml" filepath="$PROJECT_DIR$/parent/parent.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test-basics/test-basics.iml" filepath="$PROJECT_DIR$/test-basics/test-basics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parent/parent.iml" filepath="$PROJECT_DIR$/parent/parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test-basics/testing.iml" filepath="$PROJECT_DIR$/test-basics/testing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test-basics/testing.iml" filepath="$PROJECT_DIR$/test-basics/testing.iml" />
     </modules>
   </component>
   <component name="ProjectResources">
@@ -658,17 +643,6 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$MAVEN_REPOSITORY$/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1-sources.jar!/" />
-      </SOURCES>
-    </library>
-    <library name="Maven: junit:junit:3.8.1">
-      <CLASSES>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1.jar!/" />
-      </CLASSES>
-      <JAVADOC>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-javadoc.jar!/" />
-      </JAVADOC>
-      <SOURCES>
-        <root url="jar://$MAVEN_REPOSITORY$/junit/junit/3.8.1/junit-3.8.1-sources.jar!/" />
       </SOURCES>
     </library>
     <library name="Maven: junit:junit:3.8.2">

@@ -24,14 +24,14 @@
   <groupId>de.lightful.maven.plugins.drools</groupId>
   <artifactId>all-modules</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>plugin :: all-modules</name>
+  <name>plugin :: modules</name>
   <packaging>pom</packaging>
 
   <modules>
-    <module>../parent</module>
-    <module>../dependencies.drools</module>
-    <module>../test-basics</module>
-    <module>../mojos</module>
+    <module>parent</module>
+    <module>dependencies.drools</module>
+    <module>test-basics</module>
+    <module>mojos</module>
   </modules>
 
 </project>
