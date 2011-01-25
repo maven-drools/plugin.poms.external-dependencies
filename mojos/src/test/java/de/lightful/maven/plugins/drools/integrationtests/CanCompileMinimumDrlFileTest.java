@@ -55,7 +55,6 @@ public class CanCompileMinimumDrlFileTest {
 
   @BeforeMethod
   private void setUpVerifier(Method testMethod) {
-    System.out.println("setUpVerifier(" + testMethod.getName() + ")");
     final String testDirectoryName = obtainTestDirectoryName(testMethod);
     File testDirectory;
     try {
