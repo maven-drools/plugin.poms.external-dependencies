@@ -31,7 +31,7 @@
     <module>parent</module>
     <module>drools-dependencies</module>
     <module>test-basics</module>
-    <module>mojos</module>
+    <module>maven-drools-plugin</module>
   </modules>
 
 </project>

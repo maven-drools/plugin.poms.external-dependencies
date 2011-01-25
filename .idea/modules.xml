@@ -2,21 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/all-modules.iml" filepath="$PROJECT_DIR$/all-modules.iml" />
-      <module fileurl="file://$PROJECT_DIR$/all-modules.iml" filepath="$PROJECT_DIR$/all-modules.iml" />
-      <module fileurl="file://$PROJECT_DIR$/all-modules.iml" filepath="$PROJECT_DIR$/all-modules.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-dependencies/dependencies.drools.iml" filepath="$PROJECT_DIR$/drools-dependencies/dependencies.drools.iml" />
-      <module fileurl="file://$PROJECT_DIR$/dependencies.drools/dependencies.drools.iml" filepath="$PROJECT_DIR$/dependencies.drools/dependencies.drools.iml" />
-      <module fileurl="file://$PROJECT_DIR$/dependencies.drools/dependencies.drools.iml" filepath="$PROJECT_DIR$/dependencies.drools/dependencies.drools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/drools-dependencies/drools-dependencies.iml" filepath="$PROJECT_DIR$/drools-dependencies/drools-dependencies.iml" />
       <module fileurl="file://$PROJECT_DIR$/mojos/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/mojos/maven-drools-plugin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mojos/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/mojos/maven-drools-plugin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mojos/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/mojos/maven-drools-plugin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mojos/mojos.iml" filepath="$PROJECT_DIR$/mojos/mojos.iml" />
       <module fileurl="file://$PROJECT_DIR$/parent/parent.iml" filepath="$PROJECT_DIR$/parent/parent.iml" />
-      <module fileurl="file://$PROJECT_DIR$/parent/parent.iml" filepath="$PROJECT_DIR$/parent/parent.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test-basics/testing.iml" filepath="$PROJECT_DIR$/test-basics/testing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test-basics/testing.iml" filepath="$PROJECT_DIR$/test-basics/testing.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test-basics/testing.iml" filepath="$PROJECT_DIR$/test-basics/testing.iml" />
+      <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" />
     </modules>
   </component>
 </project>

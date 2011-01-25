@@ -28,7 +28,7 @@
   </parent>
 
   <groupId>de.lightful.maven.plugins</groupId>
-  <artifactId>testing</artifactId>
+  <artifactId>test-basics</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>plugin :: test basics</name>
   <packaging>jar</packaging>
