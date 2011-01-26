@@ -22,15 +22,15 @@
 
   <parent>
     <groupId>de.lightful.maven.plugins.drools</groupId>
-    <artifactId>parent</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <artifactId>project</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
   </parent>
 
   <groupId>de.lightful.maven.plugins</groupId>
   <artifactId>maven-drools-plugin</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
-  <name>plugin :: mojos</name>
+  <name>maven-drools-plugin</name>
 
   <url>http://wiki.github.com/ansgarkonermann/Drools-Plugin-for-Maven2</url>
 
@@ -72,22 +72,18 @@
 
     <!-- Drools Dependencies: -->
     <dependency>
-      <groupId>de.lightful.maven.plugins.drools</groupId>
-      <artifactId>dependencies.drools</artifactId>
-      <version>1.1-SNAPSHOT</version>
-      <type>pom</type>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-api</artifactId>
     </dependency>
     <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-core</artifactId>
-      <version>[5.1.1]</version>
     </dependency>
 
     <!-- Test Dependencies -->
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>5.14.2</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -109,29 +105,20 @@
       <version>2.0-alpha-1</version>
       <scope>test</scope>
     </dependency>
-    <dependency> <!-- for integration testing: -->
-      <groupId>org.apache.maven.shared</groupId>
-      <artifactId>maven-verifier</artifactId>
-      <version>1.2</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>de.lightful.maven.plugins</groupId>
-      <artifactId>testing</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <artifactId>maven-verifier-testng</artifactId>
       <scope>test</scope>
     </dependency>
     <!-- slf4j: -->
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
-      <version>1.6.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.6.1</version>
       <scope>test</scope>
     </dependency>
 
@@ -142,6 +129,18 @@
       <version>1.1.4</version>
       <!-- for Arrays.format() -->
     </dependency>
+    <!-- @Inject: -->
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.shared</groupId>
+      <artifactId>maven-verifier</artifactId>
+      <scope>test</scope>
+    </dependency>
+
   </dependencies>
 
   <build>

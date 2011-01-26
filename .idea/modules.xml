@@ -19,11 +19,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/drools-dependencies/drools-dependencies.iml" filepath="$PROJECT_DIR$/drools-dependencies/drools-dependencies.iml" />
+      <module fileurl="file://$PROJECT_DIR$/drools-plugin-testing/drools-assertions.iml" filepath="$PROJECT_DIR$/drools-plugin-testing/drools-assertions.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/parent/parent.iml" filepath="$PROJECT_DIR$/parent/parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/test-basics/maven-verifier-testng.iml" filepath="$PROJECT_DIR$/test-basics/maven-verifier-testng.iml" />
       <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" />
-      <module fileurl="file://$PROJECT_DIR$/test-basics/test-basics.iml" filepath="$PROJECT_DIR$/test-basics/test-basics.iml" />
     </modules>
   </component>
 </project>
