@@ -29,6 +29,13 @@
         <groupId>de.lightful.maven.plugins</groupId>
         <artifactId>maven-drools-plugin</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>[5.1.1]</version>
+          </dependency>
+        </dependencies>
         <extensions>true</extensions>
         <configuration>
           <passes>

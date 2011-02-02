@@ -21,17 +21,11 @@ import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
 import org.apache.maven.it.Verifier;
-import org.drools.core.util.DroolsStreamUtils;
-import org.drools.definition.KnowledgePackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -65,31 +59,9 @@ public class CanCompileMinimumDrlFileTest extends MavenVerifierTest {
   public void testOutputFileContainsDroolsKnowledgePackages() throws Exception {
     verifier.verifyErrorFreeLog();
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
-    File knowledgeFile = new File(verifier.getBasedir() + File.separator + EXPECTED_OUTPUT_FILE);
-    assertThat(knowledgeFile.exists()).as("Knowledge File exists").isTrue();
 
-    Object streamedInObject = DroolsStreamUtils.streamIn(new FileInputStream(knowledgeFile));
-    assertThat(streamedInObject).as("object read from stream").isNotNull().isInstanceOf(Collection.class);
-
-    Collection loadedObjects = Collection.class.cast(streamedInObject);
-    ensureLoadedObjectsAreKnowledgePackages(loadedObjects);
-    Collection<KnowledgePackage> knowledgePackages = convertCollectionItemsToKnowledgePackages(loadedObjects);
-
-    assertThat(knowledgePackages).as("collection of knowledge packages").hasSize(1);
-  }
-
-  private void ensureLoadedObjectsAreKnowledgePackages(Collection loadedObjects) {
-    int i = 1;
-    for (Object loadedObject : loadedObjects) {
-      assertThat(loadedObject).as("object #" + i + " from read collection").isInstanceOf(KnowledgePackage.class);
-      i++;
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  private Collection<KnowledgePackage> convertCollectionItemsToKnowledgePackages(Collection loadedObjects) {
-    Collection<KnowledgePackage> knowledgePackages = new ArrayList<KnowledgePackage>();
-    knowledgePackages.addAll(loadedObjects);
-    return knowledgePackages;
+    KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(verifier, EXPECTED_OUTPUT_FILE);
+    assertThat(knowledgePackageFile.getFile()).exists();
+    assertThat(knowledgePackageFile.getKnowledgePackages()).as("collection of knowledge packages").hasSize(1);
   }
 }
