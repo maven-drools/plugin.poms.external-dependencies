@@ -26,6 +26,7 @@ import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.drools.builder.*;
 import org.drools.core.util.DroolsStreamUtils;
+import org.drools.definition.KnowledgePackage;
 import org.drools.io.ResourceFactory;
 import org.fest.util.Arrays;
 import org.jfrog.maven.annomojo.annotations.MojoGoal;
@@ -34,6 +35,7 @@ import org.jfrog.maven.annomojo.annotations.MojoParameter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collection;
 
 @MojoGoal(CompileMojo.GOAL)
 public class CompileMojo extends AbstractMojo {
@@ -52,8 +54,6 @@ public class CompileMojo extends AbstractMojo {
   private MavenProject project;
   private static final int FIRST_PASS_NUMBER = 1;
   private Build build;
-  private static final String DROOLS_PACKAGING_IDENTIFIER = "drools";
-  private static final String DROOLS_KNOWLEDGE_PACKAGE_EXTENSION = ".dkp"; // stands for Drools Knowledge Package(s)
 
   private KnowledgeBuilder knowledgeBuilder;
 
@@ -106,13 +106,13 @@ public class CompileMojo extends AbstractMojo {
   private void writeOutputFile() {
     final String packaging = project.getPackaging();
     final Log log = getLog();
-    if (!DROOLS_PACKAGING_IDENTIFIER.equals(packaging)) {
-      log.error("Internal error: packaging of project must be equal to '" + DROOLS_PACKAGING_IDENTIFIER + "' when using this plugin!");
+    if (!WellKnownNames.DROOLS_PACKAGING_IDENTIFIER.equals(packaging)) {
+      log.error("Internal error: packaging of project must be equal to '" + WellKnownNames.DROOLS_PACKAGING_IDENTIFIER + "' when using this plugin!");
     }
     build = project.getBuild();
     final String currentFinalName = build.getFinalName();
-    if (!currentFinalName.endsWith(DROOLS_KNOWLEDGE_PACKAGE_EXTENSION)) {
-      build.setFinalName(currentFinalName + DROOLS_KNOWLEDGE_PACKAGE_EXTENSION);
+    if (!currentFinalName.endsWith(WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION)) {
+      build.setFinalName(currentFinalName + WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION);
     }
     String outputFileName = build.getFinalName();
     writeFinalOutputFile(outputFileName);
@@ -123,9 +123,11 @@ public class CompileMojo extends AbstractMojo {
     File buildDirectory = new File(buildDirectoryName);
     File outputFile = new File(buildDirectoryName + File.separator + outputFileName);
 
+    final Collection<KnowledgePackage> knowledgePackages = knowledgeBuilder.getKnowledgePackages();
+
     final Log log = getLog();
     final String absoluteOutputFileName = outputFile.getAbsolutePath();
-    log.info("Writing XXXX bytes into output file " + absoluteOutputFileName);
+    log.info("Writing " + knowledgePackages.size() + " knowledge packages into output file " + absoluteOutputFileName);
 
     if (!buildDirectory.exists()) {
       log.debug("Output directory " + buildDirectory.getAbsolutePath() + " does not exist, creating.");
@@ -148,7 +150,7 @@ public class CompileMojo extends AbstractMojo {
     }
 
     try {
-      DroolsStreamUtils.streamOut(new FileOutputStream(outputFile), knowledgeBuilder.getKnowledgePackages(), false);
+      DroolsStreamUtils.streamOut(new FileOutputStream(outputFile), knowledgePackages, false);
     }
     catch (IOException e) {
       log.error("Unable to write compiled knowledge into output file!", e);

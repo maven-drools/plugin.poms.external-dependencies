@@ -21,17 +21,20 @@ import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
 import org.apache.maven.it.Verifier;
+import org.drools.definition.KnowledgePackage;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
+import java.util.HashMap;
+import java.util.Map;
 
 import static de.lightful.maven.plugins.drools.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
 import static org.fest.assertions.Assertions.assertThat;
 
 @Test
-@VerifyUsingProject("compile_single_file")
+@VerifyUsingProject("multiple_passes")
 @ExecuteGoals("clean")
-public class CanCompileMinimumDrlFileTest extends MavenVerifierTest {
+public class CanPerformMultiplePasses extends MavenVerifierTest {
 
   private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
 
@@ -52,12 +55,27 @@ public class CanCompileMinimumDrlFileTest extends MavenVerifierTest {
 
   @Test
   @ExecuteGoals("compile")
-  public void testOutputFileContainsDroolsKnowledgePackages() throws Exception {
+  public void testOutputFileContainsExpectedDroolsKnowledgePackages() throws Exception {
     verifier.verifyErrorFreeLog();
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
 
     KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(verifier, EXPECTED_OUTPUT_FILE);
     assertThat(knowledgePackageFile.getFile()).exists();
-    assertThat(knowledgePackageFile.getKnowledgePackages()).as("collection of knowledge packages").hasSize(1);
+    final Iterable<KnowledgePackage> knowledgePackages = knowledgePackageFile.getKnowledgePackages();
+    assertThat(knowledgePackages).as("collection of knowledge packages").hasSize(2);
+
+    Map<String, KnowledgePackage> knowledgePackageMap = new HashMap<String, KnowledgePackage>();
+
+    for (KnowledgePackage knowledgePackage : knowledgePackages) {
+      knowledgePackageMap.put(knowledgePackage.getName(), knowledgePackage);
+    }
+
+    assertThat(knowledgePackageMap.containsKey("model")).overridingErrorMessage("Resulting target artifact must contain package named 'model'.");
+    assertThat(knowledgePackageMap.containsKey("rules")).overridingErrorMessage("Resulting target artifact must contain package named 'rules'.");
+
+    KnowledgePackage modelPackage = knowledgePackageMap.get("model");
+    assertThat(modelPackage.getRules()).as("Collection of rules in package 'model'").hasSize(0);
+    KnowledgePackage rulesPackage = knowledgePackageMap.get("rules");
+    assertThat(rulesPackage.getRules()).as("Collection of rules in package 'rules'").hasSize(1);
   }
 }
