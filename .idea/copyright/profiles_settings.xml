@@ -1,5 +1,5 @@
 <component name="CopyrightManager">
-  <settings default="ASL 2.0 (Drools Plugin)">
+  <settings default="">
     <module2copyright>
       <element module="Production" copyright="ASL 2.0 (Drools Plugin)" />
       <element module="Tests" copyright="ASL 2.0 (Drools Plugin)" />

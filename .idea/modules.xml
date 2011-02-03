@@ -20,6 +20,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/drools-assertions/drools-assertions.iml" filepath="$PROJECT_DIR$/drools-assertions/drools-assertions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/example-fact-model/example-fact-model.iml" filepath="$PROJECT_DIR$/example-fact-model/example-fact-model.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" filepath="$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" />
       <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" />

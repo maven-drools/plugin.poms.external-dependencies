@@ -1,0 +1,11 @@
+package rules.test;
+
+import com.example.model.*;
+
+rule "Check if Peter is at least 18 years old"
+  when
+    $person: Person( name == "PETER" )
+    Age( who == $person, age < 18 )
+  then
+    insertLogical("Peter is too young!");
+end

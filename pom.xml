@@ -35,6 +35,7 @@
   <modules>
     <module>maven-verifier-testng</module>
     <module>drools-assertions</module>
+    <module>example-fact-model</module>
     <module>maven-drools-plugin</module>
   </modules>
 
