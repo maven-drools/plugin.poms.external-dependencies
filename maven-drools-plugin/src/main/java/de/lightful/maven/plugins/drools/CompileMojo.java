@@ -7,7 +7,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,6 +17,7 @@
  */
 package de.lightful.maven.plugins.drools;
 
+import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.model.Build;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -31,13 +32,21 @@ import org.drools.io.ResourceFactory;
 import org.fest.util.Arrays;
 import org.jfrog.maven.annomojo.annotations.MojoGoal;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
+import org.jfrog.maven.annomojo.annotations.MojoRequiresDependencyResolution;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Properties;
 
 @MojoGoal(CompileMojo.GOAL)
+@MojoRequiresDependencyResolution("compile")
 public class CompileMojo extends AbstractMojo {
 
   public static final String GOAL = "compile";
@@ -52,6 +61,7 @@ public class CompileMojo extends AbstractMojo {
 
   @MojoParameter(defaultValue = "${project}")
   private MavenProject project;
+
   private static final int FIRST_PASS_NUMBER = 1;
   private Build build;
 
@@ -225,6 +235,42 @@ public class CompileMojo extends AbstractMojo {
   }
 
   private KnowledgeBuilder createNewKnowledgeBuilder() {
-    return KnowledgeBuilderFactory.newKnowledgeBuilder();
+
+    /*
+
+     For java dependencies:
+     * project.getCompileClasspathElements()
+     * alle Elemente daraus in URL umwandeln
+     * alle URLs an einen neuen URL ClassLoader übergeben
+     * Delegation an Standard-Classloader (welchen?)
+     *
+     * Diesen neuen URL Class Loader an Knowledge Builder übergeben
+     * Packaging laufen lassen
+     *
+     * Für "drools"-Dependencies muss man die Artefakte von Hand in die Knowledge Base laden,
+     * bevor man weiter packagen kann (später!)
+     *
+     */
+
+    final Log log = getLog();
+    try {
+      final List<String> compileClasspathElements = project.getCompileClasspathElements();
+
+      ArrayList<URL> classpathUrls = new ArrayList<URL>();
+      for (String classpathElement : compileClasspathElements) {
+        URL classpathElementUrl = new URL(classpathElement);
+        classpathUrls.add(classpathElementUrl);
+      }
+      URLClassLoader classLoader = new URLClassLoader(classpathUrls.toArray(new URL[classpathUrls.size()]));
+      Properties properties = new Properties();
+      KnowledgeBuilderConfiguration configuration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(properties, classLoader);
+      return KnowledgeBuilderFactory.newKnowledgeBuilder();
+    }
+    catch (DependencyResolutionRequiredException e) {
+      throw new RuntimeException("Internal error: declared resolution of compile-scoped dependencies, but got exception!", e);
+    }
+    catch (MalformedURLException e) {
+      throw new RuntimeException("Got malformed URL for compile classpath element.", e);
+    }
   }
 }
