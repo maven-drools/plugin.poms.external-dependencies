@@ -22,11 +22,16 @@ import de.lightful.maven.plugins.testing.MavenVerifierTest;
 import de.lightful.maven.plugins.testing.SettingsFile;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
 import org.apache.maven.it.Verifier;
+import org.drools.definition.KnowledgePackage;
+import org.drools.definition.rule.Rule;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 
+import java.util.Collection;
+
 import static de.lightful.maven.plugins.drools.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
+import static org.fest.assertions.Assertions.assertThat;
 
 @Test
 @VerifyUsingProject("single_java_dependency")
@@ -34,6 +39,8 @@ import static de.lightful.maven.plugins.drools.WellKnownNames.DROOLS_KNOWLEDGE_P
 public class CanUseExistingJavaModelTest extends MavenVerifierTest {
 
   private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
+  private static final String EXPECTED_RULE_NAME = "Check if Peter is at least 18 years old";
+  private static final String EXPECTED_PACKAGE_NAME = "rules.test";
 
   @Inject
   private Verifier verifier;
@@ -50,5 +57,24 @@ public class CanUseExistingJavaModelTest extends MavenVerifierTest {
   public void testDoesCreateOutputFile() throws Exception {
     verifier.verifyErrorFreeLog();
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
+  }
+
+  @Test
+  @DefaultSettingsFile
+  @ExecuteGoals("compile")
+  public void testPackageFileContainsPackagedRule() throws Exception {
+    verifier.verifyErrorFreeLog();
+    verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
+
+    KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(verifier, EXPECTED_OUTPUT_FILE);
+    final Iterable<KnowledgePackage> knowledgePackages = knowledgePackageFile.getKnowledgePackages();
+
+    assertThat(knowledgePackages).as("Knowledge packages").hasSize(1);
+    final KnowledgePackage knowledgePackage = knowledgePackages.iterator().next();
+    assertThat(knowledgePackage.getName()).as("Knowledge package name").isEqualTo(EXPECTED_PACKAGE_NAME);
+    final Collection<Rule> rules = knowledgePackage.getRules();
+    assertThat(rules).as("Rules in loaded package").hasSize(1);
+    final Rule rule = rules.iterator().next();
+    assertThat(rule.getName()).as("Rule Name").isEqualTo(EXPECTED_RULE_NAME);
   }
 }
