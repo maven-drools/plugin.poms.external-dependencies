@@ -1,1 +1,0 @@
-package rules.pkg460.test; rule "test rule 460" when then end

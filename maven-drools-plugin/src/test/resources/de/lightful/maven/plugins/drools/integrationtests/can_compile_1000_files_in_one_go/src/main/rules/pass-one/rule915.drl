@@ -1,1 +1,0 @@
-package rules.pkg915.test; rule "test rule 915" when then end

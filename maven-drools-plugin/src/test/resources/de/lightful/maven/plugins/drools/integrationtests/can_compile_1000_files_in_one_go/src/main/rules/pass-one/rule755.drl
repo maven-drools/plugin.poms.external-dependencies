@@ -1,1 +1,0 @@
-package rules.pkg755.test; rule "test rule 755" when then end

@@ -1,1 +1,0 @@
-package rules.pkg1000.test; rule "test rule 1000" when then end

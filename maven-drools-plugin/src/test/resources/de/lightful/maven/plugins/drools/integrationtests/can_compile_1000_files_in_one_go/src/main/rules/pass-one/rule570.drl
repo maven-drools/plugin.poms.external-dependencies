@@ -1,1 +1,0 @@
-package rules.pkg570.test; rule "test rule 570" when then end

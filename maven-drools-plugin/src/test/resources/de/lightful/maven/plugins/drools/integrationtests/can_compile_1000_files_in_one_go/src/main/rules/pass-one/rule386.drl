@@ -1,1 +1,0 @@
-package rules.pkg386.test; rule "test rule 386" when then end

@@ -1,1 +1,0 @@
-package rules.pkg241.test; rule "test rule 241" when then end

@@ -1,1 +1,0 @@
-package rules.pkg443.test; rule "test rule 443" when then end

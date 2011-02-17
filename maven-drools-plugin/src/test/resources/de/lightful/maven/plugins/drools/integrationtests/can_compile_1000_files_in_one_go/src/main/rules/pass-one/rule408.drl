@@ -1,1 +1,0 @@
-package rules.pkg408.test; rule "test rule 408" when then end

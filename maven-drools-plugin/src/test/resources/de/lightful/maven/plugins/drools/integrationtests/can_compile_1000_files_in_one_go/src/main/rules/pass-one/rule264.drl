@@ -1,1 +1,0 @@
-package rules.pkg264.test; rule "test rule 264" when then end

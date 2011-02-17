@@ -1,1 +1,0 @@
-package rules.pkg995.test; rule "test rule 995" when then end

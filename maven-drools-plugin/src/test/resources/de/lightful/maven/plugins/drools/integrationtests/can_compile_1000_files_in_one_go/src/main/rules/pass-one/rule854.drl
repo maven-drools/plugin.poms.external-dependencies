@@ -1,1 +1,0 @@
-package rules.pkg854.test; rule "test rule 854" when then end

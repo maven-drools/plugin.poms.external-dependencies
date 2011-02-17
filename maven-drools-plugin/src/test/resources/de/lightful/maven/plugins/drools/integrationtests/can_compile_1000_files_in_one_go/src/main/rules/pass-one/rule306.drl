@@ -1,1 +1,0 @@
-package rules.pkg306.test; rule "test rule 306" when then end

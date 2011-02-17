@@ -1,1 +1,0 @@
-package rules.pkg767.test; rule "test rule 767" when then end

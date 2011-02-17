@@ -1,1 +1,0 @@
-package rules.pkg360.test; rule "test rule 360" when then end

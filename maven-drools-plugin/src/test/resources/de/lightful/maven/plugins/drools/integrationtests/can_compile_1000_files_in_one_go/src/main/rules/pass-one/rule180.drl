@@ -1,1 +1,0 @@
-package rules.pkg180.test; rule "test rule 180" when then end

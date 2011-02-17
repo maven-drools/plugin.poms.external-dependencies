@@ -1,1 +1,0 @@
-package rules.pkg409.test; rule "test rule 409" when then end

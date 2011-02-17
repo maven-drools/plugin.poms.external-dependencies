@@ -1,1 +1,0 @@
-package rules.pkg319.test; rule "test rule 319" when then end

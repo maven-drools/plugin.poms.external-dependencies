@@ -1,1 +1,0 @@
-package rules.pkg825.test; rule "test rule 825" when then end

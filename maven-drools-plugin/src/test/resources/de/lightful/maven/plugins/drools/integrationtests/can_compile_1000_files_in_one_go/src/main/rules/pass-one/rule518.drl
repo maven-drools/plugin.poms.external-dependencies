@@ -1,1 +1,0 @@
-package rules.pkg518.test; rule "test rule 518" when then end

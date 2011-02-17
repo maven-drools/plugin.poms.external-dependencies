@@ -1,1 +1,0 @@
-package rules.pkg921.test; rule "test rule 921" when then end

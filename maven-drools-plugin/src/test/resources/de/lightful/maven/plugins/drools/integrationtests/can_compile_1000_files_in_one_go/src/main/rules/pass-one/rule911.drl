@@ -1,1 +1,0 @@
-package rules.pkg911.test; rule "test rule 911" when then end

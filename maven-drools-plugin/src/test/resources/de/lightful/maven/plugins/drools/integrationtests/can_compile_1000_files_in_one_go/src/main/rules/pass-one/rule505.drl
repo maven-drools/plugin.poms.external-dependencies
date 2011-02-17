@@ -1,1 +1,0 @@
-package rules.pkg505.test; rule "test rule 505" when then end

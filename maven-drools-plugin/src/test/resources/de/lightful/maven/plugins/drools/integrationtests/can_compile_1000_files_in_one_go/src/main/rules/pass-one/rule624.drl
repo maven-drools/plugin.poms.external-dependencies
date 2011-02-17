@@ -1,1 +1,0 @@
-package rules.pkg624.test; rule "test rule 624" when then end

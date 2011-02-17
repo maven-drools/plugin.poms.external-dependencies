@@ -1,1 +1,0 @@
-package rules.pkg576.test; rule "test rule 576" when then end

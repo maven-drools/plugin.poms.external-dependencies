@@ -1,1 +1,0 @@
-package rules.pkg845.test; rule "test rule 845" when then end

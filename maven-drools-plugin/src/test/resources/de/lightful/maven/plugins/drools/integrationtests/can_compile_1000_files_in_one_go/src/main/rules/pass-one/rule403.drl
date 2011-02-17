@@ -1,1 +1,0 @@
-package rules.pkg403.test; rule "test rule 403" when then end
