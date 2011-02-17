@@ -27,17 +27,18 @@ import org.testng.annotations.Test;
 import javax.inject.Inject;
 
 @Test
-@VerifyUsingProject("fails_on_simple_syntax_error")
+@VerifyUsingProject("fails_on_unresolvable_type")
 @DefaultSettingsFile
 @ExecuteGoals("clean")
-public class FailsOnSimpleSyntaxErrorTest extends MavenVerifierTest {
+public class FailsOnUnresolvableTypeTest extends MavenVerifierTest {
 
   @Inject
   private Verifier verifier;
 
   @Test(expectedExceptions = VerificationException.class)
-  public void testFailsOnSimpleSyntaxError() throws Exception {
+  public void testFailsOnUnresolvableType() throws Exception {
     verifier.executeGoal("compile");
     verifier.verifyErrorFreeLog();
   }
+
 }

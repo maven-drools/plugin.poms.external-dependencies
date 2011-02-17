@@ -216,13 +216,14 @@ public class CompileMojo extends AbstractMojo {
       builder.append("Error #" + i);
       final int[] errorLines = error.getErrorLines();
       if (errorLines.length > 0) {
-        builder.append(" occurred in line(s) ");
+        builder.append(" [occurred in line(s) ");
         for (int errorLineIndex = 0; errorLineIndex < errorLines.length; errorLineIndex++) {
           builder.append(errorLines[errorLineIndex]);
           if (errorLineIndex + 1 < errorLines.length) {
             builder.append(", ");
           }
         }
+        builder.append("]");
       }
       builder.append(": ");
       builder.append(error.getMessage());
