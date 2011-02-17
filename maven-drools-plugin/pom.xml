@@ -45,6 +45,7 @@
       <groupId>de.lightful.maven.plugins.drools</groupId>
       <artifactId>integration-repository</artifactId>
       <version>${project.version}</version>
+      <type>pom</type>
       <scope>test</scope>
     </dependency>
 
