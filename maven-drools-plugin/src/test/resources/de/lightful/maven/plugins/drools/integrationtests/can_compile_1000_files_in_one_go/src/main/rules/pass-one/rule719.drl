@@ -1,0 +1,1 @@
+package rules.pkg719.test; rule "test rule 719" when then end

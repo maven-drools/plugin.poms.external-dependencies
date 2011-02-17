@@ -1,0 +1,1 @@
+package rules.pkg802.test; rule "test rule 802" when then end

@@ -1,0 +1,1 @@
+package rules.pkg696.test; rule "test rule 696" when then end

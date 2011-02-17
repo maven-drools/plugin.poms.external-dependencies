@@ -34,7 +34,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 @Test
 @SettingsFile("/de/lightful/maven/plugins/drools/integrationtests/integration-settings.xml")
-@VerifyUsingProject("multiple_passes")
+@VerifyUsingProject("can_execute_multiple_passes")
 @ExecuteGoals("clean")
 public class CanPerformMultiplePassesTest extends MavenVerifierTest {
 

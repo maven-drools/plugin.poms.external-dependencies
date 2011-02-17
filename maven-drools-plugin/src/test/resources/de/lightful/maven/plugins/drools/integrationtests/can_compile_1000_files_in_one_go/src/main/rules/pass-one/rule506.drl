@@ -1,0 +1,1 @@
+package rules.pkg506.test; rule "test rule 506" when then end

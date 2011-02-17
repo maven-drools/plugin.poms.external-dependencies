@@ -1,0 +1,1 @@
+package rules.pkg301.test; rule "test rule 301" when then end

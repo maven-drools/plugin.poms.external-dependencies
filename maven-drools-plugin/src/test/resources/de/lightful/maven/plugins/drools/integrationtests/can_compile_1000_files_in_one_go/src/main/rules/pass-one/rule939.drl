@@ -1,0 +1,1 @@
+package rules.pkg939.test; rule "test rule 939" when then end

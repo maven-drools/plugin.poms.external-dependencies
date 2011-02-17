@@ -1,0 +1,1 @@
+package rules.pkg333.test; rule "test rule 333" when then end

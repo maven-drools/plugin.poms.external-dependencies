@@ -1,0 +1,1 @@
+package rules.pkg302.test; rule "test rule 302" when then end

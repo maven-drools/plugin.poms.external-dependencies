@@ -1,0 +1,1 @@
+package rules.pkg807.test; rule "test rule 807" when then end

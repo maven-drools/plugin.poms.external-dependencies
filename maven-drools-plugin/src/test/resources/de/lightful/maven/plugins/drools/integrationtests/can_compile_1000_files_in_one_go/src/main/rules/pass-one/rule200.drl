@@ -1,0 +1,1 @@
+package rules.pkg200.test; rule "test rule 200" when then end

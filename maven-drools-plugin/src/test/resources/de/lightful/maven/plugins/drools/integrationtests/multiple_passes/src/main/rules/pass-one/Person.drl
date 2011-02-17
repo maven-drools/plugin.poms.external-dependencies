@@ -1,5 +1,0 @@
-package model;
-
-declare Person
-  name: String
-end

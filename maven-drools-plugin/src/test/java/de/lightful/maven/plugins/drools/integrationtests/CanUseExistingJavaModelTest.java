@@ -34,7 +34,7 @@ import static de.lightful.maven.plugins.drools.WellKnownNames.DROOLS_KNOWLEDGE_P
 import static org.fest.assertions.Assertions.assertThat;
 
 @Test
-@VerifyUsingProject("single_java_dependency")
+@VerifyUsingProject("can_use_single_java_dependency")
 @ExecuteGoals("clean")
 public class CanUseExistingJavaModelTest extends MavenVerifierTest {
 

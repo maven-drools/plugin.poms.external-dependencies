@@ -1,0 +1,1 @@
+package rules.pkg153.test; rule "test rule 153" when then end

@@ -1,0 +1,1 @@
+package rules.pkg445.test; rule "test rule 445" when then end

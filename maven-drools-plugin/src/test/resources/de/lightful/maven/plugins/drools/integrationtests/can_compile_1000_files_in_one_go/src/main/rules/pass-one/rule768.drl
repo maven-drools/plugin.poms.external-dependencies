@@ -1,0 +1,1 @@
+package rules.pkg768.test; rule "test rule 768" when then end

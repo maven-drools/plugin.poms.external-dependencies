@@ -1,0 +1,1 @@
+package rules.pkg365.test; rule "test rule 365" when then end

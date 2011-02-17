@@ -1,0 +1,1 @@
+package rules.pkg256.test; rule "test rule 256" when then end

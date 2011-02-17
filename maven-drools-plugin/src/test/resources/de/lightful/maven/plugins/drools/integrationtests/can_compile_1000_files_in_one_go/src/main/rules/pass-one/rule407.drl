@@ -1,0 +1,1 @@
+package rules.pkg407.test; rule "test rule 407" when then end

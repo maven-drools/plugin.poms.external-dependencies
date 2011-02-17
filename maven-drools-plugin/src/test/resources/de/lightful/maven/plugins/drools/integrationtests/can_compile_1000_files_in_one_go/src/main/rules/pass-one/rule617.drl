@@ -1,0 +1,1 @@
+package rules.pkg617.test; rule "test rule 617" when then end

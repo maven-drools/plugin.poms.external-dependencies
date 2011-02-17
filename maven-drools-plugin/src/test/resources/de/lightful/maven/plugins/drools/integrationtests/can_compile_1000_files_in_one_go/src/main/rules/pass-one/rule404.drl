@@ -1,0 +1,1 @@
+package rules.pkg404.test; rule "test rule 404" when then end

@@ -1,0 +1,1 @@
+package rules.pkg908.test; rule "test rule 908" when then end

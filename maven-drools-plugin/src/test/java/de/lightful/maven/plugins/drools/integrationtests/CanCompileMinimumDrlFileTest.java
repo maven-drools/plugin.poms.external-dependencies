@@ -31,7 +31,7 @@ import static org.fest.assertions.Assertions.assertThat;
 
 @Test
 @DefaultSettingsFile
-@VerifyUsingProject("compile_single_file")
+@VerifyUsingProject("can_compile_single_file")
 @ExecuteGoals("clean")
 public class CanCompileMinimumDrlFileTest extends MavenVerifierTest {
 
