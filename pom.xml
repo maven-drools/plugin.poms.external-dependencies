@@ -8,7 +8,7 @@
   ~ you may not use this file except in compliance with the License.
   ~ You may obtain a copy of the License at
   ~
-  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~     http://www.apache.org/licenses/LICENSE-2.0
   ~
   ~ Unless required by applicable law or agreed to in writing, software
   ~ distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,6 +30,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <drools.version>[5.1.1]</drools.version>
+    <repository.integrationtests>${env.HOME}/.m2/it-repository</repository.integrationtests>
+    <repository.regular>${env.HOME}/.m2/repository</repository.regular>
   </properties>
 
   <modules>
@@ -37,6 +39,7 @@
     <module>drools-assertions</module>
     <module>example-fact-model</module>
     <module>maven-drools-plugin</module>
+    <module>integration-repository</module>
   </modules>
 
   <dependencyManagement>
@@ -66,6 +69,11 @@
       <dependency>
         <groupId>org.drools</groupId>
         <artifactId>drools-core</artifactId>
+        <version>${drools.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.drools</groupId>
+        <artifactId>drools-compiler</artifactId>
         <version>${drools.version}</version>
       </dependency>
       <dependency>
@@ -110,6 +118,28 @@
   </distributionManagement>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-invoker-plugin</artifactId>
+          <version>1.5</version>
+          <executions>
+            <execution>
+              <id>install-integration-test-artifacts</id>
+              <phase>pre-integration-test</phase>
+              <goals>
+                <goal>install</goal>
+              </goals>
+              <configuration>
+                <localRepositoryPath>${repository.integrationtests}</localRepositoryPath>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

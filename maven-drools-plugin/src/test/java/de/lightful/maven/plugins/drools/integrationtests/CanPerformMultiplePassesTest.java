@@ -19,6 +19,7 @@ package de.lightful.maven.plugins.drools.integrationtests;
 
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
+import de.lightful.maven.plugins.testing.SettingsFile;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
 import org.apache.maven.it.Verifier;
 import org.drools.definition.KnowledgePackage;
@@ -32,6 +33,7 @@ import static de.lightful.maven.plugins.drools.WellKnownNames.DROOLS_KNOWLEDGE_P
 import static org.fest.assertions.Assertions.assertThat;
 
 @Test
+@SettingsFile("/de/lightful/maven/plugins/drools/integrationtests/integration-settings.xml")
 @VerifyUsingProject("multiple_passes")
 @ExecuteGoals("clean")
 public class CanPerformMultiplePassesTest extends MavenVerifierTest {

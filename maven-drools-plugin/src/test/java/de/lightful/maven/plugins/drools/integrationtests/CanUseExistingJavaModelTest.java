@@ -19,6 +19,7 @@ package de.lightful.maven.plugins.drools.integrationtests;
 
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
+import de.lightful.maven.plugins.testing.SettingsFile;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
 import org.apache.maven.it.Verifier;
 import org.testng.annotations.Test;
@@ -38,13 +39,14 @@ public class CanUseExistingJavaModelTest extends MavenVerifierTest {
   private Verifier verifier;
 
   @Test
+  @DefaultSettingsFile
   public void testCanCallCleanGoal() throws Exception {
-    verifier.setLocalRepo();
     verifier.verifyErrorFreeLog();
   }
 
   @Test
   @ExecuteGoals("compile")
+  @SettingsFile("/de/lightful/maven/plugins/drools/integrationtests/integration-settings.xml")
   public void testDoesCreateOutputFile() throws Exception {
     verifier.verifyErrorFreeLog();
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);

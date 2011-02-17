@@ -7,7 +7,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@ package de.lightful.maven.plugins.drools.integrationtests;
 
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
+import de.lightful.maven.plugins.testing.SettingsFile;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
 import org.apache.maven.it.Verifier;
 import org.testng.annotations.Test;
@@ -29,6 +30,7 @@ import static de.lightful.maven.plugins.drools.WellKnownNames.DROOLS_KNOWLEDGE_P
 import static org.fest.assertions.Assertions.assertThat;
 
 @Test
+@DefaultSettingsFile
 @VerifyUsingProject("compile_single_file")
 @ExecuteGoals("clean")
 public class CanCompileMinimumDrlFileTest extends MavenVerifierTest {

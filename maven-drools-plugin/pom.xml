@@ -38,10 +38,15 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <dependency.drools.version>5.1.1</dependency.drools.version>
     <dependency.maven.version>3.0.2</dependency.maven.version>
-    <integrationtests.repository>${project.build.directory}/it-repository</integrationtests.repository>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>de.lightful.maven.plugins.drools</groupId>
+      <artifactId>integration-repository</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
 
     <!-- Interfacing with Maven: -->
     <dependency>
@@ -63,6 +68,10 @@
     <dependency>
       <groupId>org.drools</groupId>
       <artifactId>drools-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-compiler</artifactId>
     </dependency>
 
     <!-- Test Dependencies -->
@@ -145,6 +154,10 @@
         <version>2.4.3</version>
         <configuration>
           <encoding>UTF-8</encoding>
+          <useDefaultDelimiters>false</useDefaultDelimiters>
+          <delimiters>
+            <delimiter>#[*]</delimiter>
+          </delimiters>
         </configuration>
       </plugin>
 
@@ -191,6 +204,18 @@
         </configuration>
         <executions>
           <execution>
+            <id>default-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>test</goal>
+            </goals>
+            <configuration>
+              <excludes>
+                <exclude>**/integrationtests/*Test.java</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+          <execution>
             <id>integration-tests</id>
             <phase>integration-test</phase>
             <goals>
@@ -203,6 +228,11 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-invoker-plugin</artifactId>
       </plugin>
 
       <plugin>

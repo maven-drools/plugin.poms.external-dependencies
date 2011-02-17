@@ -26,9 +26,9 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>de.lightful.maven.plugins</groupId>
-        <artifactId>maven-drools-plugin</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <groupId>#[project.groupId]</groupId>
+        <artifactId>#[project.artifactId]</artifactId>
+        <version>#[project.version]</version>
         <extensions>true</extensions>
         <dependencies>
           <dependency>

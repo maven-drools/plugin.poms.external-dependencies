@@ -20,6 +20,7 @@ package de.lightful.maven.plugins.drools;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.model.Build;
 import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.AbstractMojoExecutionException;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
@@ -46,8 +47,10 @@ import java.util.List;
 import java.util.Properties;
 
 @MojoGoal(CompileMojo.GOAL)
-@MojoRequiresDependencyResolution("compile")
+@MojoRequiresDependencyResolution("runtime")
 public class CompileMojo extends AbstractMojo {
+
+  private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
   public static final String GOAL = "compile";
 
@@ -67,7 +70,7 @@ public class CompileMojo extends AbstractMojo {
 
   private KnowledgeBuilder knowledgeBuilder;
 
-  public void execute() throws MojoExecutionException, MojoFailureException {
+  public void execute() throws MojoFailureException {
     final Log log = getLog();
     log.info("This is the compiler plugin");
     log.info("Passes: " + Arrays.format(passes));
@@ -107,7 +110,7 @@ public class CompileMojo extends AbstractMojo {
     }
   }
 
-  private void runAllPasses() {
+  private void runAllPasses() throws MojoFailureException {
     for (Pass pass : passes) {
       executePass(pass);
     }
@@ -167,7 +170,7 @@ public class CompileMojo extends AbstractMojo {
     }
   }
 
-  private void executePass(Pass pass) {
+  private void executePass(Pass pass) throws MojoFailureException {
     final Log log = getLog();
     log.info("Executing compiler pass '" + pass.getName() + "'...");
     DirectoryScanner scanner = new DirectoryScanner();
@@ -184,7 +187,7 @@ public class CompileMojo extends AbstractMojo {
     log.info("Done with compiler pass '" + pass.getName() + "'.");
   }
 
-  private void compileRuleFile(File ruleSourceRoot, String nameOfFileToCompile) {
+  private void compileRuleFile(File ruleSourceRoot, String nameOfFileToCompile) throws MojoFailureException {
     final Log log = getLog();
     File fileToCompile = new File(ruleSourceRoot, nameOfFileToCompile);
     log.info("  Compiling rule file '" + fileToCompile.getAbsolutePath() + "' ...");
@@ -193,7 +196,7 @@ public class CompileMojo extends AbstractMojo {
     handleErrors(knowledgeBuilder, fileToCompile);
   }
 
-  private void handleErrors(KnowledgeBuilder knowledgeBuilder, File fileToCompile) {
+  private void handleErrors(KnowledgeBuilder knowledgeBuilder, File fileToCompile) throws MojoFailureException {
     final Log log = getLog();
     final KnowledgeBuilderErrors errors = knowledgeBuilder.getErrors();
     if (errors.isEmpty()) {
@@ -202,23 +205,28 @@ public class CompileMojo extends AbstractMojo {
     }
     log.error("Error(s) occurred while compiling " + fileToCompile + ":");
     log.error(formatErrors(errors));
+    throw new MojoFailureException("Compilation errors occurred.");
   }
 
   private String formatErrors(KnowledgeBuilderErrors errors) {
     StringBuilder builder = new StringBuilder();
-    int i = 1;
+    int i = 0;
     for (KnowledgeBuilderError error : errors) {
-      builder.append("Error #" + i + " ");
-      builder.append("occurred in line(s) ");
+      i++;
+      builder.append("Error #" + i);
       final int[] errorLines = error.getErrorLines();
-      for (int errorLineIndex = 0; errorLineIndex < errorLines.length; errorLineIndex++) {
-        builder.append(errorLines[errorLineIndex]);
-        if (errorLineIndex + 1 < errorLines.length) {
-          builder.append(", ");
+      if (errorLines.length > 0) {
+        builder.append(" occurred in line(s) ");
+        for (int errorLineIndex = 0; errorLineIndex < errorLines.length; errorLineIndex++) {
+          builder.append(errorLines[errorLineIndex]);
+          if (errorLineIndex + 1 < errorLines.length) {
+            builder.append(", ");
+          }
         }
       }
       builder.append(": ");
       builder.append(error.getMessage());
+      builder.append(LINE_SEPARATOR);
     }
     return builder.toString();
   }
@@ -227,14 +235,14 @@ public class CompileMojo extends AbstractMojo {
     return ResourceType.DRL;
   }
 
-  private KnowledgeBuilder getKnowledgeBuilder() {
+  private KnowledgeBuilder getKnowledgeBuilder() throws MojoFailureException {
     if (knowledgeBuilder == null) {
       knowledgeBuilder = createNewKnowledgeBuilder();
     }
     return knowledgeBuilder;
   }
 
-  private KnowledgeBuilder createNewKnowledgeBuilder() {
+  private KnowledgeBuilder createNewKnowledgeBuilder() throws MojoFailureException {
 
     /*
 
@@ -254,23 +262,28 @@ public class CompileMojo extends AbstractMojo {
 
     final Log log = getLog();
     try {
-      final List<String> compileClasspathElements = project.getCompileClasspathElements();
+      final List<String> compileClasspathElements = project.getRuntimeClasspathElements();
 
       ArrayList<URL> classpathUrls = new ArrayList<URL>();
       for (String classpathElement : compileClasspathElements) {
-        URL classpathElementUrl = new URL(classpathElement);
+        URL classpathElementUrl = new URL("file://" + classpathElement);
         classpathUrls.add(classpathElementUrl);
       }
       URLClassLoader classLoader = new URLClassLoader(classpathUrls.toArray(new URL[classpathUrls.size()]));
+      log.info("Adding classpath URLs to classloader:");
+      for (URL classpathUrl : classpathUrls) {
+        log.info("   | " + classpathUrl);
+      }
+      log.info("   #");
       Properties properties = new Properties();
       KnowledgeBuilderConfiguration configuration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(properties, classLoader);
-      return KnowledgeBuilderFactory.newKnowledgeBuilder();
+      return KnowledgeBuilderFactory.newKnowledgeBuilder(configuration);
     }
     catch (DependencyResolutionRequiredException e) {
-      throw new RuntimeException("Internal error: declared resolution of compile-scoped dependencies, but got exception!", e);
+      throw new MojoFailureException("Internal error: declared resolution of compile-scoped dependencies, but got exception!", e);
     }
     catch (MalformedURLException e) {
-      throw new RuntimeException("Got malformed URL for compile classpath element.", e);
+      throw new MojoFailureException("Got malformed URL for compile classpath element.", e);
     }
   }
 }

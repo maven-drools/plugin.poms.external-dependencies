@@ -21,25 +21,26 @@
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
 
-  <localRepository>${integrationtests.repository}</localRepository>
+  <localRepository>#[repository.integrationtests]</localRepository>
   <mirrors>
     <mirror>
-      <!--This sends everything else to /public -->
-      <id>nexus-at-home</id>
-      <mirrorOf>*</mirrorOf>
-      <url>http://fireball.bln.itikko.net:8080/nexus/content/groups/public</url>
+      <id>my-mirrorr</id>
+      <mirrorOf>*,!local.central</mirrorOf>
+      <url>#[mirrorUrl]</url>
     </mirror>
   </mirrors>
 
   <profiles>
     <profile>
-      <id>nexus</id>
+      <id>integration-test</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
 
-      <!--Enable snapshots for the built-in central repo to direct all requests to nexus via the mirror -->
       <repositories>
         <repository>
-          <id>central</id>
-          <url>http://central</url>
+          <id>local.central</id>
+          <url>#[repository.regular]</url>
           <releases>
             <enabled>true</enabled>
           </releases>
@@ -48,11 +49,10 @@
           </snapshots>
         </repository>
       </repositories>
-
       <pluginRepositories>
         <pluginRepository>
-          <id>central</id>
-          <url>http://central</url>
+          <id>local.central</id>
+          <url>#[repository.regular]</url>
           <releases>
             <enabled>true</enabled>
           </releases>
@@ -61,13 +61,7 @@
           </snapshots>
         </pluginRepository>
       </pluginRepositories>
+
     </profile>
   </profiles>
-
-  <activeProfiles>
-    <!--make the profile active all the time -->
-    <activeProfile>nexus</activeProfile>
-  </activeProfiles>
-
-
 </settings>
