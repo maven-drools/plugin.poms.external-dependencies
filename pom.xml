@@ -118,6 +118,11 @@
     </snapshotRepository>
   </distributionManagement>
 
+  <scm>
+    <connection>scm:git:git@github.com:ansgarkonermann/maven-drools-plugin.git</connection>
+    <developerConnection>git@github.com:ansgarkonermann/maven-drools-plugin.git</developerConnection>
+  </scm>
+
   <build>
     <pluginManagement>
       <plugins>
