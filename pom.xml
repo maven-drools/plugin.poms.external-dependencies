@@ -22,9 +22,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>de.lightful.maven.plugins.drools</groupId>
-  <artifactId>project</artifactId>
+  <artifactId>project-parent</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Maven Drools Plugin :: MASTER</name>
+  <name>Maven Drools Plugin :: Project Parent</name>
   <packaging>pom</packaging>
 
   <properties>
