@@ -27,7 +27,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>example-drools-package</artifactId>
-  <packaging>dkp</packaging>
+  <!--<packaging>dkp</packaging>-->
   <name>Maven Drools Plugin :: Example Drools Package</name>
   <description>A pre-packaged drools package used for integration testing.</description>
 
@@ -48,42 +48,42 @@
   -->
 
   <build>
-    <plugins>
-      <plugin>
-        <groupId>de.lightful.maven.plugins</groupId>
-        <artifactId>maven-drools-plugin</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-compiler</artifactId>
-            <version>[5.1.1]</version>
-          </dependency>
-        </dependencies>
-        <extensions>true</extensions>
-        <configuration>
-          <passes>
-            <pass>
-              <ruleSourceRoot>${basedir}/src/main/rules/pass-one</ruleSourceRoot>
-            </pass>
-          </passes>
-        </configuration>
-      </plugin>
+    <!--<plugins>-->
+      <!--<plugin>-->
+        <!--<groupId>de.lightful.maven.plugins</groupId>-->
+        <!--<artifactId>maven-drools-plugin</artifactId>-->
+        <!--<version>0.0.1-SNAPSHOT</version>-->
+        <!--<dependencies>-->
+          <!--<dependency>-->
+            <!--<groupId>org.drools</groupId>-->
+            <!--<artifactId>drools-compiler</artifactId>-->
+            <!--<version>[5.1.1]</version>-->
+          <!--</dependency>-->
+        <!--</dependencies>-->
+        <!--<extensions>true</extensions>-->
+        <!--<configuration>-->
+          <!--<passes>-->
+            <!--<pass>-->
+              <!--<ruleSourceRoot>${basedir}/src/main/rules/pass-one</ruleSourceRoot>-->
+            <!--</pass>-->
+          <!--</passes>-->
+        <!--</configuration>-->
+      <!--</plugin>-->
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>deploy</goal>
-            </goals>
-            <phase>pre-integration-test</phase>
-          </execution>
-        </executions>
-      </plugin>
+      <!--<plugin>-->
+        <!--<groupId>org.apache.maven.plugins</groupId>-->
+        <!--<artifactId>maven-deploy-plugin</artifactId>-->
+        <!--<executions>-->
+          <!--<execution>-->
+            <!--<goals>-->
+              <!--<goal>deploy</goal>-->
+            <!--</goals>-->
+            <!--<phase>pre-integration-test</phase>-->
+          <!--</execution>-->
+        <!--</executions>-->
+      <!--</plugin>-->
 
-    </plugins>
+    <!--</plugins>-->
   </build>
 
 </project>
