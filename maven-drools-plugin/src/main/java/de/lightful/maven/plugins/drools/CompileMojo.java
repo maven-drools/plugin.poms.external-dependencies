@@ -112,7 +112,7 @@ public class CompileMojo extends AbstractMojo {
     }
   }
 
-  private void writeOutputFile() {
+  private void writeOutputFile() throws MojoFailureException {
     final String packaging = project.getPackaging();
     final Log log = getLog();
     if (!WellKnownNames.DROOLS_PACKAGING_IDENTIFIER.equals(packaging)) {
@@ -127,7 +127,7 @@ public class CompileMojo extends AbstractMojo {
     writeFinalOutputFile(outputFileName);
   }
 
-  private void writeFinalOutputFile(String outputFileName) {
+  private void writeFinalOutputFile(String outputFileName) throws MojoFailureException {
     final String buildDirectoryName = project.getBuild().getDirectory();
     File buildDirectory = new File(buildDirectoryName);
     File outputFile = new File(buildDirectoryName + File.separator + outputFileName);
@@ -146,23 +146,24 @@ public class CompileMojo extends AbstractMojo {
     if (outputFile.exists()) {
       log.warn("Output file " + absoluteOutputFileName + " exists, overwriting.");
       if (!outputFile.delete()) {
-        log.error("Unable to delete " + absoluteOutputFileName + "!");
+        throw new MojoFailureException("Unable to delete " + absoluteOutputFileName + "!");
       }
       else {
         try {
           outputFile.createNewFile();
         }
         catch (IOException e) {
-          log.error("Unable to create output file " + absoluteOutputFileName + "!", e);
+          throw new MojoFailureException("Unable to create output file " + absoluteOutputFileName + "!", e);
         }
       }
     }
 
     try {
       DroolsStreamUtils.streamOut(new FileOutputStream(outputFile), knowledgePackages, false);
+      project.getArtifact().setFile(outputFile);
     }
     catch (IOException e) {
-      log.error("Unable to write compiled knowledge into output file!", e);
+      throw new MojoFailureException("Unable to write compiled knowledge into output file!", e);
     }
   }
 
@@ -292,7 +293,13 @@ public class CompileMojo extends AbstractMojo {
       log.debug("Dependency Artifact #" + i + ": BaseVersion=" + artifact.getBaseVersion());
       log.debug("Dependency Artifact #" + i + ": Version=" + artifact.getVersion());
       log.debug("Dependency Artifact #" + i + ": AvailableVersions=" + artifact.getAvailableVersions());
-      log.debug("Dependency Artifact #" + i + ": File=" + artifact.getFile().getAbsolutePath());
+      final File artifactFile = artifact.getFile();
+      if (artifactFile != null) {
+        log.debug("Dependency Artifact #" + i + ": File=" + artifactFile.getAbsolutePath());
+      } else {
+        log.debug("Dependency Artifact #" + i + ": File={null}");
+      }
+
       i++;
     }
 

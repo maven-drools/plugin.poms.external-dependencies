@@ -42,12 +42,6 @@
             <pass>
               <ruleSourceRoot>${basedir}/src/main/rules/pass-one</ruleSourceRoot>
             </pass>
-            <pass>
-              <ruleSourceRoot>${basedir}/src/main/rules/pass-two</ruleSourceRoot>
-            </pass>
-            <pass>
-              <ruleSourceRoot>${basedir}/src/main/rules/pass-three</ruleSourceRoot>
-            </pass>
           </passes>
         </configuration>
       </plugin>

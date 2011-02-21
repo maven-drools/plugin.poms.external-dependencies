@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2009-2011 Ansgar Konermann
+  ~
+  ~ This file is part of the Maven 3 Drools Plugin.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>project</artifactId>
+    <groupId>de.lightful.maven.plugins.drools</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>example-drools-package</artifactId>
+  <packaging>dkp</packaging>
+  <name>Maven Drools Plugin :: Example Drools Package</name>
+  <description>A pre-packaged drools package used for integration testing.</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>de.lightful.maven.plugins.drools</groupId>
+      <artifactId>integration-repository</artifactId>
+      <version>${project.parent.version}</version>
+      <type>pom</type>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <!--
+    TODO: perform a *release* of an early version of the plugin to be able to generate
+    example packages on the fly during preparation of integration-tests for the current
+    plugin version
+  -->
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>de.lightful.maven.plugins</groupId>
+        <artifactId>maven-drools-plugin</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>[5.1.1]</version>
+          </dependency>
+        </dependencies>
+        <extensions>true</extensions>
+        <configuration>
+          <passes>
+            <pass>
+              <ruleSourceRoot>${basedir}/src/main/rules/pass-one</ruleSourceRoot>
+            </pass>
+          </passes>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+            <phase>pre-integration-test</phase>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
