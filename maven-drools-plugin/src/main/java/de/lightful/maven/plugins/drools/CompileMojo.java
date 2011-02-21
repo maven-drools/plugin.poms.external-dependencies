@@ -17,11 +17,11 @@
  */
 package de.lightful.maven.plugins.drools;
 
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.model.Build;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.AbstractMojoExecutionException;
-import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
@@ -41,10 +41,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 @MojoGoal(CompileMojo.GOAL)
 @MojoRequiresDependencyResolution("runtime")
@@ -263,19 +260,7 @@ public class CompileMojo extends AbstractMojo {
 
     final Log log = getLog();
     try {
-      final List<String> compileClasspathElements = project.getRuntimeClasspathElements();
-
-      ArrayList<URL> classpathUrls = new ArrayList<URL>();
-      for (String classpathElement : compileClasspathElements) {
-        URL classpathElementUrl = new URL("file://" + classpathElement);
-        classpathUrls.add(classpathElementUrl);
-      }
-      URLClassLoader classLoader = new URLClassLoader(classpathUrls.toArray(new URL[classpathUrls.size()]));
-      log.info("Adding classpath URLs to classloader:");
-      for (URL classpathUrl : classpathUrls) {
-        log.info("   | " + classpathUrl);
-      }
-      log.info("   #");
+      URLClassLoader classLoader = createCompileClassloader();
       Properties properties = new Properties();
       KnowledgeBuilderConfiguration configuration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(properties, classLoader);
       return KnowledgeBuilderFactory.newKnowledgeBuilder(configuration);
@@ -286,5 +271,47 @@ public class CompileMojo extends AbstractMojo {
     catch (MalformedURLException e) {
       throw new MojoFailureException("Got malformed URL for compile classpath element.", e);
     }
+  }
+
+  private URLClassLoader createCompileClassloader() throws DependencyResolutionRequiredException, MalformedURLException {
+    Log log = getLog();
+
+    final Set<Artifact> artifacts = project.getDependencyArtifacts();
+    int i = 1;
+    List<Artifact> compileArtifacts = new ArrayList<Artifact>();
+    for (Artifact artifact : artifacts) {
+      if (isRelevantForCompile(artifact)) {
+        compileArtifacts.add(artifact);
+      }
+      log.debug("Dependency Artifact #" + i + ": Id=" + artifact.getId());
+      log.debug("Dependency Artifact #" + i + ": GroupId=" + artifact.getGroupId());
+      log.debug("Dependency Artifact #" + i + ": ArtifactId=" + artifact.getArtifactId());
+      log.debug("Dependency Artifact #" + i + ": Type=" + artifact.getType());
+      log.debug("Dependency Artifact #" + i + ": Classifier=" + artifact.getClassifier());
+      log.debug("Dependency Artifact #" + i + ": Scope=" + artifact.getScope());
+
+      log.debug("Dependency Artifact #" + i + ": BaseVersion=" + artifact.getBaseVersion());
+      log.debug("Dependency Artifact #" + i + ": Version=" + artifact.getVersion());
+      log.debug("Dependency Artifact #" + i + ": AvailableVersions=" + artifact.getAvailableVersions());
+      log.debug("Dependency Artifact #" + i + ": File=" + artifact.getFile().getAbsolutePath());
+      i++;
+    }
+
+    ArrayList<URL> classpathUrls = new ArrayList<URL>();
+    for (Artifact compileArtifact : compileArtifacts) {
+      URL classpathElementUrl = new URL("file://" + compileArtifact.getFile());
+      classpathUrls.add(classpathElementUrl);
+    }
+    URLClassLoader classLoader = new URLClassLoader(classpathUrls.toArray(new URL[classpathUrls.size()]));
+    log.info("Adding classpath URLs to classloader:");
+    for (URL classpathUrl : classpathUrls) {
+      log.info("   | " + classpathUrl);
+    }
+    log.info("   #");
+    return classLoader;
+  }
+
+  private boolean isRelevantForCompile(Artifact artifact) {
+    return ("jar".equals(artifact.getType()) && "compile".equals(artifact.getScope()));
   }
 }
