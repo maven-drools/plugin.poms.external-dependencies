@@ -143,6 +143,11 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.4.3</version>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -174,14 +179,21 @@
       </plugin>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <version>2.1</version>
         <configuration>
-          <scmCommentPrefix>[MDP:RELEASE] </scmCommentPrefix>
+          <scmCommentPrefix>[MDP:RELEASE]</scmCommentPrefix>
           <goals>deploy</goals>
           <pushChanges>false</pushChanges>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+      </plugin>
+
     </plugins>
   </build>
 
