@@ -173,10 +173,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-scm-plugin</artifactId>
         <version>1.4</version>
-        <configuration>
-          <username>test.subversion</username>
-          <password>A/123456789</password>
-        </configuration>
       </plugin>
 
       <plugin>
@@ -184,7 +180,7 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>2.1</version>
         <configuration>
-          <scmCommentPrefix>[MDP:RELEASE]</scmCommentPrefix>
+          <scmCommentPrefix>[MDP:RELEASE] </scmCommentPrefix>
           <goals>deploy</goals>
           <pushChanges>false</pushChanges>
         </configuration>
