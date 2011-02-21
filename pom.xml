@@ -102,11 +102,12 @@
   </dependencyManagement>
 
   <distributionManagement>
+    <downloadUrl>http://lightful.de/mvnrepo/public/releases</downloadUrl>
     <repository>
-      <id>nexus@home</id>
       <uniqueVersion>false</uniqueVersion>
-      <name>Ansgars Privates Repository (Releases)</name>
-      <url>http://www.bln.itikko.net:8080/nexus/content/repositories/releases/</url>
+      <id>de.lightful.releases</id>
+      <name>Public Release Repository on lightful.de</name>
+      <url>scp://lightful.de/mvnrepo/public/releases</url>
       <layout>default</layout>
     </repository>
     <snapshotRepository>
