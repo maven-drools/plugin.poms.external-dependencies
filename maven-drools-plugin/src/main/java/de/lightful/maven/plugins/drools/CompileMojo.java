@@ -20,7 +20,6 @@ package de.lightful.maven.plugins.drools;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.model.Build;
-import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
@@ -260,7 +259,7 @@ public class CompileMojo extends AbstractMojo {
 
     final Log log = getLog();
     try {
-      URLClassLoader classLoader = createCompileClassloader();
+      URLClassLoader classLoader = createCompileClassLoader();
       Properties properties = new Properties();
       KnowledgeBuilderConfiguration configuration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(properties, classLoader);
       return KnowledgeBuilderFactory.newKnowledgeBuilder(configuration);
@@ -273,7 +272,7 @@ public class CompileMojo extends AbstractMojo {
     }
   }
 
-  private URLClassLoader createCompileClassloader() throws DependencyResolutionRequiredException, MalformedURLException {
+  private URLClassLoader createCompileClassLoader() throws DependencyResolutionRequiredException, MalformedURLException {
     Log log = getLog();
 
     final Set<Artifact> artifacts = project.getDependencyArtifacts();
