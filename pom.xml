@@ -182,7 +182,7 @@
         <configuration>
           <scmCommentPrefix xml:space="preserve">[MDP:RELEASE] </scmCommentPrefix>
           <goals>deploy</goals>
-          <pushChanges>false</pushChanges>
+          <pushChanges>true</pushChanges>
         </configuration>
       </plugin>
 
