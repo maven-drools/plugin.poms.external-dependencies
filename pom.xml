@@ -184,6 +184,13 @@
           <goals>deploy</goals>
           <pushChanges>true</pushChanges>
         </configuration>
+         <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-ssh</artifactId>
+            <version>1.0-beta-6</version>
+          </dependency>
+        </dependencies>
       </plugin>
 
       <plugin>
