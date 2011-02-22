@@ -180,7 +180,7 @@
         <artifactId>maven-release-plugin</artifactId>
         <version>2.1</version>
         <configuration>
-          <scmCommentPrefix>[MDP:RELEASE] </scmCommentPrefix>
+          <scmCommentPrefix xml:space="preserve">[MDP:RELEASE] </scmCommentPrefix>
           <goals>deploy</goals>
           <pushChanges>false</pushChanges>
         </configuration>
