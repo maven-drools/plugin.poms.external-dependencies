@@ -22,14 +22,14 @@
   <parent>
     <groupId>de.lightful.maven.plugins.drools</groupId>
     <artifactId>project-parent</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
   </parent>
 
   <groupId>de.lightful.maven.plugins.drools</groupId>
   <artifactId>example-fact-model</artifactId>
   <name>Maven Drools Plugin :: Example Fact Model</name>
   <description>A simple Java fact model used for integration testing</description>
-  <version>0.0.1</version>
+  <version>0.0.2-SNAPSHOT</version>
 
   <dependencies>
     <dependency>

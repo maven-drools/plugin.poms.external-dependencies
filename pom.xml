@@ -21,7 +21,7 @@
 
   <groupId>de.lightful.maven.plugins.drools</groupId>
   <artifactId>project-parent</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.2-SNAPSHOT</version>
   <name>Maven Drools Plugin :: Project Parent</name>
   <packaging>pom</packaging>
 
