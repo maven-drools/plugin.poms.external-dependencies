@@ -17,47 +17,44 @@
  */
 package de.lightful.maven.plugins.drools.integrationtests;
 
-import de.lightful.maven.plugins.drools.WellKnownNames;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
 import de.lightful.maven.plugins.testing.SettingsFile;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
 import org.apache.maven.it.Verifier;
+import org.drools.KnowledgeBase;
+import org.drools.KnowledgeBaseFactory;
 import org.drools.definition.KnowledgePackage;
 import org.drools.definition.rule.Rule;
+import org.drools.definition.type.FactType;
+import org.drools.runtime.ObjectFilter;
+import org.drools.runtime.StatefulKnowledgeSession;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
-
+import java.io.IOException;
 import java.util.Collection;
 
 import static de.lightful.maven.plugins.drools.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
-import static de.lightful.maven.plugins.drools.WellKnownNames.GOAL_COMPILE;
 import static org.fest.assertions.Assertions.assertThat;
 
 @Test
-@VerifyUsingProject("can_use_single_java_dependency")
+@VerifyUsingProject("can_use_existing_drools_binary")
 @ExecuteGoals("clean")
-public class CanUseExistingJavaModelTest extends MavenVerifierTest {
+public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
 
   private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
-  private static final String EXPECTED_RULE_NAME = "Check if Peter is at least 18 years old";
-  private static final String EXPECTED_PACKAGE_NAME = "rules.test";
+  private static final String EXPECTED_RULE_NAME = "Accept only heavy melons";
+  private static final String EXPECTED_PACKAGE_NAME = "rules";
 
   @Inject
   private Verifier verifier;
 
   @Test
   @DefaultSettingsFile
-  public void testCanCallCleanGoal() throws Exception {
-    verifier.verifyErrorFreeLog();
-  }
-
-  @Test
-  @SettingsFile("/de/lightful/maven/plugins/drools/integrationtests/integration-settings.xml")
   public void testDoesCreateOutputFile() throws Exception {
-    verifier.executeGoal(GOAL_COMPILE);
+    verifier.executeGoal("compile");
     verifier.verifyErrorFreeLog();
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
   }
@@ -79,5 +76,41 @@ public class CanUseExistingJavaModelTest extends MavenVerifierTest {
     assertThat(rules).as("Rules in loaded package").hasSize(1);
     final Rule rule = rules.iterator().next();
     assertThat(rule.getName()).as("Rule Name").isEqualTo(EXPECTED_RULE_NAME);
+  }
+
+  @Test
+  @DefaultSettingsFile
+  @ExecuteGoals("compile")
+  public void testGeneratedRuleFiresForLightMelon() throws ClassNotFoundException, IOException, IllegalAccessException, InstantiationException {
+    KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
+    final Collection<KnowledgePackage> knowledgePackages = knowledgePackageFile.getKnowledgePackages();
+
+    final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
+    knowledgeBase.addKnowledgePackages(knowledgePackages);
+    final StatefulKnowledgeSession session = knowledgeBase.newStatefulKnowledgeSession();
+
+    final FactType fruitType = knowledgeBase.getFactType("model", "Fruit");
+    final FactType weightType = knowledgeBase.getFactType("model", "WeightOfFruit");
+
+    final Object fruit = fruitType.newInstance();
+    fruitType.set(fruit, "name", "MELON");
+    session.insert(fruit);
+
+    final Object weight = weightType.newInstance();
+    weightType.set(weight, "fruit", fruit);
+    weightType.set(weight, "weight", 1);
+    session.insert(weight);
+
+    session.fireAllRules();
+
+    final Collection<Object> resultObjects = session.getObjects(new ObjectFilter() {
+      @Override
+      public boolean accept(Object o) {
+        if (o instanceof String) { return true; }
+        return false;
+      }
+    });
+
+    assertThat(resultObjects).containsOnly("TOO_LIGHT");
   }
 }

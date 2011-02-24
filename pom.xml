@@ -16,7 +16,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>de.lightful.maven.plugins.drools</groupId>
@@ -39,6 +40,7 @@
     <module>example-drools-package</module>
     <module>integration-repository</module>
     <module>maven-drools-plugin</module>
+    <module>knowledge-io</module>
   </modules>
 
   <dependencyManagement>
@@ -94,6 +96,31 @@
         <groupId>de.lightful.maven.plugins</groupId>
         <artifactId>maven-verifier-testng</artifactId>
         <version>${project.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <artifactId>example-fact-model</artifactId>
+        <version>${project.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <artifactId>example-drools-package</artifactId>
+        <version>${project.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <artifactId>knowledge-io</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <artifactId>integration-repository</artifactId>
+        <version>${project.version}</version>
+        <type>pom</type>
+        <scope>test</scope>
       </dependency>
 
     </dependencies>
@@ -155,7 +182,31 @@
           <artifactId>maven-resources-plugin</artifactId>
           <version>2.4.3</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.3.2</version>
+          <configuration>
+            <source>1.5</source>
+            <target>1.5</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.5</version>
+          <configuration>
+            <uniqueVersion>false</uniqueVersion>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>2.0</version>
+        </plugin>
+
       </plugins>
+
     </pluginManagement>
 
     <plugins>

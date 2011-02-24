@@ -17,9 +17,9 @@
  */
 package de.lightful.maven.plugins.drools.integrationtests;
 
+import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
-import de.lightful.maven.plugins.testing.SettingsFile;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
 import org.apache.maven.it.Verifier;
 import org.testng.annotations.Test;
@@ -58,7 +58,7 @@ public class CanCompileMinimumDrlFileTest extends MavenVerifierTest {
     verifier.verifyErrorFreeLog();
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
 
-    KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(verifier, EXPECTED_OUTPUT_FILE);
+    KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
     assertThat(knowledgePackageFile.getFile()).exists();
     assertThat(knowledgePackageFile.getKnowledgePackages()).as("collection of knowledge packages").hasSize(1);
   }

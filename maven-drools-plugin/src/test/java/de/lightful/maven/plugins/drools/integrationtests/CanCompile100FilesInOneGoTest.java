@@ -17,6 +17,7 @@
  */
 package de.lightful.maven.plugins.drools.integrationtests;
 
+import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
@@ -27,6 +28,7 @@ import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +54,7 @@ public class CanCompile100FilesInOneGoTest extends MavenVerifierTest {
     verifier.verifyErrorFreeLog();
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
 
-    KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(verifier, EXPECTED_OUTPUT_FILE);
+    KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
     final Iterable<KnowledgePackage> knowledgePackages = knowledgePackageFile.getKnowledgePackages();
 
     assertThat(knowledgePackages).as("Knowledge packages").hasSize(EXPECTED_NUMBER_OF_PACKAGES);

@@ -17,6 +17,7 @@
  */
 package de.lightful.maven.plugins.drools;
 
+import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.model.Build;
@@ -25,6 +26,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.DirectoryScanner;
+import org.drools.KnowledgeBase;
+import org.drools.KnowledgeBaseFactory;
 import org.drools.builder.*;
 import org.drools.core.util.DroolsStreamUtils;
 import org.drools.definition.KnowledgePackage;
@@ -263,7 +266,8 @@ public class CompileMojo extends AbstractMojo {
       URLClassLoader classLoader = createCompileClassLoader();
       Properties properties = new Properties();
       KnowledgeBuilderConfiguration configuration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(properties, classLoader);
-      return KnowledgeBuilderFactory.newKnowledgeBuilder(configuration);
+      KnowledgeBase existingKnowledge = createKnowledgeBaseFromDependencies();
+      return KnowledgeBuilderFactory.newKnowledgeBuilder(existingKnowledge, configuration);
     }
     catch (DependencyResolutionRequiredException e) {
       throw new MojoFailureException("Internal error: declared resolution of compile-scoped dependencies, but got exception!", e);
@@ -273,35 +277,48 @@ public class CompileMojo extends AbstractMojo {
     }
   }
 
+  private KnowledgeBase createKnowledgeBaseFromDependencies() throws MojoFailureException {
+    Log log = getLog();
+
+    List<Artifact> compileArtifacts = getFilteredArtifacts(IsDroolsKnowledgePackageForCompilation.INSTANCE);
+
+    final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
+    for (Artifact compileArtifact : compileArtifacts) {
+      final Collection<KnowledgePackage> knowledgePackages = loadKnowledgePackages(compileArtifact);
+      knowledgeBase.addKnowledgePackages(knowledgePackages);
+      log.info("Loaded drools dependency " + coordinatesOf(compileArtifact));
+      log.info("  Contains packages:");
+      for (KnowledgePackage knowledgePackage : knowledgePackages) {
+        log.info("    " + knowledgePackage.getName());
+      }
+    }
+    return knowledgeBase;
+  }
+
+  private Collection<KnowledgePackage> loadKnowledgePackages(Artifact compileArtifact) throws MojoFailureException {
+    KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(compileArtifact.getFile());
+    final Collection<KnowledgePackage> knowledgePackages;
+
+    try {
+      knowledgePackages = knowledgePackageFile.getKnowledgePackages();
+    }
+    catch (IOException e) {
+      throw new MojoFailureException("Unable to load compile-scoped dependency " + coordinatesOf(compileArtifact), e);
+    }
+    catch (ClassNotFoundException e) {
+      throw new MojoFailureException("Unable to load compile-scoped dependency " + coordinatesOf(compileArtifact), e);
+    }
+    return knowledgePackages;
+  }
+
+  private String coordinatesOf(Artifact artifact) {
+    return artifact.getGroupId() + ":" + artifact.getArtifactId() + ":" + artifact.getType() + ":" + artifact.getVersion();
+  }
+
   private URLClassLoader createCompileClassLoader() throws DependencyResolutionRequiredException, MalformedURLException {
     Log log = getLog();
 
-    final Set<Artifact> artifacts = project.getDependencyArtifacts();
-    int i = 1;
-    List<Artifact> compileArtifacts = new ArrayList<Artifact>();
-    for (Artifact artifact : artifacts) {
-      if (isRelevantForCompile(artifact)) {
-        compileArtifacts.add(artifact);
-      }
-      log.debug("Dependency Artifact #" + i + ": Id=" + artifact.getId());
-      log.debug("Dependency Artifact #" + i + ": GroupId=" + artifact.getGroupId());
-      log.debug("Dependency Artifact #" + i + ": ArtifactId=" + artifact.getArtifactId());
-      log.debug("Dependency Artifact #" + i + ": Type=" + artifact.getType());
-      log.debug("Dependency Artifact #" + i + ": Classifier=" + artifact.getClassifier());
-      log.debug("Dependency Artifact #" + i + ": Scope=" + artifact.getScope());
-
-      log.debug("Dependency Artifact #" + i + ": BaseVersion=" + artifact.getBaseVersion());
-      log.debug("Dependency Artifact #" + i + ": Version=" + artifact.getVersion());
-      log.debug("Dependency Artifact #" + i + ": AvailableVersions=" + artifact.getAvailableVersions());
-      final File artifactFile = artifact.getFile();
-      if (artifactFile != null) {
-        log.debug("Dependency Artifact #" + i + ": File=" + artifactFile.getAbsolutePath());
-      } else {
-        log.debug("Dependency Artifact #" + i + ": File={null}");
-      }
-
-      i++;
-    }
+    List<Artifact> compileArtifacts = getFilteredArtifacts(IsJarForCompilation.INSTANCE);
 
     ArrayList<URL> classpathUrls = new ArrayList<URL>();
     for (Artifact compileArtifact : compileArtifacts) {
@@ -315,6 +332,43 @@ public class CompileMojo extends AbstractMojo {
     }
     log.info("   #");
     return classLoader;
+  }
+
+  private List<Artifact> getFilteredArtifacts(final ArtifactPredicate filterPredicate) {
+    Log log = getLog();
+
+    final Set<Artifact> allArtifacts = project.getDependencyArtifacts();
+
+    int i = 1;
+    List<Artifact> filteredArtifacts = new ArrayList<Artifact>();
+    for (Artifact artifact : allArtifacts) {
+      if (filterPredicate.isTrueFor(artifact)) {
+        filteredArtifacts.add(artifact);
+      }
+      dumpArtifactInfo(log, i, artifact);
+      i++;
+    }
+    return filteredArtifacts;
+  }
+
+  private void dumpArtifactInfo(Log log, int i, Artifact artifact) {
+    log.debug("Dependency Artifact #" + i + ": Id=" + artifact.getId());
+    log.debug("Dependency Artifact #" + i + ": GroupId=" + artifact.getGroupId());
+    log.debug("Dependency Artifact #" + i + ": ArtifactId=" + artifact.getArtifactId());
+    log.debug("Dependency Artifact #" + i + ": Type=" + artifact.getType());
+    log.debug("Dependency Artifact #" + i + ": Classifier=" + artifact.getClassifier());
+    log.debug("Dependency Artifact #" + i + ": Scope=" + artifact.getScope());
+
+    log.debug("Dependency Artifact #" + i + ": BaseVersion=" + artifact.getBaseVersion());
+    log.debug("Dependency Artifact #" + i + ": Version=" + artifact.getVersion());
+    log.debug("Dependency Artifact #" + i + ": AvailableVersions=" + artifact.getAvailableVersions());
+    final File artifactFile = artifact.getFile();
+    if (artifactFile != null) {
+      log.debug("Dependency Artifact #" + i + ": File=" + artifactFile.getAbsolutePath());
+    }
+    else {
+      log.debug("Dependency Artifact #" + i + ": File={null}");
+    }
   }
 
   private boolean isRelevantForCompile(Artifact artifact) {

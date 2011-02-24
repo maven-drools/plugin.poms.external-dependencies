@@ -17,6 +17,7 @@
  */
 package de.lightful.maven.plugins.drools.integrationtests;
 
+import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
 import de.lightful.maven.plugins.testing.SettingsFile;
@@ -61,7 +62,7 @@ public class CanPerformMultiplePassesTest extends MavenVerifierTest {
     verifier.verifyErrorFreeLog();
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
 
-    KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(verifier, EXPECTED_OUTPUT_FILE);
+    KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
     assertThat(knowledgePackageFile.getFile()).exists();
     final Iterable<KnowledgePackage> knowledgePackages = knowledgePackageFile.getKnowledgePackages();
     assertThat(knowledgePackages).as("collection of knowledge packages").hasSize(2);

@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/example-drools-package/example-drools-package.iml" filepath="$PROJECT_DIR$/example-drools-package/example-drools-package.iml" />
       <module fileurl="file://$PROJECT_DIR$/example-fact-model/example-fact-model.iml" filepath="$PROJECT_DIR$/example-fact-model/example-fact-model.iml" />
       <module fileurl="file://$PROJECT_DIR$/integration-repository/integration-repository.iml" filepath="$PROJECT_DIR$/integration-repository/integration-repository.iml" />
+      <module fileurl="file://$PROJECT_DIR$/knowledge-io/knowledge-io.iml" filepath="$PROJECT_DIR$/knowledge-io/knowledge-io.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" filepath="$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" />
       <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" />

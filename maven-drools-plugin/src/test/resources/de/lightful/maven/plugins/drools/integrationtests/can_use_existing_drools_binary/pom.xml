@@ -18,10 +18,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0">
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>de.lightful.maven.plugins.plugintest.drools</groupId>
+  <groupId>de.lightful.maven.plugins.drools</groupId>
   <artifactId>plugintest.artifact</artifactId>
   <version>1.0.0</version>
   <packaging>dkp</packaging>
+
+  <dependencies>
+    <dependency>
+      <groupId>de.lightful.maven.plugins.drools</groupId>
+      <artifactId>example-drools-package</artifactId>
+      <version>#[project.version]</version>
+      <type>dkp</type>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
 
   <build>
     <plugins>

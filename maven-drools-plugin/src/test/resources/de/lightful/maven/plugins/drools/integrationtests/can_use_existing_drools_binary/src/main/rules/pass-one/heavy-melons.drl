@@ -1,0 +1,11 @@
+package rules;
+
+import model.*;
+
+rule "Accept only heavy melons"
+  when
+    $fruit: Fruit( name == "MELON" )
+    WeightOfFruit( fruit == $fruit, weight < 2 )
+  then
+    insertLogical( "TOO_LIGHT" );
+end

@@ -37,4 +37,9 @@ public interface WellKnownNames {
    * Package(s).
    */
   String DROOLS_KNOWLEDGE_PACKAGE_EXTENSION = ".dkp";
+  String GOAL_COMPILE = "compile";
+  String SCOPE_COMPILE = GOAL_COMPILE;
+
+  String ARTIFACT_TYPE_JAR = "jar";
+  String ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE = "dkp";
 }
