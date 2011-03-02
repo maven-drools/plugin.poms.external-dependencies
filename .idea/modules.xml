@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/api-tests/api-tests.iml" filepath="$PROJECT_DIR$/api-tests/api-tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-assertions/drools-assertions.iml" filepath="$PROJECT_DIR$/drools-assertions/drools-assertions.iml" />
       <module fileurl="file://$PROJECT_DIR$/example-drools-package/example-drools-package.iml" filepath="$PROJECT_DIR$/example-drools-package/example-drools-package.iml" />
       <module fileurl="file://$PROJECT_DIR$/example-fact-model/example-fact-model.iml" filepath="$PROJECT_DIR$/example-fact-model/example-fact-model.iml" />

@@ -20,11 +20,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>de.lightful.maven.plugins.drools</groupId>
-  <artifactId>learning-tests</artifactId>
+  <artifactId>api-tests</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>plugin :: learning tests</name>
+  <name>Maven Drools Plugin :: API Tests</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

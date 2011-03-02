@@ -244,29 +244,13 @@ public class CompileMojo extends AbstractMojo {
   }
 
   private KnowledgeBuilder createNewKnowledgeBuilder() throws MojoFailureException {
-
-    /*
-
-     For java dependencies:
-     * project.getCompileClasspathElements()
-     * alle Elemente daraus in URL umwandeln
-     * alle URLs an einen neuen URL ClassLoader übergeben
-     * Delegation an Standard-Classloader (welchen?)
-     *
-     * Diesen neuen URL Class Loader an Knowledge Builder übergeben
-     * Packaging laufen lassen
-     *
-     * Für "drools"-Dependencies muss man die Artefakte von Hand in die Knowledge Base laden,
-     * bevor man weiter packagen kann (später!)
-     *
-     */
-
     final Log log = getLog();
     try {
       URLClassLoader classLoader = createCompileClassLoader();
       Properties properties = new Properties();
       KnowledgeBuilderConfiguration configuration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(properties, classLoader);
       KnowledgeBase existingKnowledge = createKnowledgeBaseFromDependencies();
+//      return KnowledgeBuilderFactory.newKnowledgeBuilder(configuration);
       return KnowledgeBuilderFactory.newKnowledgeBuilder(existingKnowledge, configuration);
     }
     catch (DependencyResolutionRequiredException e) {

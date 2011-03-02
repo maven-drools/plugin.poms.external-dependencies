@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package net.itikko.maven.learningtests;
+package de.lightful.drools.apitests;
 
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseFactory;
@@ -34,6 +34,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.FileReader;
+import java.net.URL;
 import java.util.Collection;
 import java.util.Properties;
 
@@ -43,6 +44,7 @@ import static org.fest.assertions.Assertions.assertThat;
 public class DroolsPackagingTest {
 
   private static final String RULE_BASE_PATH = "src/test/rules";
+  public static final String PROPERTY_NAME_DROOLS_DUMP_DIR = "drools.dump.dir";
   private byte[] dataTypesKnowledgePackages;
   private FactType personType;
 
@@ -52,35 +54,33 @@ public class DroolsPackagingTest {
     dataTypesKnowledgePackages = DroolsStreamUtils.streamOut(dataTypesKnowledgeBase, true);
   }
 
-  private static KnowledgeBuilder newKnowledgeBuilder() {
+  private KnowledgeBuilder newKnowledgeBuilder() {
     final KnowledgeBuilderConfiguration configuration = configureDumpDirectory();
     return KnowledgeBuilderFactory.newKnowledgeBuilder(configuration);
   }
 
-  private static KnowledgeBuilderConfiguration configureDumpDirectory() {
+  private KnowledgeBuilderConfiguration configureDumpDirectory() {
     Properties properties = new Properties();
-    properties.setProperty("drools.dump.dir", "src/generated");
+    properties.setProperty(PROPERTY_NAME_DROOLS_DUMP_DIR, "src/generated");
     return KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(properties, (ClassLoader) null);
   }
 
   @Test
   public void test_can_reuse_existing_binary_package() throws Exception {
     @SuppressWarnings("unchecked")
-    Collection<KnowledgePackage> dataTypesKnowledgePackages =
-        (Collection<KnowledgePackage>) DroolsStreamUtils.streamIn(this.dataTypesKnowledgePackages, true);
+    Collection<KnowledgePackage> dataTypesKnowledgePackages = (Collection<KnowledgePackage>) DroolsStreamUtils.streamIn(
+        this.dataTypesKnowledgePackages, true);
 
-    final KnowledgeBase existingKnowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
+    KnowledgeBase existingKnowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
     existingKnowledgeBase.addKnowledgePackages(dataTypesKnowledgePackages);
+    KnowledgeBuilder builderWithExistingKnowledge = KnowledgeBuilderFactory.newKnowledgeBuilder(existingKnowledgeBase, configureDumpDirectory());
+    Collection<KnowledgePackage> assessmentRulesPackage = packageRules(builderWithExistingKnowledge, "risk-assessment/check-age.drl");
 
-    final KnowledgeBuilder builderWithDataTypesPackage =
-        KnowledgeBuilderFactory.newKnowledgeBuilder(existingKnowledgeBase, configureDumpDirectory());
-    final Collection<KnowledgePackage> assessmentRulesPackage = packageRules(builderWithDataTypesPackage, "risk-assessment/check-age.drl");
     existingKnowledgeBase.addKnowledgePackages(assessmentRulesPackage);
-
-    final StatefulKnowledgeSession session = existingKnowledgeBase.newStatefulKnowledgeSession();
+    StatefulKnowledgeSession session = existingKnowledgeBase.newStatefulKnowledgeSession();
     session.insert(createPersonWithAge(existingKnowledgeBase, 16));
     session.fireAllRules();
-    final Collection<FactHandle> factHandles = session.getFactHandles();
+    Collection<FactHandle> factHandles = session.getFactHandles();
     assertThat(factHandles.contains("VIOLATION: age < 18"));
   }
 
