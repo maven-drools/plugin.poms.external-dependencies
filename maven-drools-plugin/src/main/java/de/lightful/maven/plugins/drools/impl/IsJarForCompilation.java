@@ -15,9 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools;
+package de.lightful.maven.plugins.drools.impl;
 
-public interface Predicate<T> {
+import org.apache.maven.artifact.Artifact;
 
-  boolean isTrueFor(T item);
+import static de.lightful.maven.plugins.drools.impl.WellKnownNames.ARTIFACT_TYPE_JAR;
+import static de.lightful.maven.plugins.drools.impl.WellKnownNames.SCOPE_COMPILE;
+
+public class IsJarForCompilation extends ArtifactPredicate {
+
+  public static final ArtifactPredicate INSTANCE = new IsJarForCompilation();
+
+  private IsJarForCompilation() {
+  }
+
+  @Override
+  public boolean isTrueFor(Artifact item) {
+    return SCOPE_COMPILE.equals(item.getScope()) && ARTIFACT_TYPE_JAR.equals(item.getType());
+  }
 }

@@ -30,7 +30,7 @@ import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static de.lightful.maven.plugins.drools.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
+import static de.lightful.maven.plugins.drools.impl.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
 import static org.fest.assertions.Assertions.assertThat;
 
 @Test

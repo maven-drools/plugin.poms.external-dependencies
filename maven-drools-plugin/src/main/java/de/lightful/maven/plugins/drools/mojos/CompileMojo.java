@@ -15,8 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools;
+package de.lightful.maven.plugins.drools.mojos;
 
+import de.lightful.maven.plugins.drools.impl.ArtifactPredicate;
+import de.lightful.maven.plugins.drools.impl.IsDroolsKnowledgePackageForCompilation;
+import de.lightful.maven.plugins.drools.impl.IsJarForCompilation;
+import de.lightful.maven.plugins.drools.impl.Pass;
+import de.lightful.maven.plugins.drools.impl.WellKnownNames;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFormatter;
 import org.apache.maven.artifact.Artifact;

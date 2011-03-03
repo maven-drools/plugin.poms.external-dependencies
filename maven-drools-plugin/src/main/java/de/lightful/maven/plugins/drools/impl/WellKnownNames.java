@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools;
+package de.lightful.maven.plugins.drools.impl;
 
 /** Various constant values used both in production and test code of the plugin. */
 public interface WellKnownNames {

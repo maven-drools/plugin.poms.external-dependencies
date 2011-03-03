@@ -15,21 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools;
+package de.lightful.maven.plugins.drools.impl;
 
-import org.apache.maven.artifact.Artifact;
+public interface Predicate<T> {
 
-import static de.lightful.maven.plugins.drools.WellKnownNames.*;
-
-public class IsDroolsKnowledgePackageForCompilation extends ArtifactPredicate {
-
-  public static final ArtifactPredicate INSTANCE = new IsDroolsKnowledgePackageForCompilation();
-
-  private IsDroolsKnowledgePackageForCompilation() {
-  }
-
-  @Override
-  public boolean isTrueFor(Artifact item) {
-    return SCOPE_COMPILE.equals(item.getScope()) && ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE.equals(item.getType());
-  }
+  boolean isTrueFor(T item);
 }

@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 
-import static de.lightful.maven.plugins.drools.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
+import static de.lightful.maven.plugins.drools.impl.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
 import static org.fest.assertions.Assertions.assertThat;
 
 @Test

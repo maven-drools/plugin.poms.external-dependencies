@@ -17,7 +17,7 @@
  */
 package de.lightful.maven.plugins.drools.integrationtests;
 
-import de.lightful.maven.plugins.drools.WellKnownNames;
+import de.lightful.maven.plugins.drools.impl.WellKnownNames;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
@@ -29,11 +29,10 @@ import org.drools.definition.rule.Rule;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
-
 import java.util.Collection;
 
-import static de.lightful.maven.plugins.drools.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
-import static de.lightful.maven.plugins.drools.WellKnownNames.GOAL_COMPILE;
+import static de.lightful.maven.plugins.drools.impl.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
+import static de.lightful.maven.plugins.drools.impl.WellKnownNames.GOAL_COMPILE;
 import static org.fest.assertions.Assertions.assertThat;
 
 @Test

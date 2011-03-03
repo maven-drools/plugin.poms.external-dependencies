@@ -17,7 +17,7 @@
  */
 package de.lightful.maven.plugins.drools.integrationtests;
 
-import de.lightful.maven.plugins.drools.WellKnownNames;
+import de.lightful.maven.plugins.drools.impl.WellKnownNames;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
@@ -38,7 +38,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
-import static de.lightful.maven.plugins.drools.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
+import static de.lightful.maven.plugins.drools.impl.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
 import static org.fest.assertions.Assertions.assertThat;
 
 @Test
