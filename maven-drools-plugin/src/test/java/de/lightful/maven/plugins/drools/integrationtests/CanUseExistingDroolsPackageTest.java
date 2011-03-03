@@ -17,11 +17,10 @@
  */
 package de.lightful.maven.plugins.drools.integrationtests;
 
-import com.beust.jcommander.Parameter;
+import de.lightful.maven.plugins.drools.WellKnownNames;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
-import de.lightful.maven.plugins.testing.SettingsFile;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
 import org.apache.maven.it.Verifier;
 import org.drools.KnowledgeBase;
@@ -38,8 +37,6 @@ import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
 
 import static de.lightful.maven.plugins.drools.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
 import static org.fest.assertions.Assertions.assertThat;
@@ -86,8 +83,9 @@ public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
   @Test
   @DefaultSettingsFile
   @ExecuteGoals("compile")
-  public void testGeneratedRuleFiresForLightMelon() throws ClassNotFoundException, IOException, IllegalAccessException, InstantiationException {
-    final String modelKnowledgePackage = verifier.getArtifactPath("de.lightful.maven.plugins.drools", "example-drools-package", "0.0.2-SNAPSHOT", "dkp");
+  @Parameters("project.version")
+  public void testGeneratedRuleFiresForLightMelon(String projectVersion) throws ClassNotFoundException, IOException, IllegalAccessException, InstantiationException {
+    final String modelKnowledgePackage = verifier.getArtifactPath("de.lightful.maven.plugins.drools", "example-drools-package", projectVersion, WellKnownNames.ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE);
     KnowledgePackageFile modelKnowledgeFile = new KnowledgePackageFile(new File(modelKnowledgePackage));
     final Collection<KnowledgePackage> modelKnowledgePackages = modelKnowledgeFile.getKnowledgePackages();
 

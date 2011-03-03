@@ -222,6 +222,9 @@
               <includes>
                 <include>**/integrationtests/*Test.java</include>
               </includes>
+              <systemProperties>
+                <project.version>${project.version}</project.version>
+              </systemProperties>
             </configuration>
           </execution>
         </executions>
