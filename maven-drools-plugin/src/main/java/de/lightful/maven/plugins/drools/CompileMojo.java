@@ -28,8 +28,14 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.drools.KnowledgeBase;
+import org.drools.KnowledgeBaseConfiguration;
 import org.drools.KnowledgeBaseFactory;
-import org.drools.builder.*;
+import org.drools.builder.KnowledgeBuilder;
+import org.drools.builder.KnowledgeBuilderConfiguration;
+import org.drools.builder.KnowledgeBuilderError;
+import org.drools.builder.KnowledgeBuilderErrors;
+import org.drools.builder.KnowledgeBuilderFactory;
+import org.drools.builder.ResourceType;
 import org.drools.core.util.DroolsStreamUtils;
 import org.drools.definition.KnowledgePackage;
 import org.drools.io.ResourceFactory;
@@ -44,9 +50,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.*;
-
-import static java.util.Arrays.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Properties;
+import java.util.Set;
 
 @MojoGoal(CompileMojo.GOAL)
 @MojoRequiresDependencyResolution("runtime")
@@ -256,7 +264,7 @@ public class CompileMojo extends AbstractMojo {
         log.info("URL in use (#" + i + "): " + url.toString());
       }
       KnowledgeBuilderConfiguration configuration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(new Properties(), classLoader);
-      KnowledgeBase existingKnowledge = createKnowledgeBaseFromDependencies();
+      KnowledgeBase existingKnowledge = createKnowledgeBaseFromDependencies(classLoader);
       return KnowledgeBuilderFactory.newKnowledgeBuilder(existingKnowledge, configuration);
     }
     catch (DependencyResolutionRequiredException e) {
@@ -270,10 +278,11 @@ public class CompileMojo extends AbstractMojo {
     }
   }
 
-  private KnowledgeBase createKnowledgeBaseFromDependencies() throws MojoFailureException {
+  private KnowledgeBase createKnowledgeBaseFromDependencies(URLClassLoader classLoader) throws MojoFailureException {
     Log log = getLog();
     List<Artifact> compileArtifacts = getFilteredArtifacts(IsDroolsKnowledgePackageForCompilation.INSTANCE);
-    final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
+    final KnowledgeBaseConfiguration configuration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
+    final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase(configuration);
     for (Artifact droolCompileArtifact : compileArtifacts) {
       addDroolsArtifact(knowledgeBase, droolCompileArtifact);
     }
