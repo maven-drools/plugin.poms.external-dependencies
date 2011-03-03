@@ -17,6 +17,7 @@
  */
 package de.lightful.maven.plugins.drools.integrationtests;
 
+import com.beust.jcommander.Parameter;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
@@ -30,11 +31,15 @@ import org.drools.definition.rule.Rule;
 import org.drools.definition.type.FactType;
 import org.drools.runtime.ObjectFilter;
 import org.drools.runtime.StatefulKnowledgeSession;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
+import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
+import java.util.Properties;
 
 import static de.lightful.maven.plugins.drools.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
 import static org.fest.assertions.Assertions.assertThat;
@@ -82,11 +87,16 @@ public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
   @DefaultSettingsFile
   @ExecuteGoals("compile")
   public void testGeneratedRuleFiresForLightMelon() throws ClassNotFoundException, IOException, IllegalAccessException, InstantiationException {
-    KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
-    final Collection<KnowledgePackage> knowledgePackages = knowledgePackageFile.getKnowledgePackages();
+    final String modelKnowledgePackage = verifier.getArtifactPath("de.lightful.maven.plugins.drools", "example-drools-package", "0.0.2-SNAPSHOT", "dkp");
+    KnowledgePackageFile modelKnowledgeFile = new KnowledgePackageFile(new File(modelKnowledgePackage));
+    final Collection<KnowledgePackage> modelKnowledgePackages = modelKnowledgeFile.getKnowledgePackages();
+
+    KnowledgePackageFile rulesKnowledgeFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
+    final Collection<KnowledgePackage> ruleKnowledgePackages = rulesKnowledgeFile.getKnowledgePackages();
 
     final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
-    knowledgeBase.addKnowledgePackages(knowledgePackages);
+    knowledgeBase.addKnowledgePackages(modelKnowledgePackages); // order of adding packages is crucial!
+    knowledgeBase.addKnowledgePackages(ruleKnowledgePackages);
     final StatefulKnowledgeSession session = knowledgeBase.newStatefulKnowledgeSession();
 
     final FactType fruitType = knowledgeBase.getFactType("model", "Fruit");

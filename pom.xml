@@ -29,7 +29,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <drools.version>[5.1.1]</drools.version>
-    <repository.integrationtests>${env.HOME}/.m2/it-repository</repository.integrationtests>
+    <repository.integrationtests>${project.basedir}/../target/it-repository</repository.integrationtests>
     <repository.regular>${env.HOME}/.m2/repository</repository.regular>
   </properties>
 

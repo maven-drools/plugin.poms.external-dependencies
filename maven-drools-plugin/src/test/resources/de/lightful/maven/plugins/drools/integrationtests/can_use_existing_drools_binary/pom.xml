@@ -27,7 +27,7 @@
     <dependency>
       <groupId>de.lightful.maven.plugins.drools</groupId>
       <artifactId>example-drools-package</artifactId>
-      <version>#[project.version]</version>
+      <version>${project.version}</version>
       <type>dkp</type>
       <scope>compile</scope>
     </dependency>
@@ -36,9 +36,9 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>#[project.groupId]</groupId>
-        <artifactId>#[project.artifactId]</artifactId>
-        <version>#[project.version]</version>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>${project.artifactId}</artifactId>
+        <version>${project.version}</version>
         <dependencies>
           <dependency>
             <groupId>org.drools</groupId>
@@ -50,7 +50,7 @@
         <configuration>
           <passes>
             <pass>
-              <ruleSourceRoot>${basedir}/src/main/rules/pass-one</ruleSourceRoot>
+              <ruleSourceRoot>\${basedir}/src/main/rules/pass-one</ruleSourceRoot>
             </pass>
           </passes>
         </configuration>

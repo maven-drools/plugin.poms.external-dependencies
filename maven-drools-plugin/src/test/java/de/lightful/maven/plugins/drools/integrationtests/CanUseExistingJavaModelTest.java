@@ -64,8 +64,8 @@ public class CanUseExistingJavaModelTest extends MavenVerifierTest {
 
   @Test
   @DefaultSettingsFile
-  @ExecuteGoals("compile")
   public void testPackageFileContainsPackagedRule() throws Exception {
+    verifier.executeGoal(WellKnownNames.GOAL_COMPILE);
     verifier.verifyErrorFreeLog();
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
 

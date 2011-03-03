@@ -21,12 +21,12 @@
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
 
-  <localRepository>#[repository.integrationtests]</localRepository>
+  <localRepository>${repository.integrationtests}</localRepository>
   <mirrors>
     <mirror>
       <id>my-mirrorr</id>
       <mirrorOf>*,!local.central</mirrorOf>
-      <url>#[mirrorUrl]</url>
+      <url>${mirrorUrl}</url>
     </mirror>
   </mirrors>
 
@@ -40,7 +40,7 @@
       <repositories>
         <repository>
           <id>local.central</id>
-          <url>#[repository.regular]</url>
+          <url>${repository.regular}</url>
           <releases>
             <enabled>true</enabled>
           </releases>
@@ -52,7 +52,7 @@
       <pluginRepositories>
         <pluginRepository>
           <id>local.central</id>
-          <url>#[repository.regular]</url>
+          <url>${repository.regular}</url>
           <releases>
             <enabled>true</enabled>
           </releases>

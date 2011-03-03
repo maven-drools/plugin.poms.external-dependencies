@@ -18,6 +18,7 @@
 package de.lightful.maven.plugins.drools;
 
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
+import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFormatter;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.model.Build;
@@ -44,6 +45,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.*;
+
+import static java.util.Arrays.*;
 
 @MojoGoal(CompileMojo.GOAL)
 @MojoRequiresDependencyResolution("runtime")
@@ -247,10 +250,13 @@ public class CompileMojo extends AbstractMojo {
     final Log log = getLog();
     try {
       URLClassLoader classLoader = createCompileClassLoader();
-      Properties properties = new Properties();
-      KnowledgeBuilderConfiguration configuration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(properties, classLoader);
+      log.info("\n\nUsing class loader with these URLs:");
+      int i = 1;
+      for (URL url : classLoader.getURLs()) {
+        log.info("URL in use (#" + i + "): " + url.toString());
+      }
+      KnowledgeBuilderConfiguration configuration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(new Properties(), classLoader);
       KnowledgeBase existingKnowledge = createKnowledgeBaseFromDependencies();
-//      return KnowledgeBuilderFactory.newKnowledgeBuilder(configuration);
       return KnowledgeBuilderFactory.newKnowledgeBuilder(existingKnowledge, configuration);
     }
     catch (DependencyResolutionRequiredException e) {
@@ -259,30 +265,34 @@ public class CompileMojo extends AbstractMojo {
     catch (MalformedURLException e) {
       throw new MojoFailureException("Got malformed URL for compile classpath element.", e);
     }
+    catch (IOException e) {
+      throw new MojoFailureException("Error while creating drools KnowledgeBuilder.", e);
+    }
   }
 
   private KnowledgeBase createKnowledgeBaseFromDependencies() throws MojoFailureException {
     Log log = getLog();
-
     List<Artifact> compileArtifacts = getFilteredArtifacts(IsDroolsKnowledgePackageForCompilation.INSTANCE);
-
     final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
-    for (Artifact compileArtifact : compileArtifacts) {
-      final Collection<KnowledgePackage> knowledgePackages = loadKnowledgePackages(compileArtifact);
-      knowledgeBase.addKnowledgePackages(knowledgePackages);
-      log.info("Loaded drools dependency " + coordinatesOf(compileArtifact));
-      log.info("  Contains packages:");
-      for (KnowledgePackage knowledgePackage : knowledgePackages) {
-        log.info("    " + knowledgePackage.getName());
-      }
+    for (Artifact droolCompileArtifact : compileArtifacts) {
+      addDroolsArtifact(knowledgeBase, droolCompileArtifact);
     }
     return knowledgeBase;
+  }
+
+  private void addDroolsArtifact(KnowledgeBase knowledgeBase, Artifact compileArtifact) throws MojoFailureException {
+    Log log = getLog();
+    final Collection<KnowledgePackage> knowledgePackages = loadKnowledgePackages(compileArtifact);
+    knowledgeBase.addKnowledgePackages(knowledgePackages);
+    log.info("Loaded drools dependency " + coordinatesOf(compileArtifact));
+    log.info("  Contains packages:");
+    final String packageInfo = KnowledgePackageFormatter.dumpKnowledgePackages(knowledgePackages);
+    log.info(packageInfo);
   }
 
   private Collection<KnowledgePackage> loadKnowledgePackages(Artifact compileArtifact) throws MojoFailureException {
     KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(compileArtifact.getFile());
     final Collection<KnowledgePackage> knowledgePackages;
-
     try {
       knowledgePackages = knowledgePackageFile.getKnowledgePackages();
     }
@@ -299,17 +309,38 @@ public class CompileMojo extends AbstractMojo {
     return artifact.getGroupId() + ":" + artifact.getArtifactId() + ":" + artifact.getType() + ":" + artifact.getVersion();
   }
 
-  private URLClassLoader createCompileClassLoader() throws DependencyResolutionRequiredException, MalformedURLException {
+  private URLClassLoader createCompileClassLoader() throws DependencyResolutionRequiredException, IOException {
     Log log = getLog();
 
     List<Artifact> compileArtifacts = getFilteredArtifacts(IsJarForCompilation.INSTANCE);
 
     ArrayList<URL> classpathUrls = new ArrayList<URL>();
     for (Artifact compileArtifact : compileArtifacts) {
-      URL classpathElementUrl = new URL("file://" + compileArtifact.getFile());
+      URL classpathElementUrl = compileArtifact.getFile().toURI().toURL();
       classpathUrls.add(classpathElementUrl);
     }
-    URLClassLoader classLoader = new URLClassLoader(classpathUrls.toArray(new URL[classpathUrls.size()]));
+    final URL[] urls = classpathUrls.toArray(new URL[classpathUrls.size()]);
+    log.info("Passing URLs to new URLClassLoader instance: " + Arrays.format(urls));
+    URLClassLoader classLoader = new URLClassLoader(urls, ClassLoader.getSystemClassLoader()) {
+      @Override
+      public Class<?> loadClass(String name) throws ClassNotFoundException {
+        Log log = getLog();
+        log.info("Loading class '" + name + "'");
+        final Class<?> loadedClass = super.loadClass(name);
+        log.info("Loading class '" + name + "': loaded class [" + loadedClass + "]");
+        return loadedClass;
+      }
+
+      @Override
+      protected Class<?> findClass(String name) throws ClassNotFoundException {
+        Log log = getLog();
+        log.info("Finding class '" + name + "'");
+        final Class<?> foundClass = super.findClass(name);
+        log.info("Finding class '" + name + "': found class [" + foundClass + "]");
+        return foundClass;
+      }
+    };
+
     log.info("Adding classpath URLs to classloader:");
     for (URL classpathUrl : classpathUrls) {
       log.info("   | " + classpathUrl);

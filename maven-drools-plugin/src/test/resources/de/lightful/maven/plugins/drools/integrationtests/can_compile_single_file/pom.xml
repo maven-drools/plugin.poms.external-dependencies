@@ -26,9 +26,9 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>#[project.groupId]</groupId>
-        <artifactId>#[project.artifactId]</artifactId>
-        <version>#[project.version]</version>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>${project.artifactId}</artifactId>
+        <version>${project.version}</version>
         <extensions>true</extensions>
         <dependencies>
           <dependency>
@@ -40,7 +40,7 @@
         <configuration>
           <passes>
             <pass>
-              <ruleSourceRoot>${basedir}/src/main/rules/pass-one</ruleSourceRoot>
+              <ruleSourceRoot>\${basedir}/src/main/rules/pass-one</ruleSourceRoot>
             </pass>
           </passes>
         </configuration>

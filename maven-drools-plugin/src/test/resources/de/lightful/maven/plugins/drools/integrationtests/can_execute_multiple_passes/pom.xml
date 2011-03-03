@@ -26,9 +26,9 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>#[project.groupId]</groupId>
-        <artifactId>#[project.artifactId]</artifactId>
-        <version>#[project.version]</version>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>${project.artifactId}</artifactId>
+        <version>${project.version}</version>
         <dependencies>
           <dependency>
             <groupId>org.drools</groupId>
@@ -40,13 +40,13 @@
         <configuration>
           <passes>
             <pass>
-              <ruleSourceRoot>${basedir}/src/main/rules/pass-one</ruleSourceRoot>
+              <ruleSourceRoot>\${basedir}/src/main/rules/pass-one</ruleSourceRoot>
             </pass>
             <pass>
-              <ruleSourceRoot>${basedir}/src/main/rules/pass-two</ruleSourceRoot>
+              <ruleSourceRoot>\${basedir}/src/main/rules/pass-two</ruleSourceRoot>
             </pass>
             <pass>
-              <ruleSourceRoot>${basedir}/src/main/rules/pass-three</ruleSourceRoot>
+              <ruleSourceRoot>\${basedir}/src/main/rules/pass-three</ruleSourceRoot>
             </pass>
           </passes>
         </configuration>
