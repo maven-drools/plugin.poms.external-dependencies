@@ -27,7 +27,7 @@
   </parent>
 
   <artifactId>drools-vehicle-types</artifactId>
-  <version>${parent.version}</version>
+  <version>${project.parent.version}</version>
   <packaging>dkp</packaging>
 
   <name>Maven Drools Plugin :: Drools Types (Vehicle)</name>

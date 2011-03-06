@@ -27,7 +27,7 @@
   </parent>
 
   <artifactId>integration-repository</artifactId>
-  <version>${parent.version}</version>
+  <version>${project.parent.version}</version>
   <packaging>pom</packaging>
 
   <name>Maven Drools Plugin :: Integration Repository</name>

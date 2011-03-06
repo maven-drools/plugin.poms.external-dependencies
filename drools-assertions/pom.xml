@@ -27,7 +27,7 @@
 
   <artifactId>drools-assertions</artifactId>
   <packaging>jar</packaging>
-  <version>${parent.version}</version>
+  <version>${project.parent.version}</version>
 
   <name>Maven Drools Plugin :: Assertion Library</name>
   <description>Library of assertions used to in plugin tests</description>
