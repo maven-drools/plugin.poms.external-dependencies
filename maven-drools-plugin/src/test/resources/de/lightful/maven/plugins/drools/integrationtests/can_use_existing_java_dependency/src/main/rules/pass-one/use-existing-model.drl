@@ -20,7 +20,6 @@ rule "Cities on different continents have huge distance"
     $cityTwo: City( $countryTwo: country )
     Country( this == $countryOne, $continentOne: continent )
     Country( this == $countryTwo, $continentTwo: continent != $continentOne)
-
   then
     insertLogical(new Distance($cityOne, $cityTwo, 1000));
 end
