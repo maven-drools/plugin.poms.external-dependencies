@@ -29,6 +29,7 @@ import org.drools.definition.rule.Rule;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
@@ -41,7 +42,6 @@ import static org.fest.assertions.Assertions.assertThat;
 public class CanUseExistingJavaModelTest extends MavenVerifierTest {
 
   private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
-  private static final String EXPECTED_RULE_NAME = "Check if Peter is at least 18 years old";
   private static final String EXPECTED_PACKAGE_NAME = "rules.test";
 
   @Inject
@@ -75,8 +75,12 @@ public class CanUseExistingJavaModelTest extends MavenVerifierTest {
     final KnowledgePackage knowledgePackage = knowledgePackages.iterator().next();
     assertThat(knowledgePackage.getName()).as("Knowledge package name").isEqualTo(EXPECTED_PACKAGE_NAME);
     final Collection<Rule> rules = knowledgePackage.getRules();
-    assertThat(rules).as("Rules in loaded package").hasSize(1);
-    final Rule rule = rules.iterator().next();
-    assertThat(rule.getName()).as("Rule Name").isEqualTo(EXPECTED_RULE_NAME);
+    assertThat(rules).as("Rules in loaded package").hasSize(2);
+    Collection<String> ruleNames = new ArrayList<String>();
+    for (Rule rule : rules) {
+      ruleNames.add(rule.getName());
+    }
+    assertThat(ruleNames).containsOnly("Check if Peter is at least 18 years old",
+                                       "Cities on different continents have huge distance");
   }
 }
