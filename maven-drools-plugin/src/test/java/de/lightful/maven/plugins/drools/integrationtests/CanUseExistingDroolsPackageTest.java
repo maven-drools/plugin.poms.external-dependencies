@@ -114,6 +114,17 @@ public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
     weightType.set(weight, "weight", 1);
     session.insert(weight);
 
+    final FactType vehicleType = knowledgeBase.getFactType("model.vehicle", "Vehicle");
+    final FactType manufacturerType = knowledgeBase.getFactType("model.vehicle", "Manufacturer");
+
+    final Object manufacturer = manufacturerType.newInstance();
+    manufacturerType.set(manufacturer, "name", "SloBuCars");
+    session.insert(manufacturer);
+
+    final Object vehicle = vehicleType.newInstance();
+    vehicleType.set(vehicle, "manufacturer", manufacturer);
+    session.insert(vehicle);
+
     session.fireAllRules();
 
     final Collection<Object> resultObjects = session.getObjects(new ObjectFilter() {
@@ -124,6 +135,9 @@ public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
       }
     });
 
-    assertThat(resultObjects).containsOnly("TOO_LIGHT");
+    assertThat(resultObjects).containsOnly(
+        "TOO_LIGHT",
+        "NO_SLOW_BULKY_CARS_PLEASE"
+    );
   }
 }
