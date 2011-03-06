@@ -27,6 +27,7 @@
   </parent>
 
   <artifactId>knowledge-io</artifactId>
+  <version>${parent.version}</version>
 
   <name>Maven Drools Plugin :: Knowledge I/O</name>
 
