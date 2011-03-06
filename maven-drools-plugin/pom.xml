@@ -28,8 +28,8 @@
 
   <groupId>de.lightful.maven.plugins</groupId>
   <artifactId>maven-drools-plugin</artifactId>
-  <version>0.0.5-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
+
   <name>Maven Drools Plugin :: MOJOs</name>
 
   <url>http://wiki.github.com/ansgarkonermann/maven-drools-plugin</url>
