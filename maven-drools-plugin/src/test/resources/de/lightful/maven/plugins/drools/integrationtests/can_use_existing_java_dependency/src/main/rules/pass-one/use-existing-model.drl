@@ -1,7 +1,7 @@
 package rules.test;
 
-import com.example.model.Person;
-import com.example.model.AgeOfPerson;
+import com.example.model.person.Person;
+import com.example.model.person.AgeOfPerson;
 
 rule "Check if Peter is at least 18 years old"
   when

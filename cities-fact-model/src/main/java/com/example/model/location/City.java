@@ -15,30 +15,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.model;
+package com.example.model.location;
 
-public class AgeOfPerson {
+public class City {
 
-  private Person who;
+  private String name;
 
-  private int age;
+  private Country country;
 
-  public AgeOfPerson() {
+  public City(String name, Country country) {
+    this.name = name;
+    this.country = country;
   }
 
-  public Person getWho() {
-    return who;
+  public String getName() {
+    return name;
   }
 
-  public void setWho(Person who) {
-    this.who = who;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public int getAge() {
-    return age;
+  public Country getCountry() {
+    return country;
   }
 
-  public void setAge(int age) {
-    this.age = age;
+  public void setCountry(Country country) {
+    this.country = country;
   }
 }

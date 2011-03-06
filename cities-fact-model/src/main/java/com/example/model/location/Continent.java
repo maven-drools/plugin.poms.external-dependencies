@@ -15,13 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.model;
+package com.example.model.location;
 
-public class Person {
+public class Continent {
 
   private String name;
 
-  public Person() {
+  public Continent(String name) {
+    this.name = name;
   }
 
   public String getName() {
