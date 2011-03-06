@@ -16,7 +16,8 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
     <artifactId>project-parent</artifactId>
     <groupId>de.lightful.maven.plugins.drools</groupId>
@@ -26,7 +27,7 @@
   <packaging>dkp</packaging>
 
   <artifactId>drools-vehicle-types</artifactId>
-  <name>Maven Drools Plugin :: Drools Vehicle Types</name>
+  <name>Maven Drools Plugin :: Drools Types (Vehicle)</name>
   <description>A pre-compiled drools knowledge package containing vehicle data types (for integration testing)</description>
 
   <dependencies>

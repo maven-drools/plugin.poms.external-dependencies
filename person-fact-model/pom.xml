@@ -28,7 +28,7 @@
 
   <groupId>de.lightful.maven.plugins.drools</groupId>
   <artifactId>person-fact-model</artifactId>
-  <name>Maven Drools Plugin :: Person Fact Model</name>
+  <name>Maven Drools Plugin :: Fact Model (Person)</name>
   <description>A Java fact model containing person-related information, used for integration testing</description>
   <version>0.0.5-SNAPSHOT</version>
 

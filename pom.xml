@@ -38,9 +38,9 @@
     <module>knowledge-io</module>
     <module>maven-verifier-testng</module>
     <module>drools-assertions</module>
-    <module>example-fact-model</module>
     <module>drools-fruit-types</module>
     <module>drools-vehicle-types</module>
+    <module>person-fact-model</module>
     <module>integration-repository</module>
     <module>maven-drools-plugin</module>
   </modules>
