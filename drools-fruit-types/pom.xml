@@ -22,11 +22,11 @@
   <parent>
     <groupId>de.lightful.maven.plugins.drools</groupId>
     <artifactId>project-parent</artifactId>
-    <version>0.0.5</version>
+    <version>0.0.6-SNAPSHOT</version>
   </parent>
 
   <artifactId>drools-fruit-types</artifactId>
-  <version>0.0.5</version>
+  <version>0.0.6-SNAPSHOT</version>
   <packaging>dkp</packaging>
 
   <name>Maven Drools Plugin :: Drools Types (Fruit)</name>
