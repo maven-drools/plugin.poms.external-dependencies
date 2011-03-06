@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/api-tests/api-tests.iml" filepath="$PROJECT_DIR$/api-tests/api-tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" filepath="$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-assertions/drools-assertions.iml" filepath="$PROJECT_DIR$/drools-assertions/drools-assertions.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" filepath="$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" filepath="$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" />

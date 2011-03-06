@@ -143,6 +143,10 @@
     </dependency>
     <dependency>
       <groupId>de.lightful.maven.plugins.drools</groupId>
+      <artifactId>cities-fact-model</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>de.lightful.maven.plugins.drools</groupId>
       <artifactId>drools-fruit-types</artifactId>
       <type>dkp</type>
     </dependency>
