@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Copyright (c) 2009-2011 Ansgar Konermann
   ~
@@ -15,35 +16,34 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>de.lightful.maven.plugins.drools</groupId>
+    <artifactId>project-parent</artifactId>
+    <version>0.0.2-SNAPSHOT</version>
+  </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>de.lightful.maven.plugins.drools</groupId>
-  <artifactId>plugintest.artifact</artifactId>
-  <version>1.0.0</version>
+
+  <artifactId>drools-fruit-types</artifactId>
   <packaging>dkp</packaging>
+  <name>Maven Drools Plugin :: Drools Fruit Types</name>
+  <description>A pre-packaged drools knowledge package containing fruit data types (for integration testing)</description>
 
   <dependencies>
     <dependency>
       <groupId>de.lightful.maven.plugins.drools</groupId>
-      <artifactId>drools-fruit-types</artifactId>
-      <version>${project.version}</version>
-      <type>dkp</type>
-    </dependency>
-    <dependency>
-      <groupId>de.lightful.maven.plugins.drools</groupId>
-      <artifactId>drools-vehicle-types</artifactId>
-      <version>${project.version}</version>
-      <type>dkp</type>
+      <artifactId>integration-repository</artifactId>
+      <type>pom</type>
     </dependency>
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
-        <groupId>${project.groupId}</groupId>
-        <artifactId>${project.artifactId}</artifactId>
-        <version>${project.version}</version>
+        <groupId>de.lightful.maven.plugins</groupId>
+        <artifactId>maven-drools-plugin</artifactId>
+        <version>0.0.1</version>
         <dependencies>
           <dependency>
             <groupId>org.drools</groupId>
@@ -55,11 +55,17 @@
         <configuration>
           <passes>
             <pass>
-              <ruleSourceRoot>\${basedir}/src/main/rules/pass-one</ruleSourceRoot>
+              <ruleSourceRoot>${basedir}/src/main/rules/pass-one</ruleSourceRoot>
             </pass>
           </passes>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-invoker-plugin</artifactId>
+      </plugin>
+
     </plugins>
   </build>
 

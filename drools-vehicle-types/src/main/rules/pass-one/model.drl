@@ -1,0 +1,18 @@
+package model.vehicle;
+
+declare Person
+  firstName: String
+  lastName: String
+  city: String
+end
+
+declare Manufacturer
+  name: String
+  city: String
+end
+
+declare Vehicle
+  wheelCount: Integer
+  manufacturer: Manufacturer
+  owner: Person
+end

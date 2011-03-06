@@ -75,7 +75,8 @@ public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
     final KnowledgePackage knowledgePackage = knowledgePackages.iterator().next();
     assertThat(knowledgePackage.getName()).as("Knowledge package name").isEqualTo(EXPECTED_PACKAGE_NAME);
     final Collection<Rule> rules = knowledgePackage.getRules();
-    assertThat(rules).as("Rules in loaded package").hasSize(1);
+    assertThat(rules).as("Rules in loaded package").hasSize(2);
+
     final Rule rule = rules.iterator().next();
     assertThat(rule.getName()).as("Rule Name").isEqualTo(EXPECTED_RULE_NAME);
   }
@@ -85,20 +86,24 @@ public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
   @ExecuteGoals("compile")
   @Parameters("project.version")
   public void testGeneratedRuleFiresForLightMelon(String projectVersion) throws ClassNotFoundException, IOException, IllegalAccessException, InstantiationException {
-    final String modelKnowledgePackage = verifier.getArtifactPath("de.lightful.maven.plugins.drools", "example-drools-package", projectVersion, WellKnownNames.ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE);
-    KnowledgePackageFile modelKnowledgeFile = new KnowledgePackageFile(new File(modelKnowledgePackage));
-    final Collection<KnowledgePackage> modelKnowledgePackages = modelKnowledgeFile.getKnowledgePackages();
+    final String fruitsModelKnowledgePackage = verifier.getArtifactPath("de.lightful.maven.plugins.drools", "drools-fruit-types", projectVersion, WellKnownNames.ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE);
+    KnowledgePackageFile fruitsModelKnowledgeFile = new KnowledgePackageFile(new File(fruitsModelKnowledgePackage));
+    final Collection<KnowledgePackage> fruitsModelKnowledgePackages = fruitsModelKnowledgeFile.getKnowledgePackages();
+    final String vehiclesModelKnowledgePackage = verifier.getArtifactPath("de.lightful.maven.plugins.drools", "drools-vehicle-types", projectVersion, WellKnownNames.ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE);
+    KnowledgePackageFile vehiclesModelKnowledgeFile = new KnowledgePackageFile(new File(vehiclesModelKnowledgePackage));
+    final Collection<KnowledgePackage> vehiclesModelKnowledgePackages = vehiclesModelKnowledgeFile.getKnowledgePackages();
 
     KnowledgePackageFile rulesKnowledgeFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
     final Collection<KnowledgePackage> ruleKnowledgePackages = rulesKnowledgeFile.getKnowledgePackages();
 
     final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase();
-    knowledgeBase.addKnowledgePackages(modelKnowledgePackages); // order of adding packages is crucial!
+    knowledgeBase.addKnowledgePackages(fruitsModelKnowledgePackages);   // order of adding packages is crucial!
+    knowledgeBase.addKnowledgePackages(vehiclesModelKnowledgePackages); // first: model, then: rules using the model(s)
     knowledgeBase.addKnowledgePackages(ruleKnowledgePackages);
     final StatefulKnowledgeSession session = knowledgeBase.newStatefulKnowledgeSession();
 
-    final FactType fruitType = knowledgeBase.getFactType("model", "Fruit");
-    final FactType weightType = knowledgeBase.getFactType("model", "WeightOfFruit");
+    final FactType fruitType = knowledgeBase.getFactType("model.fruit", "Fruit");
+    final FactType weightType = knowledgeBase.getFactType("model.fruit", "WeightOfFruit");
 
     final Object fruit = fruitType.newInstance();
     fruitType.set(fruit, "name", "MELON");

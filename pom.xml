@@ -35,13 +35,14 @@
 
   <modules>
     <module>api-tests</module>
+    <module>knowledge-io</module>
     <module>maven-verifier-testng</module>
     <module>drools-assertions</module>
     <module>example-fact-model</module>
-    <module>example-drools-package</module>
+    <module>drools-fruit-types</module>
+    <module>drools-vehicle-types</module>
     <module>integration-repository</module>
     <module>maven-drools-plugin</module>
-    <module>knowledge-io</module>
   </modules>
 
   <dependencyManagement>
@@ -107,7 +108,13 @@
       </dependency>
       <dependency>
         <groupId>de.lightful.maven.plugins.drools</groupId>
-        <artifactId>example-drools-package</artifactId>
+        <artifactId>drools-fruit-types</artifactId>
+        <version>${project.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <artifactId>drools-vehicle-types</artifactId>
         <version>${project.version}</version>
         <scope>test</scope>
       </dependency>
@@ -123,7 +130,6 @@
         <type>pom</type>
         <scope>test</scope>
       </dependency>
-
     </dependencies>
   </dependencyManagement>
 
