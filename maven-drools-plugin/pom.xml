@@ -208,6 +208,10 @@
 
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <localRepository>${repository.integrationtests}</localRepository>
+        </configuration>
+
         <executions>
           <execution>
             <id>default-test</id>
