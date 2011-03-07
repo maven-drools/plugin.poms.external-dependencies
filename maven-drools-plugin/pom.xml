@@ -231,9 +231,7 @@
               <includes>
                 <include>**/integrationtests/*Test.java</include>
               </includes>
-              <systemProperties>
-                <maven.repo.local>${repository.integrationtests}</maven.repo.local>
-              </systemProperties>
+              <argLine>-Dmaven.repo.local=${repository.integrationtests}</argLine>
               <systemPropertyVariables>
                 <project.version>${project.version}</project.version>
               </systemPropertyVariables>
