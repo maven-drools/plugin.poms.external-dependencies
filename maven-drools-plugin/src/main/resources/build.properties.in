@@ -16,3 +16,4 @@
 # limitations under the License.
 #
 project.version = @@PROJECT_VERSION@@
+repository.integrationtest = @@REPO_INTEGRATION@@
