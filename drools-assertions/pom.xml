@@ -21,12 +21,12 @@
   <parent>
     <groupId>de.lightful.maven.plugins.drools</groupId>
     <artifactId>project-parent</artifactId>
-    <version>0.0.6</version>
+    <version>0.0.7-SNAPSHOT</version>
   </parent>
 
   <artifactId>drools-assertions</artifactId>
   <packaging>jar</packaging>
-  <version>0.0.6</version>
+  <version>0.0.7-SNAPSHOT</version>
 
   <name>Maven Drools Plugin :: Assertion Library</name>
   <description>Library of assertions used to in plugin tests</description>
