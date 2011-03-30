@@ -58,7 +58,14 @@
         <configuration>
           <passes>
             <pass>
+              <name>First Pass</name>
               <ruleSourceRoot>${basedir}/src/main/rules/pass-one</ruleSourceRoot>
+              <includes>
+                <include>**/*.drl</include>
+              </includes>
+              <excludes>
+                <exclude>**/Test*.drl</exclude>
+              </excludes>
             </pass>
           </passes>
         </configuration>
