@@ -25,7 +25,7 @@
   <mirrors>
     <mirror>
       <id>my-mirrorr</id>
-      <mirrorOf>*,!local.central</mirrorOf>
+      <mirrorOf>*</mirrorOf>
       <url>${mirrorUrl}</url>
     </mirror>
   </mirrors>
@@ -39,25 +39,31 @@
 
       <repositories>
         <repository>
-          <id>local.central</id>
-          <url>${repository.regular}</url>
+          <id>my-artifacts-mirror-repo</id>
+          <url>http://does.not.matter/</url>
           <releases>
             <enabled>true</enabled>
+            <checksumPolicy>fail</checksumPolicy>
           </releases>
           <snapshots>
             <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+            <checksumPolicy>fail</checksumPolicy>
           </snapshots>
         </repository>
       </repositories>
       <pluginRepositories>
         <pluginRepository>
-          <id>local.central</id>
-          <url>${repository.regular}</url>
+          <id>my-plugin-mirror-repo</id>
+          <url>http://does.not.matter/</url>
           <releases>
             <enabled>true</enabled>
+            <checksumPolicy>fail</checksumPolicy>
           </releases>
           <snapshots>
             <enabled>true</enabled>
+            <updatePolicy>always</updatePolicy>
+            <checksumPolicy>fail</checksumPolicy>
           </snapshots>
         </pluginRepository>
       </pluginRepositories>
