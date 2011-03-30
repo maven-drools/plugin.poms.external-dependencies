@@ -277,6 +277,35 @@
         <artifactId>maven-resources-plugin</artifactId>
       </plugin>
 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.0</version>
+        <executions>
+          <execution>
+            <id>enforce-sane-build</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <phase>validate</phase>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>3.0</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>1.6.0</version>
+                </requireJavaVersion>
+                <requireProperty>
+                  <property>mirrorUrl</property>
+                  <message>Please specify a Java property 'mirrorUrl' pointing to your local Maven repository manager. In a pinch, you could also use Maven Central, but this will probably make your build very slow. Example: mvn -DmirrorUrl=http://localhost:8080/nexus/content/groups/public clean integration-test</message>
+                </requireProperty>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
     </plugins>
   </build>
 
