@@ -103,7 +103,7 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>de.lightful.maven.plugins</groupId>
+      <groupId>de.lightful.maven.plugins.drools</groupId>
       <artifactId>maven-verifier-testng</artifactId>
       <scope>test</scope>
     </dependency>
