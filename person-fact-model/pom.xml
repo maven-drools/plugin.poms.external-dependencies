@@ -22,12 +22,12 @@
   <parent>
     <groupId>de.lightful.maven.plugins.drools</groupId>
     <artifactId>project-parent</artifactId>
-    <version>0.0.9</version>
+    <version>0.0.10-SNAPSHOT</version>
   </parent>
 
   <groupId>de.lightful.maven.plugins.drools</groupId>
   <artifactId>person-fact-model</artifactId>
-  <version>0.0.9</version>
+  <version>0.0.10-SNAPSHOT</version>
 
   <name>Maven Drools Plugin :: Fact Model (Person)</name>
   <description>A Java fact model containing person-related information, used for integration testing</description>
