@@ -175,6 +175,7 @@
           <encoding>UTF-8</encoding>
           <useDefaultDelimiters>true</useDefaultDelimiters>
           <escapeString>\</escapeString>
+          <outputDirectory>${build.outputDirectory}</outputDirectory>
         </configuration>
       </plugin>
 
