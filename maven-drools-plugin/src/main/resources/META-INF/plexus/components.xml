@@ -19,12 +19,15 @@
   <components>
     <component>
       <role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
-      <role-hint>dkp</role-hint><!-- drools knowledge packages -->
+      <role-hint>dkp</role-hint>
+      <!-- drools knowledge packages -->
       <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
       <configuration>
         <phases>
           <process-resources>org.apache.maven.plugins:maven-resources-plugin:resources</process-resources>
           <compile>de.lightful.maven.plugins:maven-drools-plugin:compile</compile>
+          <test-compile>org.apache.maven.plugins:maven-compiler-plugin:compile</test-compile>
+          <deploy>org.apache.maven.plugins:maven-deploy:plugin:deploy</deploy>
         </phases>
       </configuration>
     </component>
