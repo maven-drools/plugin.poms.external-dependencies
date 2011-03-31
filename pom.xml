@@ -145,14 +145,12 @@
   <distributionManagement>
     <downloadUrl>http://lightful.de/mvnrepo/public/releases</downloadUrl>
     <repository>
-      <uniqueVersion>false</uniqueVersion>
       <id>de.lightful.releases</id>
       <name>Public Release Repository on lightful.de</name>
       <url>scp://lightful.de/mvnrepo/public/releases</url>
       <layout>default</layout>
     </repository>
     <snapshotRepository>
-      <uniqueVersion>false</uniqueVersion>
       <id>nexus@home</id>
       <name>Ansgars Privates Repository (Snapshots)</name>
       <url>http://www.bln.itikko.net:8080/nexus/content/repositories/snapshots/</url>
@@ -211,9 +209,6 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.5</version>
-          <configuration>
-            <uniqueVersion>false</uniqueVersion>
-          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -243,7 +238,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.5</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
