@@ -30,16 +30,22 @@ public interface WellKnownNames {
    * &lt;/project&gt;
    * </pre>
    */
-  String DROOLS_PACKAGING_IDENTIFIER = "dkp";
+  String DROOLS_KNOWLEDGE_MODULE_PACKAGING_IDENTIFIER = "knowledge-module";
 
   /**
-   * File extension used by plugin to create final target file name. The extension <b>.dkp</b> is short for "Drools Knowledge
-   * Package(s).
+   * File extension used by plugin to create final target file name.
    */
-  String DROOLS_KNOWLEDGE_PACKAGE_EXTENSION = ".dkp";
+  String FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE = ".dkm";
+
+  String ARTIFACT_TYPE_JAR = "jar";
+  String ARTIFACT_TYPE_DROOLS_KNOWLEDGE_MODULE = "dkm";
+  /**
+   * @deprecated please use {@link #ARTIFACT_TYPE_DROOLS_KNOWLEDGE_MODULE}.
+   */
+  @Deprecated
+  String ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE = "dkp";
+
   String GOAL_COMPILE = "compile";
   String SCOPE_COMPILE = GOAL_COMPILE;
 
-  String ARTIFACT_TYPE_JAR = "jar";
-  String ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE = "dkp";
 }

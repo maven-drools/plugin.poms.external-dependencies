@@ -134,13 +134,13 @@ public class CompileMojo extends AbstractMojo {
   private void writeOutputFile() throws MojoFailureException {
     final String packaging = project.getPackaging();
     final Log log = getLog();
-    if (!WellKnownNames.DROOLS_PACKAGING_IDENTIFIER.equals(packaging)) {
-      log.error("Internal error: packaging of project must be equal to '" + WellKnownNames.DROOLS_PACKAGING_IDENTIFIER + "' when using this plugin!");
+    if (!WellKnownNames.DROOLS_KNOWLEDGE_MODULE_PACKAGING_IDENTIFIER.equals(packaging)) {
+      log.error("Internal error: packaging of project must be equal to '" + WellKnownNames.DROOLS_KNOWLEDGE_MODULE_PACKAGING_IDENTIFIER + "' when using this plugin!");
     }
     build = project.getBuild();
     final String currentFinalName = build.getFinalName();
-    if (!currentFinalName.endsWith(WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION)) {
-      build.setFinalName(currentFinalName + WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION);
+    if (!currentFinalName.endsWith(WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE)) {
+      build.setFinalName(currentFinalName + WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE);
     }
     String outputFileName = build.getFinalName();
     writeFinalOutputFile(outputFileName);

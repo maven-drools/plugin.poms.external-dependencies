@@ -21,7 +21,7 @@
   <groupId>de.lightful.maven.plugins.drools</groupId>
   <artifactId>plugintest.artifact</artifactId>
   <version>1.0.0</version>
-  <packaging>dkp</packaging>
+  <packaging>knowledge-module</packaging>
 
   <dependencies>
     <dependency>

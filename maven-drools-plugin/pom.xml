@@ -150,12 +150,12 @@
     <dependency>
       <groupId>de.lightful.maven.plugins.drools</groupId>
       <artifactId>drools-fruit-types</artifactId>
-      <type>dkp</type>
+      <type>knowledge-module</type>
     </dependency>
     <dependency>
       <groupId>de.lightful.maven.plugins.drools</groupId>
       <artifactId>drools-vehicle-types</artifactId>
-      <type>dkp</type>
+      <type>knowledge-module</type>
     </dependency>
 
   </dependencies>

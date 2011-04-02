@@ -15,37 +15,42 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+
 <component-set>
   <components>
+
     <component>
       <role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
-      <role-hint>knowledge-module</role-hint>
+      <role-hint>my-custom-type</role-hint>
       <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
       <configuration>
         <phases>
           <process-resources>org.apache.maven.plugins:maven-resources-plugin:resources</process-resources>
-          <compile>de.lightful.maven.plugins:maven-drools-plugin:compile</compile>
+          <package>org.apache.maven.plugins:maven-jar-plugin:jar</package>
           <install>org.apache.maven.plugins:maven-install-plugin:install</install>
-          <test-compile>org.apache.maven.plugins:maven-compiler-plugin:compile</test-compile>
-          <deploy>org.apache.maven.plugins:maven-deploy:plugin:deploy</deploy>
+          <deploy>org.apache.maven.plugins:maven-deploy-plugin:deploy</deploy>
         </phases>
+      </configuration>
+    </component>
+
+    <component>
+      <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
+      <role-hint>my-custom-type</role-hint>
+      <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
+      <configuration>
+        <!--the extension used by Maven in the repository-->
+        <extension>foobar</extension>
+
+        <!--the type used when specifying dependencies etc.-->
+        <type>my-custom-type</type>
+
+        <!--the packaging used when declaring an implementation of the packaging-->
+        <packaging>my-custom-type</packaging>
       </configuration>
     </component>
   </components>
 
-  <component>
-    <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
-    <role-hint>knowledge-module</role-hint>
-    <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
-    <configuration>
-      <!--the extension used by Maven in the repository-->
-      <extension>dkm</extension>
-      <!--the type used when specifying dependencies etc.-->
-      <type>knowledge-module</type>
-      <!--the packaging used when declaring an implementation of the packaging-->
-      <packaging>knowledge-module</packaging>
-    </configuration>
-  </component>
-
 </component-set>
+
+
 

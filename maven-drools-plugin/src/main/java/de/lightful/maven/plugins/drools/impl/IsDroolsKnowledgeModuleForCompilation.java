@@ -23,15 +23,15 @@ import static de.lightful.maven.plugins.drools.impl.WellKnownNames.ARTIFACT_TYPE
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE;
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.SCOPE_COMPILE;
 
-public class IsDroolsKnowledgePackageForCompilation extends ArtifactPredicate {
+public class IsDroolsKnowledgeModuleForCompilation extends ArtifactPredicate {
 
-  public static final ArtifactPredicate INSTANCE = new IsDroolsKnowledgePackageForCompilation();
+  public static final ArtifactPredicate INSTANCE = new IsDroolsKnowledgeModuleForCompilation();
 
-  private IsDroolsKnowledgePackageForCompilation() {
+  private IsDroolsKnowledgeModuleForCompilation() {
   }
 
   @Override
   public boolean isTrueFor(Artifact item) {
-    return SCOPE_COMPILE.equals(item.getScope()) && ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE.equals(item.getType());
+    return SCOPE_COMPILE.equals(item.getScope()) && ARTIFACT_TYPE_DROOLS_KNOWLEDGE_MODULE.equals(item.getType());
   }
 }

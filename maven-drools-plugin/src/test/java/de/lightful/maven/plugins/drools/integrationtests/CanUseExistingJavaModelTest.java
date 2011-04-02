@@ -32,7 +32,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import static de.lightful.maven.plugins.drools.impl.WellKnownNames.DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
+import static de.lightful.maven.plugins.drools.impl.WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.GOAL_COMPILE;
 import static org.fest.assertions.Assertions.assertThat;
 
@@ -41,7 +41,7 @@ import static org.fest.assertions.Assertions.assertThat;
 @ExecuteGoals("clean")
 public class CanUseExistingJavaModelTest extends MavenVerifierTest {
 
-  private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + DROOLS_KNOWLEDGE_PACKAGE_EXTENSION;
+  private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
   private static final String EXPECTED_PACKAGE_NAME = "rules.test";
 
   @Inject
