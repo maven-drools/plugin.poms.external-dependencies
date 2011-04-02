@@ -22,11 +22,11 @@
   <parent>
     <artifactId>project-parent</artifactId>
     <groupId>de.lightful.maven.plugins.drools</groupId>
-    <version>0.0.10</version>
+    <version>0.0.11-SNAPSHOT</version>
   </parent>
 
   <artifactId>drools-vehicle-types</artifactId>
-  <version>0.0.10</version>
+  <version>0.0.11-SNAPSHOT</version>
   <packaging>dkp</packaging>
 
   <name>Maven Drools Plugin :: Drools Types (Vehicle)</name>
