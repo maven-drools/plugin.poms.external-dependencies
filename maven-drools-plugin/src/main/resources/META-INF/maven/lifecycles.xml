@@ -30,6 +30,26 @@
         </executions>
       </phase>
       <phase>
+        <id>test-compile</id>
+        <executions>
+          <execution>
+            <goals>
+              <goal>test-compile</goal>
+            </goals>
+          </execution>
+        </executions>
+      </phase>
+      <phase>
+        <id>install</id>
+        <executions>
+          <execution>
+            <goals>
+              <goal>install</goal>
+            </goals>
+          </execution>
+        </executions>
+      </phase>
+      <phase>
         <id>deploy</id>
         <executions>
           <execution>

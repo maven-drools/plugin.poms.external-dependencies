@@ -179,6 +179,7 @@ public class CompileMojo extends AbstractMojo {
 
     try {
       DroolsStreamUtils.streamOut(new FileOutputStream(outputFile), knowledgePackages, false);
+      log.info("Setting project artifact to " + outputFile.getAbsolutePath());
       project.getArtifact().setFile(outputFile);
     }
     catch (IOException e) {

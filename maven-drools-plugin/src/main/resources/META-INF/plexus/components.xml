@@ -19,15 +19,15 @@
   <components>
     <component>
       <role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
-      <role-hint>knowledge-module</role-hint>
+      <role-hint>drools-knowledge-module</role-hint>
       <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
       <configuration>
         <phases>
-          <process-resources>org.apache.maven.plugins:maven-resources-plugin:resources</process-resources>
+          <!--<process-resources>org.apache.maven.plugins:maven-resources-plugin:resources</process-resources>-->
           <compile>de.lightful.maven.plugins:maven-drools-plugin:compile</compile>
+          <test-compile>org.apache.maven.plugins:maven-compiler-plugin:testCompile</test-compile>
           <install>org.apache.maven.plugins:maven-install-plugin:install</install>
-          <test-compile>org.apache.maven.plugins:maven-compiler-plugin:compile</test-compile>
-          <deploy>org.apache.maven.plugins:maven-deploy:plugin:deploy</deploy>
+          <deploy>org.apache.maven.plugins:maven-deploy-plugin:deploy</deploy>
         </phases>
       </configuration>
     </component>
@@ -35,15 +35,17 @@
 
   <component>
     <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
-    <role-hint>knowledge-module</role-hint>
+    <role-hint>drools-knowledge-module</role-hint>
     <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
     <configuration>
+      <!--the type used when specifying dependencies etc.-->
+      <type>drools-knowledge-module</type>
       <!--the extension used by Maven in the repository-->
       <extension>dkm</extension>
-      <!--the type used when specifying dependencies etc.-->
-      <type>knowledge-module</type>
-      <!--the packaging used when declaring an implementation of the packaging-->
-      <packaging>knowledge-module</packaging>
+
+      <language>drools</language>
+      <includesDependencies>false</includesDependencies>
+      <addedToClasspath>false</addedToClasspath>
     </configuration>
   </component>
 

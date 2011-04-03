@@ -17,3 +17,4 @@
 #
 project.version = @@PROJECT_VERSION@@
 repository.integrationtests = @@REPO_INTEGRATION@@
+repository.deploymenttests = @@REPO_DEPLOYMENT@@
