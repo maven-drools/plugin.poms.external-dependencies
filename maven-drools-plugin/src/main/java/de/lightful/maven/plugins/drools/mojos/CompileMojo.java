@@ -26,6 +26,7 @@ import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFormatter;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
+import org.apache.maven.artifact.handler.ArtifactHandler;
 import org.apache.maven.model.Build;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
@@ -84,6 +85,9 @@ public class CompileMojo extends AbstractMojo {
   private Build build;
 
   private KnowledgeBuilder knowledgeBuilder;
+
+  @MojoParameter(expression = "${component.org.apache.maven.artifact.handler.ArtifactHandler#drools-knowledge-module}")
+  private ArtifactHandler artifactHandler;
 
   public void execute() throws MojoFailureException {
     final Log log = getLog();
@@ -181,6 +185,7 @@ public class CompileMojo extends AbstractMojo {
       DroolsStreamUtils.streamOut(new FileOutputStream(outputFile), knowledgePackages, false);
       log.info("Setting project artifact to " + outputFile.getAbsolutePath());
       project.getArtifact().setFile(outputFile);
+      project.getArtifact().setArtifactHandler(artifactHandler);
     }
     catch (IOException e) {
       throw new MojoFailureException("Unable to write compiled knowledge into output file!", e);

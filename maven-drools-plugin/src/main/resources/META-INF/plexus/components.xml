@@ -38,10 +38,14 @@
     <role-hint>drools-knowledge-module</role-hint>
     <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
     <configuration>
+
       <!--the type used when specifying dependencies etc.-->
       <type>drools-knowledge-module</type>
+
       <!--the extension used by Maven in the repository-->
       <extension>dkm</extension>
+
+      <packaging>schlumpf</packaging>
 
       <language>drools</language>
       <includesDependencies>false</includesDependencies>
