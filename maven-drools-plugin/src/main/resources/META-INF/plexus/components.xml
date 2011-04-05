@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Copyright (c) 2009-2011 Ansgar Konermann
   ~
@@ -16,10 +17,11 @@
   ~ limitations under the License.
   -->
 <component-set>
+
   <components>
     <component>
       <role>org.apache.maven.lifecycle.mapping.LifecycleMapping</role>
-      <role-hint>drools-knowledge-module</role-hint>
+      <role-hint>knowledge-module</role-hint>
       <implementation>org.apache.maven.lifecycle.mapping.DefaultLifecycleMapping</implementation>
       <configuration>
         <lifecycles>
@@ -35,24 +37,25 @@
         </lifecycles>
       </configuration>
     </component>
+
+    <component>
+      <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
+      <role-hint>knowledge-module</role-hint>
+      <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
+      <configuration>
+        <!--the type used when specifying dependencies etc.-->
+        <type>knowledge-module</type>
+
+        <!--the extension used by Maven in the repository-->
+        <extension>dkm</extension>
+
+        <language>drools</language>
+        <includesDependencies>false</includesDependencies>
+        <addedToClasspath>false</addedToClasspath>
+      </configuration>
+    </component>
+
   </components>
-
-  <component>
-    <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
-    <role-hint>drools-knowledge-module</role-hint>
-    <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
-    <configuration>
-      <!--the type used when specifying dependencies etc.-->
-      <type>drools-knowledge-module</type>
-
-      <!--the extension used by Maven in the repository-->
-      <extension>dkm</extension>
-
-      <language>drools</language>
-      <includesDependencies>false</includesDependencies>
-      <addedToClasspath>false</addedToClasspath>
-    </configuration>
-  </component>
 
 </component-set>
 
