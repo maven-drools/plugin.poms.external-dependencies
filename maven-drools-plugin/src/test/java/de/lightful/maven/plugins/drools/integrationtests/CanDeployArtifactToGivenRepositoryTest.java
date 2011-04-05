@@ -30,16 +30,13 @@ import java.net.URL;
 
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.GOAL_CLEAN;
-import static de.lightful.maven.plugins.drools.impl.WellKnownNames.GOAL_COMPILE;
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.GOAL_DEPLOY;
-import static de.lightful.maven.plugins.drools.impl.WellKnownNames.GOAL_TEST_COMPILE;
 import static org.fest.assertions.Assertions.assertThat;
-import static org.fest.assertions.Fail.fail;
 
 @Test
 @VerifyUsingProject("can_deploy_artifact_to_given_repository")
 @DefaultSettingsFile
-public class CanDeployArtifactToGivenRepository extends MavenVerifierTest {
+public class CanDeployArtifactToGivenRepositoryTest extends MavenVerifierTest {
 
   public static final String EXPECTED_ARTIFACT_NAME = "de/lightful/maven/plugins/plugintest/drools/plugintest.artifact/1.0.0/plugintest.artifact-1.0.0" + "." + FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
 
@@ -50,11 +47,6 @@ public class CanDeployArtifactToGivenRepository extends MavenVerifierTest {
   @Parameters("repository.deploymenttests")
   @ExecuteGoals(GOAL_CLEAN)
   public void testFileGetsDeployedToExpectedLocation(String deploymentRepositoryUrl) throws Exception {
-    verifier.executeGoal(GOAL_COMPILE);
-    verifier.executeGoal(GOAL_TEST_COMPILE);
-    verifier.executeGoal("package");
-    verifier.executeGoal("integration-test");
-    verifier.executeGoal("install");
     verifier.executeGoal(GOAL_DEPLOY);
     verifier.verifyErrorFreeLog();
 
@@ -64,6 +56,5 @@ public class CanDeployArtifactToGivenRepository extends MavenVerifierTest {
     assertThat(repositoryDirectory).exists().isDirectory();
     File expectedDeployedArtifact = new File(repositoryDirectory, EXPECTED_ARTIFACT_NAME);
     assertThat(expectedDeployedArtifact).exists().isFile();
-    fail("This test must fail. If it does not by itself, something is wrong! Please fix me!");
   }
 }
