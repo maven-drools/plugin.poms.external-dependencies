@@ -175,9 +175,7 @@
           <execution>
             <id>resources</id>
             <goals>
-              <goal>
-                resources
-              </goal>
+              <goal>resources</goal>
             </goals>
             <phase>process-resources</phase>
           </execution>

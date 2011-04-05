@@ -32,6 +32,7 @@ import static de.lightful.maven.plugins.drools.impl.WellKnownNames.FILE_EXTENSIO
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.GOAL_CLEAN;
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.GOAL_COMPILE;
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.GOAL_DEPLOY;
+import static de.lightful.maven.plugins.drools.impl.WellKnownNames.GOAL_TEST_COMPILE;
 import static org.fest.assertions.Assertions.assertThat;
 import static org.fest.assertions.Fail.fail;
 
@@ -50,6 +51,10 @@ public class CanDeployArtifactToGivenRepository extends MavenVerifierTest {
   @ExecuteGoals(GOAL_CLEAN)
   public void testFileGetsDeployedToExpectedLocation(String deploymentRepositoryUrl) throws Exception {
     verifier.executeGoal(GOAL_COMPILE);
+    verifier.executeGoal(GOAL_TEST_COMPILE);
+    verifier.executeGoal("package");
+    verifier.executeGoal("integration-test");
+    verifier.executeGoal("install");
     verifier.executeGoal(GOAL_DEPLOY);
     verifier.verifyErrorFreeLog();
 

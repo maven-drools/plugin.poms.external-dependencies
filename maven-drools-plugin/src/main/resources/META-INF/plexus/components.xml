@@ -44,8 +44,7 @@
 
       <!--the extension used by Maven in the repository-->
       <extension>dkm</extension>
-
-      <packaging>schlumpf</packaging>
+      <packaging>drools-knowledge-module</packaging>
 
       <language>drools</language>
       <includesDependencies>false</includesDependencies>

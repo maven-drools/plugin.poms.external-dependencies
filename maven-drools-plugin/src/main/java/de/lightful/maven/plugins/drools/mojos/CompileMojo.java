@@ -26,7 +26,6 @@ import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFormatter;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
-import org.apache.maven.artifact.handler.ArtifactHandler;
 import org.apache.maven.model.Build;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
@@ -81,13 +80,15 @@ public class CompileMojo extends AbstractMojo {
   @MojoParameter(defaultValue = "${project}")
   private MavenProject project;
 
+//  @MojoParameter(
+//      expression = "${component.org.apache.maven.artifact.handler.ArtifactHandler#drools-knowledge-module}",
+//      readonly = true, required = true)
+//  private ArtifactHandler artifactHandler;
+
   private static final int FIRST_PASS_NUMBER = 1;
   private Build build;
 
   private KnowledgeBuilder knowledgeBuilder;
-
-  @MojoParameter(expression = "${component.org.apache.maven.artifact.handler.ArtifactHandler#drools-knowledge-module}")
-  private ArtifactHandler artifactHandler;
 
   public void execute() throws MojoFailureException {
     final Log log = getLog();
@@ -143,9 +144,9 @@ public class CompileMojo extends AbstractMojo {
     }
     build = project.getBuild();
     final String currentFinalName = build.getFinalName();
-    if (!currentFinalName.endsWith(WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE)) {
-      build.setFinalName(currentFinalName + WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE);
-    }
+//    if (!currentFinalName.endsWith(WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE)) {
+//      build.setFinalName(currentFinalName + WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE);
+//    }
     String outputFileName = build.getFinalName();
     writeFinalOutputFile(outputFileName);
   }
@@ -153,7 +154,8 @@ public class CompileMojo extends AbstractMojo {
   private void writeFinalOutputFile(String outputFileName) throws MojoFailureException {
     final String buildDirectoryName = project.getBuild().getDirectory();
     File buildDirectory = new File(buildDirectoryName);
-    File outputFile = new File(buildDirectoryName + File.separator + outputFileName);
+//    final File apklibrary = new File(project.getBuild().getDirectory(), project.getBuild().getFinalName() + "." + APKLIB);
+    File outputFile = new File(buildDirectoryName, outputFileName);
 
     final Collection<KnowledgePackage> knowledgePackages = knowledgeBuilder.getKnowledgePackages();
 
@@ -184,8 +186,9 @@ public class CompileMojo extends AbstractMojo {
     try {
       DroolsStreamUtils.streamOut(new FileOutputStream(outputFile), knowledgePackages, false);
       log.info("Setting project artifact to " + outputFile.getAbsolutePath());
-      project.getArtifact().setFile(outputFile);
-      project.getArtifact().setArtifactHandler(artifactHandler);
+      final Artifact artifact = project.getArtifact();
+      artifact.setFile(outputFile);
+//      artifact.setArtifactHandler(artifactHandler);
     }
     catch (IOException e) {
       throw new MojoFailureException("Unable to write compiled knowledge into output file!", e);

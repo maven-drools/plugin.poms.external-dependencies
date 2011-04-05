@@ -43,6 +43,7 @@ public interface WellKnownNames {
 
   String GOAL_CLEAN = "clean";
   String GOAL_COMPILE = "compile";
+  String GOAL_TEST_COMPILE = "test-compile";
   String GOAL_DEPLOY = "deploy";
 
   String SCOPE_COMPILE = GOAL_COMPILE;
