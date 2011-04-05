@@ -30,12 +30,12 @@ public interface WellKnownNames {
    * &lt;/project&gt;
    * </pre>
    */
-  String DROOLS_KNOWLEDGE_MODULE_PACKAGING_IDENTIFIER = "drools-knowledge-module";
+  String DROOLS_KNOWLEDGE_MODULE_PACKAGING_IDENTIFIER = "knowledge-module";
 
   /** File extension used by plugin to create final target file name. */
   String FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE = "dkm";
 
-  String ARTIFACT_TYPE_DROOLS_KNOWLEDGE_MODULE = "drools-knowledge-module";
+  String ARTIFACT_TYPE_DROOLS_KNOWLEDGE_MODULE = "knowledge-module";
   String ARTIFACT_TYPE_JAR = "jar";
   /** @deprecated please use {@link #ARTIFACT_TYPE_DROOLS_KNOWLEDGE_MODULE}. */
   @Deprecated
