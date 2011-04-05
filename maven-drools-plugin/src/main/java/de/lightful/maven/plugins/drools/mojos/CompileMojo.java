@@ -80,12 +80,8 @@ public class CompileMojo extends AbstractMojo {
   @MojoParameter(defaultValue = "${project}")
   private MavenProject project;
 
-//  @MojoParameter(
-//      expression = "${component.org.apache.maven.artifact.handler.ArtifactHandler#drools-knowledge-module}",
-//      readonly = true, required = true)
-//  private ArtifactHandler artifactHandler;
-
   private static final int FIRST_PASS_NUMBER = 1;
+
   private Build build;
 
   private KnowledgeBuilder knowledgeBuilder;
@@ -143,18 +139,12 @@ public class CompileMojo extends AbstractMojo {
       log.error("Internal error: packaging of project must be equal to '" + WellKnownNames.DROOLS_KNOWLEDGE_MODULE_PACKAGING_IDENTIFIER + "' when using this plugin!");
     }
     build = project.getBuild();
-    final String currentFinalName = build.getFinalName();
-//    if (!currentFinalName.endsWith(WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE)) {
-//      build.setFinalName(currentFinalName + WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE);
-//    }
-    String outputFileName = build.getFinalName();
-    writeFinalOutputFile(outputFileName);
+    writeFinalOutputFile(build.getFinalName() + "." + WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE);
   }
 
   private void writeFinalOutputFile(String outputFileName) throws MojoFailureException {
     final String buildDirectoryName = project.getBuild().getDirectory();
     File buildDirectory = new File(buildDirectoryName);
-//    final File apklibrary = new File(project.getBuild().getDirectory(), project.getBuild().getFinalName() + "." + APKLIB);
     File outputFile = new File(buildDirectoryName, outputFileName);
 
     final Collection<KnowledgePackage> knowledgePackages = knowledgeBuilder.getKnowledgePackages();
@@ -188,7 +178,6 @@ public class CompileMojo extends AbstractMojo {
       log.info("Setting project artifact to " + outputFile.getAbsolutePath());
       final Artifact artifact = project.getArtifact();
       artifact.setFile(outputFile);
-//      artifact.setArtifactHandler(artifactHandler);
     }
     catch (IOException e) {
       throw new MojoFailureException("Unable to write compiled knowledge into output file!", e);

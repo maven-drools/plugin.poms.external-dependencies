@@ -20,7 +20,6 @@ package de.lightful.maven.plugins.drools.impl;
 import org.apache.maven.artifact.Artifact;
 
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.ARTIFACT_TYPE_DROOLS_KNOWLEDGE_MODULE;
-import static de.lightful.maven.plugins.drools.impl.WellKnownNames.ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE;
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.SCOPE_COMPILE;
 
 public class IsDroolsKnowledgeModuleForCompilation extends ArtifactPredicate {

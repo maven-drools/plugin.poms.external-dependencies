@@ -41,7 +41,7 @@ import static org.fest.assertions.Fail.fail;
 @DefaultSettingsFile
 public class CanDeployArtifactToGivenRepository extends MavenVerifierTest {
 
-  public static final String EXPECTED_ARTIFACT_NAME = "de/lightful/maven/plugins/plugintest/drools/plugintest.artifact/1.0.0/plugintest.artifact-1.0.0" + FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
+  public static final String EXPECTED_ARTIFACT_NAME = "de/lightful/maven/plugins/plugintest/drools/plugintest.artifact/1.0.0/plugintest.artifact-1.0.0" + "." + FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
 
   @Inject
   private Verifier verifier;
