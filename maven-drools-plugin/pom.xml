@@ -161,6 +161,15 @@
   </dependencies>
 
   <build>
+
+    <extensions>
+      <!-- required for mapping between packaging type and file extension -->
+      <extension>
+        <groupId>de.lightful.maven.plugins</groupId>
+        <artifactId>maven-drools-plugin</artifactId>
+        <version>0.0.12</version>
+      </extension>
+    </extensions>
     <plugins>
 
       <plugin>

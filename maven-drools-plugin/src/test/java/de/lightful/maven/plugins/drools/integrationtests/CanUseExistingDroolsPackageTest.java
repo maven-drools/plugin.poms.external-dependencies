@@ -86,10 +86,10 @@ public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
   @ExecuteGoals("compile")
   @Parameters("project.version")
   public void testGeneratedRuleFiresForLightMelon(String projectVersion) throws ClassNotFoundException, IOException, IllegalAccessException, InstantiationException {
-    final String fruitsModelKnowledgePackage = verifier.getArtifactPath("de.lightful.maven.plugins.drools", "drools-fruit-types", projectVersion, WellKnownNames.ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE);
+    final String fruitsModelKnowledgePackage = verifier.getArtifactPath("de.lightful.maven.plugins.drools", "drools-fruit-types", projectVersion, WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE);
     KnowledgePackageFile fruitsModelKnowledgeFile = new KnowledgePackageFile(new File(fruitsModelKnowledgePackage));
     final Collection<KnowledgePackage> fruitsModelKnowledgePackages = fruitsModelKnowledgeFile.getKnowledgePackages();
-    final String vehiclesModelKnowledgePackage = verifier.getArtifactPath("de.lightful.maven.plugins.drools", "drools-vehicle-types", projectVersion, WellKnownNames.ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE);
+    final String vehiclesModelKnowledgePackage = verifier.getArtifactPath("de.lightful.maven.plugins.drools", "drools-vehicle-types", projectVersion, WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE);
     KnowledgePackageFile vehiclesModelKnowledgeFile = new KnowledgePackageFile(new File(vehiclesModelKnowledgePackage));
     final Collection<KnowledgePackage> vehiclesModelKnowledgePackages = vehiclesModelKnowledgeFile.getKnowledgePackages();
 
@@ -128,7 +128,6 @@ public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
     session.fireAllRules();
 
     final Collection<Object> resultObjects = session.getObjects(new ObjectFilter() {
-      @Override
       public boolean accept(Object o) {
         if (o instanceof String) { return true; }
         return false;

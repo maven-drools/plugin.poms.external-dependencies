@@ -18,7 +18,7 @@
 package de.lightful.maven.plugins.drools.mojos;
 
 import de.lightful.maven.plugins.drools.impl.ArtifactPredicate;
-import de.lightful.maven.plugins.drools.impl.IsDroolsKnowledgePackageForCompilation;
+import de.lightful.maven.plugins.drools.impl.IsDroolsKnowledgeModuleForCompilation;
 import de.lightful.maven.plugins.drools.impl.IsJarForCompilation;
 import de.lightful.maven.plugins.drools.impl.Pass;
 import de.lightful.maven.plugins.drools.impl.WellKnownNames;
@@ -283,7 +283,7 @@ public class CompileMojo extends AbstractMojo {
 
   private KnowledgeBase createKnowledgeBaseFromDependencies(URLClassLoader classLoader) throws MojoFailureException {
     Log log = getLog();
-    List<Artifact> compileArtifacts = getFilteredArtifacts(IsDroolsKnowledgePackageForCompilation.INSTANCE);
+    List<Artifact> compileArtifacts = getFilteredArtifacts(IsDroolsKnowledgeModuleForCompilation.INSTANCE);
     final KnowledgeBaseConfiguration configuration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
     final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase(configuration);
     for (Artifact droolCompileArtifact : compileArtifacts) {
