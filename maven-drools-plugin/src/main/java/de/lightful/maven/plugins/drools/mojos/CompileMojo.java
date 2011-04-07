@@ -106,7 +106,7 @@ public class CompileMojo extends AbstractMojo {
         pass.setName("Pass #" + passNumber);
       }
       if (pass.getIncludes() == null || pass.getIncludes().length == 0) {
-        pass.setIncludes(new String[] {"*.drl"});
+        pass.setIncludes(new String[] {"**/*.drl"});
       }
 
       passNumber++;
