@@ -55,16 +55,8 @@ public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
 
   @Test
   @DefaultSettingsFile
-  public void testDoesCreateOutputFile() throws Exception {
-    verifier.executeGoal("compile");
-    verifier.verifyErrorFreeLog();
-    verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
-  }
-
-  @Test
-  @DefaultSettingsFile
-  @ExecuteGoals("compile")
   public void testPackageFileContainsPackagedRule() throws Exception {
+    verifier.executeGoal("compile");
     verifier.verifyErrorFreeLog();
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
 

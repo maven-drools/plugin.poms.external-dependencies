@@ -48,13 +48,6 @@ public class CanCompileMinimumDrlFileTest extends MavenVerifierTest {
 
   @Test
   @ExecuteGoals("compile")
-  public void testDoesCreateOutputFile() throws Exception {
-    verifier.verifyErrorFreeLog();
-    verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
-  }
-
-  @Test
-  @ExecuteGoals("compile")
   @MavenDebug
   public void testOutputFileContainsDroolsKnowledgePackages() throws Exception {
     verifier.verifyErrorFreeLog();

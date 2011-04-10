@@ -21,43 +21,35 @@ import de.lightful.maven.plugins.drools.impl.WellKnownNames;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
-import de.lightful.maven.plugins.testing.SettingsFile;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
 import org.apache.maven.it.Verifier;
 import org.drools.definition.KnowledgePackage;
-import org.drools.definition.rule.Rule;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
-import static de.lightful.maven.plugins.drools.impl.WellKnownNames.GOAL_COMPILE;
 import static org.fest.assertions.Assertions.assertThat;
 
 @Test
-@VerifyUsingProject("can_use_existing_java_dependency")
+@DefaultSettingsFile
 @ExecuteGoals("clean")
-public class CanUseExistingJavaModelTest extends MavenVerifierTest {
+@VerifyUsingProject("does_respect_includes_and_excludes_test")
+public class DoesRespectIncludesAndExcludesTest extends MavenVerifierTest {
 
   private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + "." + FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
-  private static final String EXPECTED_PACKAGE_NAME = "rules.test";
+  private static final List<String> EXPECTED_PACKAGE_NAMES = Arrays.asList("included_by_default", "included_higher_level", "included_lowest_level");
 
   @Inject
   private Verifier verifier;
 
   @Test
-  @SettingsFile("/de/lightful/maven/plugins/drools/integrationtests/integration-settings.xml")
-  public void testDoesCreateOutputFile() throws Exception {
-    verifier.executeGoal(GOAL_COMPILE);
-    verifier.verifyErrorFreeLog();
-    verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
-  }
-
-  @Test
-  @DefaultSettingsFile
-  public void testPackageFileContainsPackagedRule() throws Exception {
+  @ExecuteGoals("compile")
+  public void testPackageFileContainsAllTheExpectedRules() throws Exception {
     verifier.executeGoal(WellKnownNames.GOAL_COMPILE);
     verifier.verifyErrorFreeLog();
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
@@ -65,16 +57,10 @@ public class CanUseExistingJavaModelTest extends MavenVerifierTest {
     KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
     final Iterable<KnowledgePackage> knowledgePackages = knowledgePackageFile.getKnowledgePackages();
 
-    assertThat(knowledgePackages).as("Knowledge packages").hasSize(1);
-    final KnowledgePackage knowledgePackage = knowledgePackages.iterator().next();
-    assertThat(knowledgePackage.getName()).as("Knowledge package name").isEqualTo(EXPECTED_PACKAGE_NAME);
-    final Collection<Rule> rules = knowledgePackage.getRules();
-    assertThat(rules).as("Rules in loaded package").hasSize(2);
-    Collection<String> ruleNames = new ArrayList<String>();
-    for (Rule rule : rules) {
-      ruleNames.add(rule.getName());
+    Map<String, KnowledgePackage> allKnowledgePackagesByName = new HashMap<String, KnowledgePackage>();
+    for (KnowledgePackage knowledgePackage : knowledgePackages) {
+      allKnowledgePackagesByName.put(knowledgePackage.getName(), knowledgePackage);
     }
-    assertThat(ruleNames).containsOnly("Check if Peter is at least 18 years old",
-                                       "Cities on different continents have huge distance");
+    assertThat(allKnowledgePackagesByName.keySet()).containsOnly(EXPECTED_PACKAGE_NAMES.toArray());
   }
 }

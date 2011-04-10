@@ -45,18 +45,6 @@ public class CanPerformMultiplePassesTest extends MavenVerifierTest {
   private Verifier verifier;
 
   @Test
-  public void testCanCallCleanGoal() throws Exception {
-    verifier.verifyErrorFreeLog();
-  }
-
-  @Test
-  @ExecuteGoals("compile")
-  public void testDoesCreateOutputFile() throws Exception {
-    verifier.verifyErrorFreeLog();
-    verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
-  }
-
-  @Test
   @ExecuteGoals("compile")
   public void testOutputFileContainsExpectedDroolsKnowledgePackages() throws Exception {
     verifier.verifyErrorFreeLog();

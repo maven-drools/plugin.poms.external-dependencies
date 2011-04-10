@@ -127,6 +127,8 @@ public class CompileMojo extends AbstractMojo {
   }
 
   private void runAllPasses() throws MojoFailureException {
+    knowledgeBuilder = createNewKnowledgeBuilder();
+
     for (Pass pass : passes) {
       executePass(pass);
     }
@@ -205,7 +207,6 @@ public class CompileMojo extends AbstractMojo {
     final Log log = getLog();
     File fileToCompile = new File(ruleSourceRoot, nameOfFileToCompile);
     log.info("  Compiling rule file '" + fileToCompile.getAbsolutePath() + "' ...");
-    KnowledgeBuilder knowledgeBuilder = getKnowledgeBuilder();
     knowledgeBuilder.add(ResourceFactory.newFileResource(fileToCompile), detectTypeOf(fileToCompile));
     handleErrors(knowledgeBuilder, fileToCompile);
   }
@@ -252,9 +253,11 @@ public class CompileMojo extends AbstractMojo {
 
   private KnowledgeBuilder getKnowledgeBuilder() throws MojoFailureException {
     if (knowledgeBuilder == null) {
-      knowledgeBuilder = createNewKnowledgeBuilder();
+      return createNewKnowledgeBuilder();
     }
-    return knowledgeBuilder;
+    else {
+      return knowledgeBuilder;
+    }
   }
 
   private KnowledgeBuilder createNewKnowledgeBuilder() throws MojoFailureException {
