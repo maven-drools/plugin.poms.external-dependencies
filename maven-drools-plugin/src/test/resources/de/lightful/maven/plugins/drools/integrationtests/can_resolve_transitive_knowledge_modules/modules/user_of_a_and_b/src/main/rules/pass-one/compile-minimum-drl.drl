@@ -1,4 +1,4 @@
-package test;
+package user_of_a_and_b;
 
 dialect "java"
 
