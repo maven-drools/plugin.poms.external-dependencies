@@ -20,30 +20,23 @@ package de.lightful.maven.plugins.drools.knowledgeio;
 import org.drools.definition.KnowledgePackage;
 import org.drools.definitions.impl.KnowledgePackageImp;
 import org.drools.factmodel.FieldDefinition;
-import org.drools.rule.*;
+import org.drools.rule.TypeDeclaration;
 
 import java.util.Collection;
 import java.util.Map;
 
 public class KnowledgePackageFormatter {
 
-  public static String dumpKnowledgePackages(Collection<KnowledgePackage> knowledgePackages) {
+  public static String dumpKnowledgePackages(Logger logger, Collection<KnowledgePackage> knowledgePackages) {
     StringBuilder builder = new StringBuilder(4000);
     for (KnowledgePackage knowledgePackage : knowledgePackages) {
-      builder
-          .append("    ")
-          .append(knowledgePackage.getName());
+      logger.log("    ").log(knowledgePackage.getName()).nl();
       org.drools.rule.Package internalPackage = ((KnowledgePackageImp) knowledgePackage).pkg;
       for (Map.Entry<String, TypeDeclaration> typeDeclaration : internalPackage.getTypeDeclarations().entrySet()) {
-        builder
-            .append("      type '")
-            .append(typeDeclaration.getKey()).append("': ");
+        logger.log("      type '").log(typeDeclaration.getKey()).log("': ").nl();
         for (FieldDefinition fieldDefinition : typeDeclaration.getValue().getTypeClassDef().getFieldsDefinitions()) {
-          builder
-              .append("        field '")
-              .append(fieldDefinition.getName())
-              .append("' is of type ")
-              .append(fieldDefinition.getTypeName());
+          logger
+              .log("        field '").log(fieldDefinition.getName()).log("' is of type ").log(fieldDefinition.getTypeName()).nl();
         }
       }
     }

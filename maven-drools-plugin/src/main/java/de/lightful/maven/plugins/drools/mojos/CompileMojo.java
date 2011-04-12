@@ -22,6 +22,7 @@ import de.lightful.maven.plugins.drools.impl.IsDroolsKnowledgeModuleForCompilati
 import de.lightful.maven.plugins.drools.impl.IsJarForCompilation;
 import de.lightful.maven.plugins.drools.impl.Pass;
 import de.lightful.maven.plugins.drools.impl.WellKnownNames;
+import de.lightful.maven.plugins.drools.knowledgeio.InfoLogger;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFormatter;
 import org.apache.maven.artifact.Artifact;
@@ -86,11 +87,14 @@ public class CompileMojo extends AbstractMojo {
 
   private KnowledgeBuilder knowledgeBuilder;
 
+  private InfoLogger info;
+
   public void execute() throws MojoFailureException {
     final Log log = getLog();
-    log.info("This is the compiler plugin");
-    log.info("Passes: " + Arrays.format(passes));
-    log.info("Project: " + project.getName());
+    info = new InfoLogger(log);
+    info.log("This is the compiler plugin").nl();
+    info.log("Passes: " + Arrays.format(passes)).nl();
+    info.log("Project: " + project.getName()).nl();
 
     fixupPassesInformation();
     dumpPassesConfiguration();
@@ -120,8 +124,8 @@ public class CompileMojo extends AbstractMojo {
       log.info("Pass #" + passNumber + ":");
       log.info("    Name:             '" + pass.getName() + "'");
       log.info("    Rule Source Root: " + pass.getRuleSourceRoot());
-      log.info("    Includes:         " + pass.getIncludes());
-      log.info("    Excludes:         " + pass.getExcludes());
+      log.info("    Includes:         " + Arrays.format(pass.getIncludes()));
+      log.info("    Excludes:         " + Arrays.format(pass.getExcludes()));
       passNumber++;
     }
   }
@@ -301,7 +305,7 @@ public class CompileMojo extends AbstractMojo {
     knowledgeBase.addKnowledgePackages(knowledgePackages);
     log.info("Loaded drools dependency " + coordinatesOf(compileArtifact));
     log.info("  Contains packages:");
-    final String packageInfo = KnowledgePackageFormatter.dumpKnowledgePackages(knowledgePackages);
+    final String packageInfo = KnowledgePackageFormatter.dumpKnowledgePackages(info, knowledgePackages);
     log.info(packageInfo);
   }
 
