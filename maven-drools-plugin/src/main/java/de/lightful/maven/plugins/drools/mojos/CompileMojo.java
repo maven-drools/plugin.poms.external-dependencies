@@ -21,8 +21,11 @@ import de.lightful.maven.plugins.drools.impl.DependencyLoader;
 import de.lightful.maven.plugins.drools.impl.WellKnownNames;
 import de.lightful.maven.plugins.drools.impl.config.Pass;
 import de.lightful.maven.plugins.drools.impl.logging.MavenDebugLogStream;
+import de.lightful.maven.plugins.drools.impl.logging.MavenErrorLogStream;
 import de.lightful.maven.plugins.drools.impl.logging.MavenInfoLogStream;
+import de.lightful.maven.plugins.drools.impl.logging.MavenWarnLogStream;
 import de.lightful.maven.plugins.drools.impl.logging.PluginLogger;
+import de.lightful.maven.plugins.drools.knowledgeio.LogStream;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Build;
 import org.apache.maven.plugin.AbstractMojo;
@@ -31,14 +34,11 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.drools.builder.KnowledgeBuilder;
-import org.drools.builder.KnowledgeBuilderError;
-import org.drools.builder.KnowledgeBuilderErrors;
 import org.drools.builder.ResourceType;
 import org.drools.core.util.DroolsStreamUtils;
 import org.drools.definition.KnowledgePackage;
 import org.drools.io.ResourceFactory;
 import org.jfrog.maven.annomojo.annotations.MojoComponent;
-import org.jfrog.maven.annomojo.annotations.MojoGoal;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
 import org.jfrog.maven.annomojo.annotations.MojoRequiresDependencyResolution;
 import org.sonatype.aether.RepositorySystem;
@@ -51,13 +51,10 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-@MojoGoal(CompileMojo.GOAL)
 @MojoRequiresDependencyResolution("runtime")
 public class CompileMojo extends AbstractMojo {
 
   private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
-  public static final String GOAL = "compile";
 
   @MojoParameter(
       description = "Define what the compiler should compile in each of its passes. " +
@@ -70,30 +67,27 @@ public class CompileMojo extends AbstractMojo {
   @MojoParameter(defaultValue = "${project}")
   private MavenProject project;
 
-  private Build build;
-
   private KnowledgeBuilder knowledgeBuilder;
 
-  private MavenInfoLogStream info;
-  private MavenDebugLogStream debug;
-
   @MojoComponent
-  private RepositorySystem repoSystem;
+  private RepositorySystem repositorySystem;
 
   @MojoParameter(defaultValue = "${repositorySystemSession}", readonly = true)
-  private RepositorySystemSession repoSession;
+  private RepositorySystemSession repositorySession;
 
   @MojoParameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
-  private List<RemoteRepository> projectRepos;
+  private List<RemoteRepository> projectRepositories;
 
   private PluginLogger pluginLogger;
   private DependencyLoader dependencyLoader;
-
-  public CompileMojo() {
-  }
+  private LogStream<?> infoLogStream;
+  private LogStream<?> debugLogStream;
+  private LogStream<?> warnLogStream;
+  private LogStream<?> errorLogStream;
 
   public void execute() throws MojoFailureException {
-    initialize();
+    initializeLogging();
+    initializeDependencyLoader();
 
     pluginLogger.dumpPluginConfiguration(passes, project.getName());
 
@@ -104,11 +98,21 @@ public class CompileMojo extends AbstractMojo {
     writeOutputFile();
   }
 
-  private void initialize() {
+  private void initializeLogging() {
     final Log log = getLog();
-    info = new MavenInfoLogStream(log);
-    debug = new MavenDebugLogStream(log);
-    pluginLogger = new PluginLogger(info, debug);
+    infoLogStream = new MavenInfoLogStream(log);
+    debugLogStream = new MavenDebugLogStream(log);
+    warnLogStream = new MavenWarnLogStream(log);
+    errorLogStream = new MavenErrorLogStream(log);
+    pluginLogger = PluginLogger.builder()
+        .errorStream(errorLogStream)
+        .warnStream(warnLogStream)
+        .infoStream(infoLogStream)
+        .debugStream(debugLogStream)
+        .create();
+  }
+
+  private void initializeDependencyLoader() {
     dependencyLoader = new DependencyLoader(pluginLogger);
   }
 
@@ -135,11 +139,10 @@ public class CompileMojo extends AbstractMojo {
 
   private void writeOutputFile() throws MojoFailureException {
     final String packaging = project.getPackaging();
-    final Log log = getLog();
     if (!WellKnownNames.DROOLS_KNOWLEDGE_MODULE_PACKAGING_IDENTIFIER.equals(packaging)) {
-      log.error("Internal error: packaging of project must be equal to '" + WellKnownNames.DROOLS_KNOWLEDGE_MODULE_PACKAGING_IDENTIFIER + "' when using this plugin!");
+      errorLogStream.log("Internal error: packaging of project must be equal to '" + WellKnownNames.DROOLS_KNOWLEDGE_MODULE_PACKAGING_IDENTIFIER + "' when using this plugin!").nl();
     }
-    build = project.getBuild();
+    Build build = project.getBuild();
     writeFinalOutputFile(build.getFinalName() + "." + WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE);
   }
 
@@ -150,17 +153,16 @@ public class CompileMojo extends AbstractMojo {
 
     final Collection<KnowledgePackage> knowledgePackages = knowledgeBuilder.getKnowledgePackages();
 
-    final Log log = getLog();
     final String absoluteOutputFileName = outputFile.getAbsolutePath();
-    log.info("Writing " + knowledgePackages.size() + " knowledge packages into output file " + absoluteOutputFileName);
+    infoLogStream.log("Writing " + knowledgePackages.size() + " knowledge packages into output file " + absoluteOutputFileName).nl();
 
     if (!buildDirectory.exists()) {
-      log.debug("Output directory " + buildDirectory.getAbsolutePath() + " does not exist, creating.");
+      debugLogStream.log(("Output directory " + buildDirectory.getAbsolutePath() + " does not exist, creating.")).nl();
       buildDirectory.mkdirs();
     }
 
     if (outputFile.exists()) {
-      log.warn("Output file " + absoluteOutputFileName + " exists, overwriting.");
+      warnLogStream.log("Output file " + absoluteOutputFileName + " exists, overwriting.").nl();
       if (!outputFile.delete()) {
         throw new MojoFailureException("Unable to delete " + absoluteOutputFileName + "!");
       }
@@ -176,7 +178,7 @@ public class CompileMojo extends AbstractMojo {
 
     try {
       DroolsStreamUtils.streamOut(new FileOutputStream(outputFile), knowledgePackages, false);
-      log.info("Setting project artifact to " + outputFile.getAbsolutePath());
+      infoLogStream.log(("Setting project artifact to " + outputFile.getAbsolutePath())).nl();
       final Artifact artifact = project.getArtifact();
       artifact.setFile(outputFile);
     }
@@ -186,8 +188,7 @@ public class CompileMojo extends AbstractMojo {
   }
 
   private void executePass(Pass pass) throws MojoFailureException {
-    final Log log = getLog();
-    log.info("Executing compiler pass '" + pass.getName() + "'...");
+    infoLogStream.log("Executing compiler pass '" + pass.getName() + "'...").nl();
     DirectoryScanner scanner = new DirectoryScanner();
     scanner.setBasedir(pass.getRuleSourceRoot());
     scanner.setIncludes(pass.getIncludes());
@@ -199,51 +200,14 @@ public class CompileMojo extends AbstractMojo {
     for (String fileToCompile : filesToCompile) {
       compileRuleFile(pass.getRuleSourceRoot(), fileToCompile);
     }
-    log.info("Done with compiler pass '" + pass.getName() + "'.");
+    infoLogStream.log("Done with compiler pass '" + pass.getName() + "'.").nl();
   }
 
   private void compileRuleFile(File ruleSourceRoot, String nameOfFileToCompile) throws MojoFailureException {
-    final Log log = getLog();
     File fileToCompile = new File(ruleSourceRoot, nameOfFileToCompile);
-    log.info("  Compiling rule file '" + fileToCompile.getAbsolutePath() + "' ...");
+    infoLogStream.log("  Compiling rule file '" + fileToCompile.getAbsolutePath() + "' ...").nl();
     knowledgeBuilder.add(ResourceFactory.newFileResource(fileToCompile), detectTypeOf(fileToCompile));
-    handleErrors(knowledgeBuilder, fileToCompile);
-  }
-
-  private void handleErrors(KnowledgeBuilder knowledgeBuilder, File fileToCompile) throws MojoFailureException {
-    final Log log = getLog();
-    final KnowledgeBuilderErrors errors = knowledgeBuilder.getErrors();
-    if (errors.isEmpty()) {
-      log.debug("Compilation of " + fileToCompile.getAbsolutePath() + " completed successfully.");
-      return;
-    }
-    log.error("Error(s) occurred while compiling " + fileToCompile + ":");
-    log.error(formatErrors(errors));
-    throw new MojoFailureException("Compilation errors occurred.");
-  }
-
-  private String formatErrors(KnowledgeBuilderErrors errors) {
-    StringBuilder builder = new StringBuilder();
-    int i = 0;
-    for (KnowledgeBuilderError error : errors) {
-      i++;
-      builder.append("Error #" + i);
-      final int[] errorLines = error.getErrorLines();
-      if (errorLines.length > 0) {
-        builder.append(" [occurred in line(s) ");
-        for (int errorLineIndex = 0; errorLineIndex < errorLines.length; errorLineIndex++) {
-          builder.append(errorLines[errorLineIndex]);
-          if (errorLineIndex + 1 < errorLines.length) {
-            builder.append(", ");
-          }
-        }
-        builder.append("]");
-      }
-      builder.append(": ");
-      builder.append(error.getMessage());
-      builder.append(LINE_SEPARATOR);
-    }
-    return builder.toString();
+    pluginLogger.reportCompilationErrors(knowledgeBuilder.getErrors(), fileToCompile);
   }
 
   private ResourceType detectTypeOf(File fileToCompile) {
