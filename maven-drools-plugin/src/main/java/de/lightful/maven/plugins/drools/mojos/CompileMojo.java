@@ -40,6 +40,7 @@ import org.drools.core.util.DroolsStreamUtils;
 import org.drools.definition.KnowledgePackage;
 import org.drools.io.ResourceFactory;
 import org.jfrog.maven.annomojo.annotations.MojoComponent;
+import org.jfrog.maven.annomojo.annotations.MojoGoal;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
 import org.jfrog.maven.annomojo.annotations.MojoRequiresDependencyResolution;
 import org.sonatype.aether.RepositorySystem;
@@ -52,6 +53,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
+@MojoGoal(WellKnownNames.GOAL_COMPILE)
 @MojoRequiresDependencyResolution("runtime")
 public class CompileMojo extends AbstractMojo {
 

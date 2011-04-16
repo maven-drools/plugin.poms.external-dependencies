@@ -47,13 +47,13 @@ public class PluginLogger {
       this.product = new PluginLogger();
     }
 
-    public Builder errorStream(LogStream<?> debugStream) {
-      product.debugStream = debugStream;
+    public Builder errorStream(LogStream<?> errorStream) {
+      product.errorStream = errorStream;
       return this;
     }
 
-    public Builder warnStream(LogStream<?> debugStream) {
-      product.debugStream = debugStream;
+    public Builder warnStream(LogStream<?> warnStream) {
+      product.warnStream = warnStream;
       return this;
     }
 
@@ -73,9 +73,9 @@ public class PluginLogger {
     }
 
     private void validateProduct() {
-      assertThat(product.errorStream).as("DEBUG log stream").isNotNull();
-      assertThat(product.warnStream).as("DEBUG log stream").isNotNull();
-      assertThat(product.infoStream).as("DEBUG log stream").isNotNull();
+      assertThat(product.errorStream).as("ERROR log stream").isNotNull();
+      assertThat(product.warnStream).as("WARN log stream").isNotNull();
+      assertThat(product.infoStream).as("INFO log stream").isNotNull();
       assertThat(product.debugStream).as("DEBUG log stream").isNotNull();
     }
   }
