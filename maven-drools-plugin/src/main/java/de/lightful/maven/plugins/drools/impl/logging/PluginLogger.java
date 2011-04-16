@@ -30,8 +30,6 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class PluginLogger {
 
-  public static final int FIRST_PASS_NUMBER = 1;
-
   private LogStream<?> infoStream;
   private LogStream<?> debugStream;
   private LogStream<?> errorStream;
@@ -102,18 +100,16 @@ public class PluginLogger {
   }
 
   public void dumpPassesConfiguration(Pass[] passes) {
-    int passNumber = FIRST_PASS_NUMBER;
     for (Pass pass : passes) {
-      infoStream.log("Pass #" + passNumber + ":").nl();
+      infoStream.log("Pass #" + pass.getSequenceNumber() + ":").nl();
       infoStream.log("    Name:             '" + pass.getName() + "'").nl();
       infoStream.log("    Rule Source Root: " + pass.getRuleSourceRoot()).nl();
       infoStream.log("    Includes:         " + Arrays.format(pass.getIncludes())).nl();
       infoStream.log("    Excludes:         " + Arrays.format(pass.getExcludes())).nl();
-      passNumber++;
     }
   }
 
-  public void dumpPluginConfiguration(Pass[] passes, String name) {
+  public void dumpOverallPluginConfiguration(Pass[] passes, String name) {
     infoStream.log("This is the compiler plugin").nl();
     infoStream.log("Passes: " + Arrays.format(passes)).nl();
     infoStream.log("Project: " + name).nl();
@@ -149,5 +145,9 @@ public class PluginLogger {
       logStream.log(error.getMessage());
       logStream.nl();
     }
+  }
+
+  public void logCompileProgress(File fileToCompile) {
+    infoStream.log("  Compiling rule file '" + fileToCompile.getAbsolutePath() + "' ...").nl();
   }
 }

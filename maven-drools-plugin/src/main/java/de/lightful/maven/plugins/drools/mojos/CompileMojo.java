@@ -19,6 +19,7 @@ package de.lightful.maven.plugins.drools.mojos;
 
 import de.lightful.maven.plugins.drools.impl.DependencyLoader;
 import de.lightful.maven.plugins.drools.impl.WellKnownNames;
+import de.lightful.maven.plugins.drools.impl.config.ConfigurationValidator;
 import de.lightful.maven.plugins.drools.impl.config.Pass;
 import de.lightful.maven.plugins.drools.impl.logging.MavenDebugLogStream;
 import de.lightful.maven.plugins.drools.impl.logging.MavenErrorLogStream;
@@ -87,12 +88,12 @@ public class CompileMojo extends AbstractMojo {
 
   public void execute() throws MojoFailureException {
     initializeLogging();
-    initializeDependencyLoader();
+    pluginLogger.dumpOverallPluginConfiguration(passes, project.getName());
 
-    pluginLogger.dumpPluginConfiguration(passes, project.getName());
-
-    fixupPassesInformation();
+    validatePassesConfiguration();
     pluginLogger.dumpPassesConfiguration(passes);
+
+    initializeDependencyLoader();
 
     runAllPasses();
     writeOutputFile();
@@ -112,22 +113,13 @@ public class CompileMojo extends AbstractMojo {
         .create();
   }
 
-  private void initializeDependencyLoader() {
-    dependencyLoader = new DependencyLoader(pluginLogger);
+  private void validatePassesConfiguration() {
+    ConfigurationValidator configurationValidator = new ConfigurationValidator();
+    configurationValidator.validateConfiguration(passes);
   }
 
-  private void fixupPassesInformation() {
-    int passNumber = PluginLogger.FIRST_PASS_NUMBER;
-    for (Pass pass : passes) {
-      if (pass.getName() == null || "".equals(pass.getName())) {
-        pass.setName("Pass #" + passNumber);
-      }
-      if (pass.getIncludes() == null || pass.getIncludes().length == 0) {
-        pass.setIncludes(new String[] {"**/*.drl"});
-      }
-
-      passNumber++;
-    }
+  private void initializeDependencyLoader() {
+    dependencyLoader = new DependencyLoader(pluginLogger);
   }
 
   private void runAllPasses() throws MojoFailureException {
@@ -189,6 +181,14 @@ public class CompileMojo extends AbstractMojo {
 
   private void executePass(Pass pass) throws MojoFailureException {
     infoLogStream.log("Executing compiler pass '" + pass.getName() + "'...").nl();
+    final String[] filesToCompile = determineFilesToCompile(pass);
+    for (String currentFile : filesToCompile) {
+      compileRuleFile(pass.getRuleSourceRoot(), currentFile);
+    }
+    infoLogStream.log("Done with compiler pass '" + pass.getName() + "'.").nl();
+  }
+
+  private String[] determineFilesToCompile(Pass pass) {
     DirectoryScanner scanner = new DirectoryScanner();
     scanner.setBasedir(pass.getRuleSourceRoot());
     scanner.setIncludes(pass.getIncludes());
@@ -196,16 +196,12 @@ public class CompileMojo extends AbstractMojo {
     scanner.setCaseSensitive(true);
     scanner.scan();
 
-    final String[] filesToCompile = scanner.getIncludedFiles();
-    for (String fileToCompile : filesToCompile) {
-      compileRuleFile(pass.getRuleSourceRoot(), fileToCompile);
-    }
-    infoLogStream.log("Done with compiler pass '" + pass.getName() + "'.").nl();
+    return scanner.getIncludedFiles();
   }
 
   private void compileRuleFile(File ruleSourceRoot, String nameOfFileToCompile) throws MojoFailureException {
     File fileToCompile = new File(ruleSourceRoot, nameOfFileToCompile);
-    infoLogStream.log("  Compiling rule file '" + fileToCompile.getAbsolutePath() + "' ...").nl();
+    pluginLogger.logCompileProgress(fileToCompile);
     knowledgeBuilder.add(ResourceFactory.newFileResource(fileToCompile), detectTypeOf(fileToCompile));
     pluginLogger.reportCompilationErrors(knowledgeBuilder.getErrors(), fileToCompile);
   }

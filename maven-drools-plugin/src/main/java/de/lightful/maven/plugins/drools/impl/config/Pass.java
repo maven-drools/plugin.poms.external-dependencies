@@ -23,6 +23,9 @@ import java.util.Arrays;
 /** Since the Drools packaging APIs do not support forward references, we allow specification of any number of compiler passes. */
 public class Pass {
 
+  public static final int FIRST_SEQUENCE_NUMBER = 1;
+  private int sequenceNumber;
+
   private String name;
 
   private File ruleSourceRoot;
@@ -30,6 +33,14 @@ public class Pass {
   private String[] includes;
 
   private String[] excludes;
+
+  public int getSequenceNumber() {
+    return sequenceNumber;
+  }
+
+  public void setSequenceNumber(int sequenceNumber) {
+    this.sequenceNumber = sequenceNumber;
+  }
 
   public String getName() {
     return name;
