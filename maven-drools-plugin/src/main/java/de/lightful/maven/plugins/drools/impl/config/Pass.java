@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools.impl;
+package de.lightful.maven.plugins.drools.impl.config;
 
 import java.io.File;
 import java.util.Arrays;

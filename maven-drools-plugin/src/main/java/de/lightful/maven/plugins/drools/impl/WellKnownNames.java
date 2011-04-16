@@ -25,7 +25,7 @@ public interface WellKnownNames {
    * <pre>
    * &lt;project ...&gt;
    *   ...
-   *   &lt;packaging&gt;drools&lt;/packaging&gt;
+   *   &lt;packaging&gt;knowledge-module&lt;/packaging&gt;
    *   ...
    * &lt;/project&gt;
    * </pre>
@@ -37,9 +37,6 @@ public interface WellKnownNames {
 
   String ARTIFACT_TYPE_DROOLS_KNOWLEDGE_MODULE = "knowledge-module";
   String ARTIFACT_TYPE_JAR = "jar";
-  /** @deprecated please use {@link #ARTIFACT_TYPE_DROOLS_KNOWLEDGE_MODULE}. */
-  @Deprecated
-  String ARTIFACT_TYPE_DROOLS_KNOWLEDGE_PACKAGE = "dkp";
 
   String GOAL_CLEAN = "clean";
   String GOAL_COMPILE = "compile";

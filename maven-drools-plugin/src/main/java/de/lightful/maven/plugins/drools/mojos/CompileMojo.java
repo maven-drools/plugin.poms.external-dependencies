@@ -17,50 +17,39 @@
  */
 package de.lightful.maven.plugins.drools.mojos;
 
-import de.lightful.maven.plugins.drools.impl.ArtifactPredicate;
-import de.lightful.maven.plugins.drools.impl.IsDroolsKnowledgeModuleForCompilation;
-import de.lightful.maven.plugins.drools.impl.IsJarForCompilation;
-import de.lightful.maven.plugins.drools.impl.Pass;
+import de.lightful.maven.plugins.drools.impl.DependencyLoader;
 import de.lightful.maven.plugins.drools.impl.WellKnownNames;
-import de.lightful.maven.plugins.drools.knowledgeio.InfoLogger;
-import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
-import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFormatter;
+import de.lightful.maven.plugins.drools.impl.config.Pass;
+import de.lightful.maven.plugins.drools.impl.logging.MavenDebugLogStream;
+import de.lightful.maven.plugins.drools.impl.logging.MavenInfoLogStream;
+import de.lightful.maven.plugins.drools.impl.logging.PluginLogger;
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.model.Build;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.DirectoryScanner;
-import org.drools.KnowledgeBase;
-import org.drools.KnowledgeBaseConfiguration;
-import org.drools.KnowledgeBaseFactory;
 import org.drools.builder.KnowledgeBuilder;
-import org.drools.builder.KnowledgeBuilderConfiguration;
 import org.drools.builder.KnowledgeBuilderError;
 import org.drools.builder.KnowledgeBuilderErrors;
-import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.builder.ResourceType;
 import org.drools.core.util.DroolsStreamUtils;
 import org.drools.definition.KnowledgePackage;
 import org.drools.io.ResourceFactory;
-import org.fest.util.Arrays;
+import org.jfrog.maven.annomojo.annotations.MojoComponent;
 import org.jfrog.maven.annomojo.annotations.MojoGoal;
 import org.jfrog.maven.annomojo.annotations.MojoParameter;
 import org.jfrog.maven.annomojo.annotations.MojoRequiresDependencyResolution;
+import org.sonatype.aether.RepositorySystem;
+import org.sonatype.aether.RepositorySystemSession;
+import org.sonatype.aether.repository.RemoteRepository;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Properties;
-import java.util.Set;
 
 @MojoGoal(CompileMojo.GOAL)
 @MojoRequiresDependencyResolution("runtime")
@@ -81,30 +70,50 @@ public class CompileMojo extends AbstractMojo {
   @MojoParameter(defaultValue = "${project}")
   private MavenProject project;
 
-  private static final int FIRST_PASS_NUMBER = 1;
-
   private Build build;
 
   private KnowledgeBuilder knowledgeBuilder;
 
-  private InfoLogger info;
+  private MavenInfoLogStream info;
+  private MavenDebugLogStream debug;
+
+  @MojoComponent
+  private RepositorySystem repoSystem;
+
+  @MojoParameter(defaultValue = "${repositorySystemSession}", readonly = true)
+  private RepositorySystemSession repoSession;
+
+  @MojoParameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
+  private List<RemoteRepository> projectRepos;
+
+  private PluginLogger pluginLogger;
+  private DependencyLoader dependencyLoader;
+
+  public CompileMojo() {
+  }
 
   public void execute() throws MojoFailureException {
-    final Log log = getLog();
-    info = new InfoLogger(log);
-    info.log("This is the compiler plugin").nl();
-    info.log("Passes: " + Arrays.format(passes)).nl();
-    info.log("Project: " + project.getName()).nl();
+    initialize();
+
+    pluginLogger.dumpPluginConfiguration(passes, project.getName());
 
     fixupPassesInformation();
-    dumpPassesConfiguration();
+    pluginLogger.dumpPassesConfiguration(passes);
 
     runAllPasses();
     writeOutputFile();
   }
 
+  private void initialize() {
+    final Log log = getLog();
+    info = new MavenInfoLogStream(log);
+    debug = new MavenDebugLogStream(log);
+    pluginLogger = new PluginLogger(info, debug);
+    dependencyLoader = new DependencyLoader(pluginLogger);
+  }
+
   private void fixupPassesInformation() {
-    int passNumber = FIRST_PASS_NUMBER;
+    int passNumber = PluginLogger.FIRST_PASS_NUMBER;
     for (Pass pass : passes) {
       if (pass.getName() == null || "".equals(pass.getName())) {
         pass.setName("Pass #" + passNumber);
@@ -117,22 +126,8 @@ public class CompileMojo extends AbstractMojo {
     }
   }
 
-  private void dumpPassesConfiguration() {
-    final Log log = getLog();
-    int passNumber = FIRST_PASS_NUMBER;
-    for (Pass pass : passes) {
-      log.info("Pass #" + passNumber + ":");
-      log.info("    Name:             '" + pass.getName() + "'");
-      log.info("    Rule Source Root: " + pass.getRuleSourceRoot());
-      log.info("    Includes:         " + Arrays.format(pass.getIncludes()));
-      log.info("    Excludes:         " + Arrays.format(pass.getExcludes()));
-      passNumber++;
-    }
-  }
-
   private void runAllPasses() throws MojoFailureException {
-    knowledgeBuilder = createNewKnowledgeBuilder();
-
+    knowledgeBuilder = dependencyLoader.createKnowledgeBuilderForRuleCompilation(project.getDependencyArtifacts());
     for (Pass pass : passes) {
       executePass(pass);
     }
@@ -253,159 +248,5 @@ public class CompileMojo extends AbstractMojo {
 
   private ResourceType detectTypeOf(File fileToCompile) {
     return ResourceType.DRL;
-  }
-
-  private KnowledgeBuilder getKnowledgeBuilder() throws MojoFailureException {
-    if (knowledgeBuilder == null) {
-      return createNewKnowledgeBuilder();
-    }
-    else {
-      return knowledgeBuilder;
-    }
-  }
-
-  private KnowledgeBuilder createNewKnowledgeBuilder() throws MojoFailureException {
-    final Log log = getLog();
-    try {
-      URLClassLoader classLoader = createCompileClassLoader();
-      log.info("\n\nUsing class loader with these URLs:");
-      int i = 1;
-      for (URL url : classLoader.getURLs()) {
-        log.info("URL in use (#" + i + "): " + url.toString());
-      }
-      KnowledgeBuilderConfiguration configuration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(new Properties(), classLoader);
-      KnowledgeBase existingKnowledge = createKnowledgeBaseFromDependencies(classLoader);
-      return KnowledgeBuilderFactory.newKnowledgeBuilder(existingKnowledge, configuration);
-    }
-    catch (DependencyResolutionRequiredException e) {
-      throw new MojoFailureException("Internal error: declared resolution of compile-scoped dependencies, but got exception!", e);
-    }
-    catch (MalformedURLException e) {
-      throw new MojoFailureException("Got malformed URL for compile classpath element.", e);
-    }
-    catch (IOException e) {
-      throw new MojoFailureException("Error while creating drools KnowledgeBuilder.", e);
-    }
-  }
-
-  private KnowledgeBase createKnowledgeBaseFromDependencies(URLClassLoader classLoader) throws MojoFailureException {
-    Log log = getLog();
-    List<Artifact> compileArtifacts = getFilteredArtifacts(IsDroolsKnowledgeModuleForCompilation.INSTANCE);
-    final KnowledgeBaseConfiguration configuration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
-    final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase(configuration);
-    for (Artifact droolCompileArtifact : compileArtifacts) {
-      addDroolsArtifact(knowledgeBase, droolCompileArtifact);
-    }
-    return knowledgeBase;
-  }
-
-  private void addDroolsArtifact(KnowledgeBase knowledgeBase, Artifact compileArtifact) throws MojoFailureException {
-    Log log = getLog();
-    final Collection<KnowledgePackage> knowledgePackages = loadKnowledgePackages(compileArtifact);
-    knowledgeBase.addKnowledgePackages(knowledgePackages);
-    log.info("Loaded drools dependency " + coordinatesOf(compileArtifact));
-    log.info("  Contains packages:");
-    final String packageInfo = KnowledgePackageFormatter.dumpKnowledgePackages(info, knowledgePackages);
-    log.info(packageInfo);
-  }
-
-  private Collection<KnowledgePackage> loadKnowledgePackages(Artifact compileArtifact) throws MojoFailureException {
-    KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(compileArtifact.getFile());
-    final Collection<KnowledgePackage> knowledgePackages;
-    try {
-      knowledgePackages = knowledgePackageFile.getKnowledgePackages();
-    }
-    catch (IOException e) {
-      throw new MojoFailureException("Unable to load compile-scoped dependency " + coordinatesOf(compileArtifact), e);
-    }
-    catch (ClassNotFoundException e) {
-      throw new MojoFailureException("Unable to load compile-scoped dependency " + coordinatesOf(compileArtifact), e);
-    }
-    return knowledgePackages;
-  }
-
-  private String coordinatesOf(Artifact artifact) {
-    return artifact.getGroupId() + ":" + artifact.getArtifactId() + ":" + artifact.getType() + ":" + artifact.getVersion();
-  }
-
-  private URLClassLoader createCompileClassLoader() throws DependencyResolutionRequiredException, IOException {
-    Log log = getLog();
-
-    List<Artifact> compileArtifacts = getFilteredArtifacts(IsJarForCompilation.INSTANCE);
-
-    ArrayList<URL> classpathUrls = new ArrayList<URL>();
-    for (Artifact compileArtifact : compileArtifacts) {
-      URL classpathElementUrl = compileArtifact.getFile().toURI().toURL();
-      classpathUrls.add(classpathElementUrl);
-    }
-    final URL[] urls = classpathUrls.toArray(new URL[classpathUrls.size()]);
-    log.info("Passing URLs to new URLClassLoader instance: " + Arrays.format(urls));
-    URLClassLoader classLoader = new URLClassLoader(urls, ClassLoader.getSystemClassLoader()) {
-      @Override
-      public Class<?> loadClass(String name) throws ClassNotFoundException {
-        Log log = getLog();
-        log.info("Loading class '" + name + "'");
-        final Class<?> loadedClass = super.loadClass(name);
-        log.info("Loading class '" + name + "': loaded class [" + loadedClass + "]");
-        return loadedClass;
-      }
-
-      @Override
-      protected Class<?> findClass(String name) throws ClassNotFoundException {
-        Log log = getLog();
-        log.info("Finding class '" + name + "'");
-        final Class<?> foundClass = super.findClass(name);
-        log.info("Finding class '" + name + "': found class [" + foundClass + "]");
-        return foundClass;
-      }
-    };
-
-    log.info("Adding classpath URLs to classloader:");
-    for (URL classpathUrl : classpathUrls) {
-      log.info("   | " + classpathUrl);
-    }
-    log.info("   #");
-    return classLoader;
-  }
-
-  private List<Artifact> getFilteredArtifacts(final ArtifactPredicate filterPredicate) {
-    Log log = getLog();
-
-    final Set<Artifact> allArtifacts = project.getDependencyArtifacts();
-
-    int i = 1;
-    List<Artifact> filteredArtifacts = new ArrayList<Artifact>();
-    for (Artifact artifact : allArtifacts) {
-      if (filterPredicate.isTrueFor(artifact)) {
-        filteredArtifacts.add(artifact);
-      }
-      dumpArtifactInfo(log, i, artifact);
-      i++;
-    }
-    return filteredArtifacts;
-  }
-
-  private void dumpArtifactInfo(Log log, int i, Artifact artifact) {
-    log.debug("Dependency Artifact #" + i + ": Id=" + artifact.getId());
-    log.debug("Dependency Artifact #" + i + ": GroupId=" + artifact.getGroupId());
-    log.debug("Dependency Artifact #" + i + ": ArtifactId=" + artifact.getArtifactId());
-    log.debug("Dependency Artifact #" + i + ": Type=" + artifact.getType());
-    log.debug("Dependency Artifact #" + i + ": Classifier=" + artifact.getClassifier());
-    log.debug("Dependency Artifact #" + i + ": Scope=" + artifact.getScope());
-
-    log.debug("Dependency Artifact #" + i + ": BaseVersion=" + artifact.getBaseVersion());
-    log.debug("Dependency Artifact #" + i + ": Version=" + artifact.getVersion());
-    log.debug("Dependency Artifact #" + i + ": AvailableVersions=" + artifact.getAvailableVersions());
-    final File artifactFile = artifact.getFile();
-    if (artifactFile != null) {
-      log.debug("Dependency Artifact #" + i + ": File=" + artifactFile.getAbsolutePath());
-    }
-    else {
-      log.debug("Dependency Artifact #" + i + ": File={null}");
-    }
-  }
-
-  private boolean isRelevantForCompile(Artifact artifact) {
-    return ("jar".equals(artifact.getType()) && "compile".equals(artifact.getScope()));
   }
 }

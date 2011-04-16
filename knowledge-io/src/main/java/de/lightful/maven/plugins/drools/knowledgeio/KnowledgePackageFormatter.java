@@ -27,19 +27,17 @@ import java.util.Map;
 
 public class KnowledgePackageFormatter {
 
-  public static String dumpKnowledgePackages(Logger logger, Collection<KnowledgePackage> knowledgePackages) {
-    StringBuilder builder = new StringBuilder(4000);
+  public static void dumpKnowledgePackages(LogStream logStream, Collection<KnowledgePackage> knowledgePackages) {
     for (KnowledgePackage knowledgePackage : knowledgePackages) {
-      logger.log("    ").log(knowledgePackage.getName()).nl();
+      logStream.log("    ").log(knowledgePackage.getName()).nl();
       org.drools.rule.Package internalPackage = ((KnowledgePackageImp) knowledgePackage).pkg;
       for (Map.Entry<String, TypeDeclaration> typeDeclaration : internalPackage.getTypeDeclarations().entrySet()) {
-        logger.log("      type '").log(typeDeclaration.getKey()).log("': ").nl();
+        logStream.log("      type '").log(typeDeclaration.getKey()).log("': ").nl();
         for (FieldDefinition fieldDefinition : typeDeclaration.getValue().getTypeClassDef().getFieldsDefinitions()) {
-          logger
+          logStream
               .log("        field '").log(fieldDefinition.getName()).log("' is of type ").log(fieldDefinition.getTypeName()).nl();
         }
       }
     }
-    return builder.toString();
   }
 }

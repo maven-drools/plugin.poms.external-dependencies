@@ -19,6 +19,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <properties>
+    <sonatype.aether.version>1.11</sonatype.aether.version>
+  </properties>
 
   <parent>
     <groupId>de.lightful.maven.plugins.drools</groupId>
@@ -58,6 +61,17 @@
       <artifactId>maven-plugin-anno</artifactId>
       <version>1.4.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.sonatype.aether</groupId>
+      <artifactId>aether-api</artifactId>
+      <version>${sonatype.aether.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.sonatype.aether</groupId>
+      <artifactId>aether-util</artifactId>
+      <version>${sonatype.aether.version}</version>
+    </dependency>
+
 
     <!-- Drools Dependencies: -->
     <dependency>

@@ -15,22 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools.impl;
+package de.lightful.maven.plugins.drools.impl.predicates;
 
 import org.apache.maven.artifact.Artifact;
 
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.ARTIFACT_TYPE_DROOLS_KNOWLEDGE_MODULE;
+import static de.lightful.maven.plugins.drools.impl.WellKnownNames.ARTIFACT_TYPE_JAR;
 import static de.lightful.maven.plugins.drools.impl.WellKnownNames.SCOPE_COMPILE;
 
-public class IsDroolsKnowledgeModuleForCompilation extends ArtifactPredicate {
+public interface ArtifactPredicate extends Predicate<Artifact> {
 
-  public static final ArtifactPredicate INSTANCE = new IsDroolsKnowledgeModuleForCompilation();
+  public abstract boolean isTrueFor(Artifact item);
 
-  private IsDroolsKnowledgeModuleForCompilation() {
-  }
+  public static final ArtifactPredicate DROOLS_KNOWLEDGE_MODULE_FOR_COMPILATION = new ArtifactPredicate() {
+    public boolean isTrueFor(Artifact item) {
+      return SCOPE_COMPILE.equals(item.getScope()) && ARTIFACT_TYPE_DROOLS_KNOWLEDGE_MODULE.equals(item.getType());
+    }
+  };
 
-  @Override
-  public boolean isTrueFor(Artifact item) {
-    return SCOPE_COMPILE.equals(item.getScope()) && ARTIFACT_TYPE_DROOLS_KNOWLEDGE_MODULE.equals(item.getType());
-  }
+  public static final ArtifactPredicate JAR_FOR_COMPILATION = new ArtifactPredicate() {
+    public boolean isTrueFor(Artifact item) {
+      return SCOPE_COMPILE.equals(item.getScope()) && ARTIFACT_TYPE_JAR.equals(item.getType());
+    }
+  };
 }

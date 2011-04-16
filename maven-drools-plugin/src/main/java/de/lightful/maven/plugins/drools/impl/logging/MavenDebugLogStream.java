@@ -15,9 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools.impl;
+package de.lightful.maven.plugins.drools.impl.logging;
 
-public interface Predicate<T> {
+import org.apache.maven.plugin.logging.Log;
 
-  boolean isTrueFor(T item);
+public class MavenDebugLogStream extends MavenLogStream<MavenDebugLogStream> {
+
+  public MavenDebugLogStream(Log mavenLog) {
+    super(mavenLog);
+  }
+
+  @Override
+  public void writeToStream() {
+    mavenLog.debug(stringBuilder.toString());
+  }
 }

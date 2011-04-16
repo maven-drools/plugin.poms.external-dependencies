@@ -15,11 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools.knowledgeio;
+package de.lightful.maven.plugins.drools.impl.logging;
 
-public interface Logger<SELF_TYPE extends Logger<SELF_TYPE>> {
+import org.apache.maven.plugin.logging.Log;
 
-  SELF_TYPE log(String message);
+public class MavenInfoLogStream extends MavenLogStream<MavenInfoLogStream> {
 
-  SELF_TYPE nl();
+  public MavenInfoLogStream(Log mavenLog) {
+    super(mavenLog);
+  }
+
+  @Override
+  public void writeToStream() {
+    mavenLog.info(stringBuilder.toString());
+  }
 }

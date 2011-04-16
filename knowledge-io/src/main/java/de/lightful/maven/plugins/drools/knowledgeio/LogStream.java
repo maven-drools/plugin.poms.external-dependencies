@@ -15,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools.impl;
+package de.lightful.maven.plugins.drools.knowledgeio;
 
-import org.apache.maven.artifact.Artifact;
+public interface LogStream<SELF_TYPE extends LogStream<SELF_TYPE>> {
 
-public abstract class ArtifactPredicate implements Predicate<Artifact> {
+  SELF_TYPE log(String message);
 
-  public abstract boolean isTrueFor(Artifact item);
+  SELF_TYPE nl();
 }

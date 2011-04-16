@@ -15,33 +15,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools.knowledgeio;
+package de.lightful.maven.plugins.drools.impl.logging;
 
+import de.lightful.maven.plugins.drools.knowledgeio.LogStream;
 import org.apache.maven.plugin.logging.Log;
 
-public class InfoLogger implements Logger<InfoLogger> {
+public abstract class MavenLogStream<SELF_TYPE extends MavenLogStream<SELF_TYPE>> implements LogStream<SELF_TYPE> {
 
   private static final String NEWLINE = System.getProperty("line.separator");
-  private StringBuilder stringBuilder = new StringBuilder();
-  private Log mavenLog;
+  protected StringBuilder stringBuilder = new StringBuilder();
+  protected Log mavenLog;
 
-  public InfoLogger(Log mavenLog) {
+  public MavenLogStream(Log mavenLog) {
     this.mavenLog = mavenLog;
   }
 
-  public InfoLogger log(String message) {
+  public abstract void writeToStream();
+
+  @SuppressWarnings("unchecked")
+  protected SELF_TYPE self_type() {
+    return (SELF_TYPE) this;
+  }
+
+  public SELF_TYPE log(String message) {
     stringBuilder.append(message);
     if (message.endsWith(NEWLINE)) {
       return nl();
     }
     else {
-      return this;
+      return self_type();
     }
   }
 
-  public InfoLogger nl() {
-    mavenLog.info(stringBuilder.toString());
+  public SELF_TYPE nl() {
+    writeToStream();
     stringBuilder.setLength(0);
-    return this;
+    return self_type();
   }
 }
