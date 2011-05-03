@@ -55,6 +55,11 @@
       </configuration>
     </component>
 
+    <component>
+      <role>de.lightful.maven.plugins.drools.impl.ResourceTypeDetector</role>
+      <implementation>de.lightful.maven.plugins.drools.impl.ResourceTypeDetector</implementation>
+    </component>
+
   </components>
 
 </component-set>

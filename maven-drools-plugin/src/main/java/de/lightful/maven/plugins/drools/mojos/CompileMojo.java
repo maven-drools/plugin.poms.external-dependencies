@@ -18,6 +18,7 @@
 package de.lightful.maven.plugins.drools.mojos;
 
 import de.lightful.maven.plugins.drools.impl.DependencyLoader;
+import de.lightful.maven.plugins.drools.impl.ResourceTypeDetector;
 import de.lightful.maven.plugins.drools.impl.WellKnownNames;
 import de.lightful.maven.plugins.drools.impl.config.ConfigurationValidator;
 import de.lightful.maven.plugins.drools.impl.config.Pass;
@@ -35,7 +36,6 @@ import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.drools.builder.KnowledgeBuilder;
-import org.drools.builder.ResourceType;
 import org.drools.core.util.DroolsStreamUtils;
 import org.drools.definition.KnowledgePackage;
 import org.drools.io.ResourceFactory;
@@ -74,6 +74,9 @@ public class CompileMojo extends AbstractMojo {
 
   @MojoComponent
   private RepositorySystem repositorySystem;
+
+  @MojoComponent
+  private ResourceTypeDetector resourceTypeDetector;
 
   @MojoParameter(defaultValue = "${repositorySystemSession}", readonly = true)
   private RepositorySystemSession repositorySession;
@@ -204,11 +207,7 @@ public class CompileMojo extends AbstractMojo {
   private void compileRuleFile(File ruleSourceRoot, String nameOfFileToCompile) throws MojoFailureException {
     File fileToCompile = new File(ruleSourceRoot, nameOfFileToCompile);
     pluginLogger.logCompileProgress(fileToCompile);
-    knowledgeBuilder.add(ResourceFactory.newFileResource(fileToCompile), detectTypeOf(fileToCompile));
+    knowledgeBuilder.add(ResourceFactory.newFileResource(fileToCompile), resourceTypeDetector.detectTypeOf(fileToCompile));
     pluginLogger.reportCompilationErrors(knowledgeBuilder.getErrors(), fileToCompile);
-  }
-
-  private ResourceType detectTypeOf(File fileToCompile) {
-    return ResourceType.DRL;
   }
 }
