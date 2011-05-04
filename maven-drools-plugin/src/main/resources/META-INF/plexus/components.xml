@@ -60,6 +60,16 @@
       <implementation>de.lightful.maven.plugins.drools.impl.ResourceTypeDetector</implementation>
     </component>
 
+    <component>
+      <role>de.lightful.maven.plugins.drools.impl.config.ConfigurationValidator</role>
+      <implementation>de.lightful.maven.plugins.drools.impl.config.ConfigurationValidator</implementation>
+    </component>
+
+    <component>
+      <role>de.lightful.maven.plugins.drools.impl.OutputFileWriter</role>
+      <implementation>de.lightful.maven.plugins.drools.impl.OutputFileWriter</implementation>
+    </component>
+
   </components>
 
 </component-set>
