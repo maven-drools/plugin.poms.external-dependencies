@@ -81,10 +81,8 @@ public class CompileMojo extends AbstractMojo {
   private List<RemoteRepository> projectRepositories;
 
   private KnowledgeBuilder knowledgeBuilder;
-
   private PluginLogger pluginLogger;
   private DependencyLoader dependencyLoader;
-  private LogStream<?> infoLogStream;
 
   public void execute() throws MojoFailureException {
     initializeLogging();
@@ -101,11 +99,10 @@ public class CompileMojo extends AbstractMojo {
 
   private void initializeLogging() {
     final Log log = getLog();
-    infoLogStream = new MavenInfoLogStream(log);
     pluginLogger = PluginLogger.builder()
         .errorStream(new MavenErrorLogStream(log))
         .warnStream(new MavenWarnLogStream(log))
-        .infoStream(infoLogStream)
+        .infoStream(new MavenInfoLogStream(log))
         .debugStream(new MavenDebugLogStream(log))
         .create();
   }
@@ -122,12 +119,12 @@ public class CompileMojo extends AbstractMojo {
   }
 
   private void executePass(Pass pass) throws MojoFailureException {
-    infoLogStream.log("Executing compiler pass '" + pass.getName() + "'...").nl();
+    pluginLogger.getInfoStream().log("Executing compiler pass '" + pass.getName() + "'...").nl();
     final String[] filesToCompile = determineFilesToCompile(pass);
     for (String currentFile : filesToCompile) {
       compileRuleFile(pass.getRuleSourceRoot(), currentFile);
     }
-    infoLogStream.log("Done with compiler pass '" + pass.getName() + "'.").nl();
+    pluginLogger.getInfoStream().log("Done with compiler pass '" + pass.getName() + "'.").nl();
   }
 
   private String[] determineFilesToCompile(Pass pass) {
