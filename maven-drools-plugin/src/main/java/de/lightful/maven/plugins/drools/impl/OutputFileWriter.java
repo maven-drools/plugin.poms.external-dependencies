@@ -18,6 +18,7 @@
 package de.lightful.maven.plugins.drools.impl;
 
 import de.lightful.maven.plugins.drools.impl.logging.PluginLogger;
+import de.lightful.maven.plugins.drools.knowledgeio.LogStream;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.model.Build;
 import org.apache.maven.plugin.MojoFailureException;
@@ -34,22 +35,30 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class OutputFileWriter {
 
+  private LogStream<?> info;
+
+  private LogStream<?> error;
+
+  private LogStream<?> warn;
+
+  private LogStream<?> debug;
+
   public void writeOutputFile(Collection<KnowledgePackage> knowledgePackages, PluginLogger logger, MavenProject mavenProject) throws MojoFailureException {
-    ensureCorrectPackaging(logger, mavenProject);
+    ensureCorrectPackaging(mavenProject);
 
     Build build = mavenProject.getBuild();
     File buildDirectory = new File(build.getDirectory());
     File outputFile = new File(buildDirectory, build.getFinalName() + "." + WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE);
 
     final String absoluteOutputFileName = outputFile.getAbsolutePath();
-    logger.getInfoStream().log("Writing " + knowledgePackages.size() + " knowledge packages into output file " + absoluteOutputFileName).nl();
+    logger.info().write("Writing " + knowledgePackages.size() + " knowledge packages into output file " + absoluteOutputFileName).nl();
 
-    ensureTargetDirectoryExists(logger, buildDirectory);
-    prepareOutputFileForWriting(logger, outputFile, absoluteOutputFileName);
+    ensureTargetDirectoryExists(buildDirectory);
+    prepareOutputFileForWriting(outputFile, absoluteOutputFileName);
 
     try {
       DroolsStreamUtils.streamOut(new FileOutputStream(outputFile), knowledgePackages, false);
-      logger.getInfoStream().log(("Setting project artifact to " + outputFile.getAbsolutePath())).nl();
+      info.write(("Setting project artifact to " + outputFile.getAbsolutePath())).nl();
       final Artifact artifact = mavenProject.getArtifact();
       artifact.setFile(outputFile);
     }
@@ -58,9 +67,9 @@ public class OutputFileWriter {
     }
   }
 
-  private void prepareOutputFileForWriting(PluginLogger logger, File outputFile, String absoluteOutputFileName) throws MojoFailureException {
+  private void prepareOutputFileForWriting(File outputFile, String absoluteOutputFileName) throws MojoFailureException {
     if (outputFile.exists()) {
-      logger.getWarnStream().log("Output file " + absoluteOutputFileName + " exists, overwriting.").nl();
+      warn.write("Output file " + absoluteOutputFileName + " exists, overwriting.").nl();
       if (!outputFile.delete()) {
         throw new MojoFailureException("Unable to delete " + absoluteOutputFileName + "!");
       }
@@ -76,17 +85,17 @@ public class OutputFileWriter {
     }
   }
 
-  private void ensureTargetDirectoryExists(PluginLogger logger, File buildDirectory) {
+  private void ensureTargetDirectoryExists(File buildDirectory) {
     if (!buildDirectory.exists()) {
-      logger.getDebugStream().log(("Output directory " + buildDirectory.getAbsolutePath() + " does not exist, creating.")).nl();
+      debug.write(("Output directory " + buildDirectory.getAbsolutePath() + " does not exist, creating.")).nl();
       final boolean mkdirsSuccess = buildDirectory.mkdirs();
       assertThat(mkdirsSuccess).as("Target directory created successfully?").isTrue();
     }
   }
 
-  private void ensureCorrectPackaging(PluginLogger logger, MavenProject mavenProject) {
+  private void ensureCorrectPackaging(MavenProject mavenProject) {
     if (!WellKnownNames.DROOLS_KNOWLEDGE_MODULE_PACKAGING_IDENTIFIER.equals(mavenProject.getPackaging())) {
-      logger.getErrorStream().log("Internal error: packaging of project must be equal to '" + WellKnownNames.DROOLS_KNOWLEDGE_MODULE_PACKAGING_IDENTIFIER + "' when using this plugin!").nl();
+      error.write("Internal error: packaging of project must be equal to '" + WellKnownNames.DROOLS_KNOWLEDGE_MODULE_PACKAGING_IDENTIFIER + "' when using this plugin!").nl();
     }
   }
 }

@@ -26,7 +26,7 @@ public abstract class MavenLogStream<SELF_TYPE extends MavenLogStream<SELF_TYPE>
   protected StringBuilder stringBuilder = new StringBuilder();
   protected Log mavenLog;
 
-  public MavenLogStream(Log mavenLog) {
+  public void setMavenLog(Log mavenLog) {
     this.mavenLog = mavenLog;
   }
 
@@ -37,7 +37,7 @@ public abstract class MavenLogStream<SELF_TYPE extends MavenLogStream<SELF_TYPE>
     return (SELF_TYPE) this;
   }
 
-  public SELF_TYPE log(String message) {
+  public SELF_TYPE write(String message) {
     stringBuilder.append(message);
     if (message.endsWith(NEWLINE)) {
       return nl();

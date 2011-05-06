@@ -23,6 +23,7 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.drools.builder.KnowledgeBuilderError;
 import org.drools.builder.KnowledgeBuilderErrors;
 import org.fest.util.Arrays;
+import org.jfrog.maven.annomojo.annotations.MojoComponent;
 
 import java.io.File;
 
@@ -30,124 +31,95 @@ import static org.fest.assertions.Assertions.assertThat;
 
 public class PluginLogger {
 
-  private LogStream<?> infoStream;
-  private LogStream<?> debugStream;
-  private LogStream<?> errorStream;
-  private LogStream<?> warnStream;
+  private LogStream<?> debug;
 
-  public static Builder builder() {
-    return new Builder();
+  private LogStream<?> info;
+
+  private LogStream<?> warn;
+
+  private LogStream<?> error;
+
+  public LogStream<?> error() {
+    return error;
   }
 
-  public static class Builder {
-
-    private PluginLogger product;
-
-    private Builder() {
-      this.product = new PluginLogger();
-    }
-
-    public Builder errorStream(LogStream<?> errorStream) {
-      product.errorStream = errorStream;
-      return this;
-    }
-
-    public Builder warnStream(LogStream<?> warnStream) {
-      product.warnStream = warnStream;
-      return this;
-    }
-
-    public Builder infoStream(LogStream<?> infoStream) {
-      product.infoStream = infoStream;
-      return this;
-    }
-
-    public Builder debugStream(LogStream<?> debugStream) {
-      product.debugStream = debugStream;
-      return this;
-    }
-
-    public PluginLogger create() {
-      validateProduct();
-      return product;
-    }
-
-    private void validateProduct() {
-      assertThat(product.errorStream).as("ERROR log stream").isNotNull();
-      assertThat(product.warnStream).as("WARN log stream").isNotNull();
-      assertThat(product.infoStream).as("INFO log stream").isNotNull();
-      assertThat(product.debugStream).as("DEBUG log stream").isNotNull();
-    }
+  public LogStream<?> warn() {
+    return warn;
   }
 
-  private PluginLogger() {
+  public LogStream<?> info() {
+    return info;
   }
 
-  public LogStream<?> getErrorStream() {
-    return errorStream;
+  public LogStream<?> debug() {
+    return debug;
   }
 
-  public LogStream<?> getWarnStream() {
-    return warnStream;
+  public void setInfoStream(MavenLogStream<?> infoStream) {
+    this.info = infoStream;
   }
 
-  public LogStream<?> getInfoStream() {
-    return infoStream;
+  public void setDebugStream(MavenLogStream<?> debugStream) {
+    this.debug = debugStream;
   }
 
-  public LogStream<?> getDebugStream() {
-    return debugStream;
+  public void setErrorStream(MavenLogStream<?> errorStream) {
+    this.error = errorStream;
+  }
+
+  public void setWarnStream(MavenLogStream<?> warnStream) {
+    this.warn = warnStream;
   }
 
   public void dumpPassesConfiguration(Pass[] passes) {
     for (Pass pass : passes) {
-      infoStream.log("Pass #" + pass.getSequenceNumber() + ":").nl();
-      infoStream.log("    Name:             '" + pass.getName() + "'").nl();
-      infoStream.log("    Rule Source Root: " + pass.getRuleSourceRoot()).nl();
-      infoStream.log("    Includes:         " + Arrays.format(pass.getIncludes())).nl();
-      infoStream.log("    Excludes:         " + Arrays.format(pass.getExcludes())).nl();
+      info.write("Pass #" + pass.getSequenceNumber() + ":").nl();
+      info.write("    Name:             '" + pass.getName() + "'").nl();
+      info.write("    Rule Source Root: " + pass.getRuleSourceRoot()).nl();
+      info.write("    Includes:         " + Arrays.format(pass.getIncludes())).nl();
+      info.write("    Excludes:         " + Arrays.format(pass.getExcludes())).nl();
     }
   }
 
   public void dumpOverallPluginConfiguration(Pass[] passes, String name) {
-    infoStream.log("This is the compiler plugin").nl();
-    infoStream.log("Passes: " + Arrays.format(passes)).nl();
-    infoStream.log("Project: " + name).nl();
+    info.write("This is the compiler plugin").nl();
+    info.write("Passes: " + Arrays.format(passes)).nl();
+    info.write("Project: " + name).nl();
   }
 
   public void reportCompilationErrors(KnowledgeBuilderErrors errors, File fileToCompile) throws MojoFailureException {
     if (errors.isEmpty()) {
-      debugStream.log("Compilation of " + fileToCompile.getAbsolutePath() + " completed successfully.").nl();
+      debug.write("Compilation of " + fileToCompile.getAbsolutePath() + " completed successfully.").nl();
       return;
     }
-    debugStream.log("Error(s) occurred while compiling " + fileToCompile + ":");
-    formatCompilerErrors(debugStream, errors);
+    debug.write("Error(s) occurred while compiling " + fileToCompile + ":");
+    formatCompilerErrors(errors);
     throw new MojoFailureException("Compilation errors occurred.");
   }
 
-  private void formatCompilerErrors(LogStream<?> logStream, KnowledgeBuilderErrors errors) {
+  private void formatCompilerErrors(KnowledgeBuilderErrors errors) {
     int i = 0;
     for (KnowledgeBuilderError error : errors) {
       i++;
-      logStream.log("Error #" + i);
+      debug.write("Error #" + i);
       final int[] errorLines = error.getErrorLines();
       if (errorLines.length > 0) {
-        logStream.log(" [occurred in line(s) ");
+        debug.write(" [occurred in line(s) ");
         for (int errorLineIndex = 0; errorLineIndex < errorLines.length; errorLineIndex++) {
-          logStream.log("" + errorLines[errorLineIndex]);
+          debug.write("" + errorLines[errorLineIndex]);
           if (errorLineIndex + 1 < errorLines.length) {
-            logStream.log(", ");
+            debug.write(", ");
           }
         }
-        logStream.log("]");
+        debug.write("]");
       }
-      logStream.log(": ");
-      logStream.log(error.getMessage());
-      logStream.nl();
+      debug.write(": ");
+      debug.write(error.getMessage());
+      debug.nl();
     }
   }
 
   public void logCompileProgress(File fileToCompile) {
-    infoStream.log("  Compiling rule file '" + fileToCompile.getAbsolutePath() + "' ...").nl();
+    info.write("  Compiling rule file '" + fileToCompile.getAbsolutePath() + "' ...").nl();
   }
 }

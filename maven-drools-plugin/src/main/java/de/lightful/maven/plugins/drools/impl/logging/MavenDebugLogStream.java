@@ -17,13 +17,7 @@
  */
 package de.lightful.maven.plugins.drools.impl.logging;
 
-import org.apache.maven.plugin.logging.Log;
-
 public class MavenDebugLogStream extends MavenLogStream<MavenDebugLogStream> {
-
-  public MavenDebugLogStream(Log mavenLog) {
-    super(mavenLog);
-  }
 
   @Override
   public void writeToStream() {

@@ -23,15 +23,13 @@ import de.lightful.maven.plugins.drools.impl.ResourceTypeDetector;
 import de.lightful.maven.plugins.drools.impl.WellKnownNames;
 import de.lightful.maven.plugins.drools.impl.config.ConfigurationValidator;
 import de.lightful.maven.plugins.drools.impl.config.Pass;
-import de.lightful.maven.plugins.drools.impl.logging.MavenDebugLogStream;
-import de.lightful.maven.plugins.drools.impl.logging.MavenErrorLogStream;
 import de.lightful.maven.plugins.drools.impl.logging.MavenInfoLogStream;
-import de.lightful.maven.plugins.drools.impl.logging.MavenWarnLogStream;
+import de.lightful.maven.plugins.drools.impl.logging.MavenLogStream;
 import de.lightful.maven.plugins.drools.impl.logging.PluginLogger;
 import de.lightful.maven.plugins.drools.knowledgeio.LogStream;
+import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoFailureException;
-import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.DirectoryScanner;
 import org.drools.builder.KnowledgeBuilder;
@@ -74,57 +72,68 @@ public class CompileMojo extends AbstractMojo {
   @MojoComponent
   private OutputFileWriter outputFileWriter;
 
+  @MojoComponent
+  private ArtifactHandlerManager artifactHandlerManager;
+
   @MojoParameter(defaultValue = "${repositorySystemSession}", readonly = true)
   private RepositorySystemSession repositorySession;
 
   @MojoParameter(defaultValue = "${project.remoteProjectRepositories}", readonly = true)
-  private List<RemoteRepository> projectRepositories;
+  private List<RemoteRepository> remoteProjectRepositories;
 
   private KnowledgeBuilder knowledgeBuilder;
-  private PluginLogger pluginLogger;
+
+  @MojoComponent
+  private PluginLogger logger;
+
+  @MojoComponent(role = LogStream.ROLE, roleHint = "debug")
+  private MavenLogStream<MavenInfoLogStream> debug;
+
+  @MojoComponent(role = LogStream.ROLE, roleHint = "info")
+  private MavenLogStream<MavenInfoLogStream> info;
+
+  @MojoComponent(role = LogStream.ROLE, roleHint = "warn")
+  private MavenLogStream<MavenInfoLogStream> warn;
+
+  @MojoComponent(role = LogStream.ROLE, roleHint = "error")
+  private MavenLogStream<MavenInfoLogStream> error;
+
+  @MojoComponent
   private DependencyLoader dependencyLoader;
 
   public void execute() throws MojoFailureException {
     initializeLogging();
-    pluginLogger.dumpOverallPluginConfiguration(passes, project.getName());
+    logger.dumpOverallPluginConfiguration(passes, project.getName());
 
     configurationValidator.validateConfiguration(passes);
-    pluginLogger.dumpPassesConfiguration(passes);
-
-    initializeDependencyLoader();
+    logger.dumpPassesConfiguration(passes);
 
     runAllPasses();
-    outputFileWriter.writeOutputFile(knowledgeBuilder.getKnowledgePackages(), pluginLogger, project);
+    outputFileWriter.writeOutputFile(knowledgeBuilder.getKnowledgePackages(), logger, project);
   }
 
   private void initializeLogging() {
-    final Log log = getLog();
-    pluginLogger = PluginLogger.builder()
-        .errorStream(new MavenErrorLogStream(log))
-        .warnStream(new MavenWarnLogStream(log))
-        .infoStream(new MavenInfoLogStream(log))
-        .debugStream(new MavenDebugLogStream(log))
-        .create();
-  }
-
-  private void initializeDependencyLoader() {
-    dependencyLoader = new DependencyLoader(pluginLogger);
+    debug.setMavenLog(getLog());
+    info.setMavenLog(getLog());
+    warn.setMavenLog(getLog());
+    error.setMavenLog(getLog());
   }
 
   private void runAllPasses() throws MojoFailureException {
-    knowledgeBuilder = dependencyLoader.createKnowledgeBuilderForRuleCompilation(project.getDependencyArtifacts());
+    knowledgeBuilder = dependencyLoader.createKnowledgeBuilderForRuleCompilation(project, project.getDependencyArtifacts(),
+                                                                                 repositorySession, repositorySystem, remoteProjectRepositories);
     for (Pass pass : passes) {
       executePass(pass);
     }
   }
 
   private void executePass(Pass pass) throws MojoFailureException {
-    pluginLogger.getInfoStream().log("Executing compiler pass '" + pass.getName() + "'...").nl();
+    info.write("Executing compiler pass '" + pass.getName() + "'...").nl();
     final String[] filesToCompile = determineFilesToCompile(pass);
     for (String currentFile : filesToCompile) {
       compileRuleFile(pass.getRuleSourceRoot(), currentFile);
     }
-    pluginLogger.getInfoStream().log("Done with compiler pass '" + pass.getName() + "'.").nl();
+    info.write("Done with compiler pass '" + pass.getName() + "'.").nl();
   }
 
   private String[] determineFilesToCompile(Pass pass) {
@@ -140,8 +149,8 @@ public class CompileMojo extends AbstractMojo {
 
   private void compileRuleFile(File ruleSourceRoot, String nameOfFileToCompile) throws MojoFailureException {
     File fileToCompile = new File(ruleSourceRoot, nameOfFileToCompile);
-    pluginLogger.logCompileProgress(fileToCompile);
+    info.write("  Compiling rule file '" + fileToCompile.getAbsolutePath() + "' ...").nl();
     knowledgeBuilder.add(ResourceFactory.newFileResource(fileToCompile), resourceTypeDetector.detectTypeOf(fileToCompile));
-    pluginLogger.reportCompilationErrors(knowledgeBuilder.getErrors(), fileToCompile);
+    logger.reportCompilationErrors(knowledgeBuilder.getErrors(), fileToCompile);
   }
 }

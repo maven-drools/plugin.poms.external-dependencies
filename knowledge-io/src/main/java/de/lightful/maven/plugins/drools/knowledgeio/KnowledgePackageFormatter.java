@@ -29,13 +29,13 @@ public class KnowledgePackageFormatter {
 
   public static void dumpKnowledgePackages(LogStream logStream, Collection<KnowledgePackage> knowledgePackages) {
     for (KnowledgePackage knowledgePackage : knowledgePackages) {
-      logStream.log("    ").log(knowledgePackage.getName()).nl();
+      logStream.write("    ").write(knowledgePackage.getName()).nl();
       org.drools.rule.Package internalPackage = ((KnowledgePackageImp) knowledgePackage).pkg;
       for (Map.Entry<String, TypeDeclaration> typeDeclaration : internalPackage.getTypeDeclarations().entrySet()) {
-        logStream.log("      type '").log(typeDeclaration.getKey()).log("': ").nl();
+        logStream.write("      type '").write(typeDeclaration.getKey()).write("': ").nl();
         for (FieldDefinition fieldDefinition : typeDeclaration.getValue().getTypeClassDef().getFieldsDefinitions()) {
           logStream
-              .log("        field '").log(fieldDefinition.getName()).log("' is of type ").log(fieldDefinition.getTypeName()).nl();
+              .write("        field '").write(fieldDefinition.getName()).write("' is of type ").write(fieldDefinition.getTypeName()).nl();
         }
       }
     }

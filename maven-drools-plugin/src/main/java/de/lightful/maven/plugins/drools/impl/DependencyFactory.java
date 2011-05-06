@@ -15,13 +15,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools.knowledgeio;
+package de.lightful.maven.plugins.drools.impl;
 
-public interface LogStream<SELF_TYPE extends LogStream<SELF_TYPE>> {
+import org.sonatype.aether.artifact.Artifact;
+import org.sonatype.aether.graph.Dependency;
+import org.sonatype.aether.util.artifact.DefaultArtifact;
 
-  String ROLE = "de.lightful.maven.plugins.drools.knowledgeio.LogStream";
+public class DependencyFactory {
 
-  SELF_TYPE write(String message);
-
-  SELF_TYPE nl();
+//  public static Dependency toAetherDependency(org.apache.maven.model.Dependency mavenDependency) {
+//    final DefaultArtifact artifact = new DefaultArtifact(
+//        mavenDependency.getGroupId(),
+//        mavenDependency.getArtifactId(),
+//        mavenDependency.getClassifier(),
+//        mavenDependency.getType()
+//    );
+//    Dependency result = new Dependency(artifact);
+//
+//    mavenDependency.
+//
+//
+//
+//  }
 }

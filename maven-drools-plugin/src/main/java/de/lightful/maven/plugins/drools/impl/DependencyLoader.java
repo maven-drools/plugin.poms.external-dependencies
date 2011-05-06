@@ -25,6 +25,7 @@ import de.lightful.maven.plugins.drools.knowledgeio.LogStream;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.project.MavenProject;
 import org.drools.KnowledgeBase;
 import org.drools.KnowledgeBaseConfiguration;
 import org.drools.KnowledgeBaseFactory;
@@ -33,6 +34,14 @@ import org.drools.builder.KnowledgeBuilderConfiguration;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.definition.KnowledgePackage;
 import org.fest.util.Arrays;
+import org.sonatype.aether.RepositorySystem;
+import org.sonatype.aether.RepositorySystemSession;
+import org.sonatype.aether.repository.RemoteRepository;
+import org.sonatype.aether.resolution.ArtifactRequest;
+import org.sonatype.aether.resolution.ArtifactResolutionException;
+import org.sonatype.aether.resolution.ArtifactResult;
+import org.sonatype.aether.resolution.DependencyResult;
+import org.sonatype.aether.util.artifact.DefaultArtifact;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,26 +56,21 @@ import java.util.Set;
 
 public class DependencyLoader {
 
-  private PluginLogger logger;
-  private LogStream<?> info;
   private LogStream<?> debug;
+  private LogStream<?> info;
+  private LogStream<?> warn;
 
-  public DependencyLoader(PluginLogger logger) {
-    this.logger = logger;
-    info = logger.getInfoStream();
-    debug = logger.getDebugStream();
-  }
-
-  public KnowledgeBuilder createKnowledgeBuilderForRuleCompilation(Set<Artifact> dependencyArtifacts) throws MojoFailureException {
+  public KnowledgeBuilder createKnowledgeBuilderForRuleCompilation(MavenProject project, Set<Artifact> dependencyArtifacts, RepositorySystemSession repositorySession, RepositorySystem repositorySystem, List<RemoteRepository> remoteProjectRepositories) throws MojoFailureException {
     try {
       URLClassLoader classLoader = createCompileClassLoader(dependencyArtifacts);
-      info.log("\n\nUsing class loader with these URLs:").nl();
+      info.write("\n\nUsing class loader with these URLs:").nl();
       int i = 1;
       for (URL url : classLoader.getURLs()) {
-        info.log("URL in use (#" + i + "): ").log(url.toString()).nl();
+        info.write("URL in use (#" + i + "): ").write(url.toString()).nl();
       }
       KnowledgeBuilderConfiguration configuration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(new Properties(), classLoader);
-      KnowledgeBase existingKnowledge = createKnowledgeBaseFromDependencies(classLoader, dependencyArtifacts);
+      KnowledgeBase existingKnowledge = createKnowledgeBaseFromDependencies(classLoader, dependencyArtifacts, project, repositorySystem,
+                                                                            repositorySession, remoteProjectRepositories);
       return KnowledgeBuilderFactory.newKnowledgeBuilder(existingKnowledge, configuration);
     }
     catch (DependencyResolutionRequiredException e) {
@@ -80,21 +84,65 @@ public class DependencyLoader {
     }
   }
 
-  private KnowledgeBase createKnowledgeBaseFromDependencies(URLClassLoader classLoader, Set<Artifact> dependencyArtifacts) throws MojoFailureException {
+  private KnowledgeBase createKnowledgeBaseFromDependencies(URLClassLoader classLoader, Set<Artifact> dependencyArtifacts, MavenProject project, RepositorySystem repositorySystem, RepositorySystemSession repositorySession, List<RemoteRepository> remoteProjectRepositories) throws MojoFailureException {
     List<Artifact> compileArtifacts = filterArtifacts(ArtifactPredicate.DROOLS_KNOWLEDGE_MODULE_FOR_COMPILATION, dependencyArtifacts);
     final KnowledgeBaseConfiguration configuration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
     final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase(configuration);
+
+    // Example code to experiment with Artifact Resolution:
+    ArtifactRequest request = new ArtifactRequest();
+    final DefaultArtifact artifactToResolve = new DefaultArtifact("org.apache.maven:maven-model:3.0");
+    request.setArtifact(artifactToResolve);
+    request.setRepositories(remoteProjectRepositories);
+    info.write("Resolving artifact " + artifactToResolve + " from " + remoteProjectRepositories);
+    ArtifactResult result;
+    try {
+      result = repositorySystem.resolveArtifact(repositorySession, request);
+      info.write("Resolved artifact " + artifactToResolve + " to " + result.getArtifact().getFile() + " from " + result.getRepository());
+    }
+    catch (ArtifactResolutionException e) {
+      warn.write(e.getMessage()).nl();
+    }
+
+//    // Example code to experiment with Dependency Resolution:
+//    CollectRequest collectRequest = new CollectRequest();
+//    org.apache.maven.model.Dependency mavenDependency = extractMavenDependency(project.getDependencies());
+//    Dependency dependency = new Dependency(mavenDependency);
+//    collectRequest.setRoot(artifactToResolve);
+//    collectRequest.setRepositories(remoteProjectRepositories);
+//    logger.getInfoStream().log("Resolving artifact " + artifactToResolve + " from " + remoteProjectRepositories);
+//    DependencyResult result ;
+//    try {
+//      result = repositorySystem.resolveDependencies(repositorySession, collectRequest);
+//
+//      dumpDependencyTree(result, logger);
+//      for (Object o : result.getRoot().) {
+//
+//      }
+//    }
+//    catch (DependencyResolutionException e) {
+//      logger.getWarnStream().log(e.getMessage()).nl();
+//    }
+
     for (Artifact droolCompileArtifact : compileArtifacts) {
       addDroolsArtifact(knowledgeBase, droolCompileArtifact);
     }
     return knowledgeBase;
   }
 
+//  private org.apache.maven.model.Dependency extractMavenDependency(List<org.apache.maven.model.Dependency> dependencies) {
+//    return DependencyFactory.toAetherDependency(dependencies.get(0));
+//  }
+
+  private void dumpDependencyTree(DefaultArtifact artifactToResolve, DependencyResult result, PluginLogger logger) {
+    info.write("Resolved dependencies of " + artifactToResolve + ".").nl();
+  }
+
   private void addDroolsArtifact(KnowledgeBase knowledgeBase, Artifact compileArtifact) throws MojoFailureException {
     final Collection<KnowledgePackage> knowledgePackages = loadKnowledgePackages(compileArtifact);
     knowledgeBase.addKnowledgePackages(knowledgePackages);
-    info.log("Loaded drools dependency " + coordinatesOf(compileArtifact)).nl();
-    info.log("  Contains packages:").nl();
+    info.write("Loaded drools dependency " + coordinatesOf(compileArtifact)).nl();
+    info.write("  Contains packages:").nl();
     KnowledgePackageFormatter.dumpKnowledgePackages(info, knowledgePackages);
   }
 
@@ -126,30 +174,30 @@ public class DependencyLoader {
       classpathUrls.add(classpathElementUrl);
     }
     final URL[] urls = classpathUrls.toArray(new URL[classpathUrls.size()]);
-    info.log("Passing URLs to new URLClassLoader instance: ").log(Arrays.format(urls)).nl();
+    info.write("Passing URLs to new URLClassLoader instance: ").write(Arrays.format(urls)).nl();
     URLClassLoader classLoader = new URLClassLoader(urls, ClassLoader.getSystemClassLoader()) {
       @Override
       public Class<?> loadClass(String name) throws ClassNotFoundException {
-        info.log("Loading class '" + name + "'").nl();
+        info.write("Loading class '" + name + "'").nl();
         final Class<?> loadedClass = super.loadClass(name);
-        info.log("Loading class '" + name + "': loaded class [" + loadedClass + "]").nl();
+        info.write("Loading class '" + name + "': loaded class [" + loadedClass + "]").nl();
         return loadedClass;
       }
 
       @Override
       protected Class<?> findClass(String name) throws ClassNotFoundException {
-        info.log("Finding class '" + name + "'").nl();
+        info.write("Finding class '" + name + "'").nl();
         final Class<?> foundClass = super.findClass(name);
-        info.log("Finding class '" + name + "': found class [" + foundClass + "]").nl();
+        info.write("Finding class '" + name + "': found class [" + foundClass + "]").nl();
         return foundClass;
       }
     };
 
-    info.log("Adding classpath URLs to classloader:").nl();
+    info.write("Adding classpath URLs to classloader:").nl();
     for (URL classpathUrl : classpathUrls) {
-      info.log("   | " + classpathUrl).nl();
+      info.write("   | " + classpathUrl).nl();
     }
-    info.log("   #").nl();
+    info.write("   #").nl();
     return classLoader;
   }
 
@@ -168,22 +216,22 @@ public class DependencyLoader {
   }
 
   private void dumpArtifactInfo(int i, Artifact artifact) {
-    debug.log("Dependency Artifact #" + i + ": Id=" + artifact.getId()).nl();
-    debug.log("Dependency Artifact #" + i + ": GroupId=" + artifact.getGroupId()).nl();
-    debug.log("Dependency Artifact #" + i + ": ArtifactId=" + artifact.getArtifactId()).nl();
-    debug.log("Dependency Artifact #" + i + ": Type=" + artifact.getType()).nl();
-    debug.log("Dependency Artifact #" + i + ": Classifier=" + artifact.getClassifier()).nl();
-    debug.log("Dependency Artifact #" + i + ": Scope=" + artifact.getScope()).nl();
+    debug.write("Dependency Artifact #" + i + ": Id=" + artifact.getId()).nl();
+    debug.write("Dependency Artifact #" + i + ": GroupId=" + artifact.getGroupId()).nl();
+    debug.write("Dependency Artifact #" + i + ": ArtifactId=" + artifact.getArtifactId()).nl();
+    debug.write("Dependency Artifact #" + i + ": Type=" + artifact.getType()).nl();
+    debug.write("Dependency Artifact #" + i + ": Classifier=" + artifact.getClassifier()).nl();
+    debug.write("Dependency Artifact #" + i + ": Scope=" + artifact.getScope()).nl();
 
-    debug.log("Dependency Artifact #" + i + ": BaseVersion=" + artifact.getBaseVersion()).nl();
-    debug.log("Dependency Artifact #" + i + ": Version=" + artifact.getVersion()).nl();
-    debug.log("Dependency Artifact #" + i + ": AvailableVersions=" + artifact.getAvailableVersions()).nl();
+    debug.write("Dependency Artifact #" + i + ": BaseVersion=" + artifact.getBaseVersion()).nl();
+    debug.write("Dependency Artifact #" + i + ": Version=" + artifact.getVersion()).nl();
+    debug.write("Dependency Artifact #" + i + ": AvailableVersions=" + artifact.getAvailableVersions()).nl();
     final File artifactFile = artifact.getFile();
     if (artifactFile != null) {
-      debug.log("Dependency Artifact #" + i + ": File=" + artifactFile.getAbsolutePath()).nl();
+      debug.write("Dependency Artifact #" + i + ": File=" + artifactFile.getAbsolutePath()).nl();
     }
     else {
-      debug.log("Dependency Artifact #" + i + ": File={null}").nl();
+      debug.write("Dependency Artifact #" + i + ": File={null}").nl();
     }
   }
 }
