@@ -139,6 +139,11 @@
           <role-hint>warn</role-hint>
           <field-name>warn</field-name>
         </requirement>
+        <requirement>
+          <role>de.lightful.maven.plugins.drools.knowledgeio.LogStream</role>
+          <role-hint>error</role-hint>
+          <field-name>error</field-name>
+        </requirement>
       </requirements>
     </component>
 
