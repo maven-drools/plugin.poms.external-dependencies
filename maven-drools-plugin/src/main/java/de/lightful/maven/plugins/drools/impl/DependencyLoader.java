@@ -35,14 +35,9 @@ import org.drools.definition.KnowledgePackage;
 import org.fest.util.Arrays;
 import org.sonatype.aether.RepositorySystem;
 import org.sonatype.aether.RepositorySystemSession;
-import org.sonatype.aether.collection.CollectRequest;
 import org.sonatype.aether.collection.CollectResult;
-import org.sonatype.aether.collection.DependencyCollectionException;
 import org.sonatype.aether.graph.Dependency;
 import org.sonatype.aether.repository.RemoteRepository;
-import org.sonatype.aether.resolution.ArtifactRequest;
-import org.sonatype.aether.resolution.ArtifactResolutionException;
-import org.sonatype.aether.resolution.ArtifactResult;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
 
 import java.io.File;
@@ -92,37 +87,37 @@ public class DependencyLoader {
     final KnowledgeBaseConfiguration configuration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
     final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase(configuration);
 
-    // Example code to experiment with Artifact Resolution:
-    ArtifactRequest request = new ArtifactRequest();
-    final DefaultArtifact artifactToResolve = new DefaultArtifact("org.apache.maven:maven-model:3.0");
-    request.setArtifact(artifactToResolve);
-    request.setRepositories(remoteProjectRepositories);
-    info.write("Resolving artifact " + artifactToResolve + " from " + remoteProjectRepositories);
-    ArtifactResult result;
-    try {
-      result = repositorySystem.resolveArtifact(repositorySession, request);
-      info.write("Resolved artifact " + artifactToResolve + " to " + result.getArtifact().getFile() + " from " + result.getRepository());
-    }
-    catch (ArtifactResolutionException e) {
-      warn.write(e.getMessage()).nl();
-    }
-
-    for (Artifact dependencyArtifact : dependencyArtifacts) {
-      // Example code to experiment with Dependency Resolution:
-      CollectRequest collectRequest = new CollectRequest();
-      Dependency dependency = convertToAetherDependency(dependencyArtifact);
-      collectRequest.setRoot(dependency);
-      collectRequest.setRepositories(remoteProjectRepositories);
-      info.write("Resolving artifact " + artifactToResolve + " from " + remoteProjectRepositories);
-      CollectResult collectResult;
-      try {
-        collectResult = repositorySystem.collectDependencies(repositorySession, collectRequest);
-        dumpDependencyTree(collectResult);
-      }
-      catch (DependencyCollectionException e) {
-        error.write(e.getMessage()).nl();
-      }
-    }
+//    // Example code to experiment with Artifact Resolution:
+//    ArtifactRequest request = new ArtifactRequest();
+//    final DefaultArtifact artifactToResolve = new DefaultArtifact("org.apache.maven:maven-model:3.0");
+//    request.setArtifact(artifactToResolve);
+//    request.setRepositories(remoteProjectRepositories);
+//    info.write("Resolving artifact " + artifactToResolve + " from " + remoteProjectRepositories);
+//    ArtifactResult result;
+//    try {
+//      result = repositorySystem.resolveArtifact(repositorySession, request);
+//      info.write("Resolved artifact " + artifactToResolve + " to " + result.getArtifact().getFile() + " from " + result.getRepository());
+//    }
+//    catch (ArtifactResolutionException e) {
+//      warn.write(e.getMessage()).nl();
+//    }
+//
+//    for (Artifact dependencyArtifact : dependencyArtifacts) {
+//      // Example code to experiment with Dependency Resolution:
+//      CollectRequest collectRequest = new CollectRequest();
+//      Dependency dependency = convertToAetherDependency(dependencyArtifact);
+//      collectRequest.setRoot(dependency);
+//      collectRequest.setRepositories(remoteProjectRepositories);
+//      info.write("Resolving artifact " + artifactToResolve + " from " + remoteProjectRepositories);
+//      CollectResult collectResult;
+//      try {
+//        collectResult = repositorySystem.collectDependencies(repositorySession, collectRequest);
+//        dumpDependencyTree(collectResult);
+//      }
+//      catch (DependencyCollectionException e) {
+//        error.write(e.getMessage()).nl();
+//      }
+//    }
 
     for (Artifact droolCompileArtifact : compileArtifacts) {
       addDroolsArtifact(knowledgeBase, droolCompileArtifact);
