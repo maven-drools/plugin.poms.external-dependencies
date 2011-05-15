@@ -121,8 +121,8 @@
     </component>
 
     <component>
-      <role>de.lightful.maven.plugins.drools.impl.DependencyLoader</role>
-      <implementation>de.lightful.maven.plugins.drools.impl.DependencyLoader</implementation>
+      <role>de.lightful.maven.plugins.drools.impl.dependencies.DependencyLoader</role>
+      <implementation>de.lightful.maven.plugins.drools.impl.dependencies.DependencyLoader</implementation>
       <requirements>
         <requirement>
           <role>de.lightful.maven.plugins.drools.knowledgeio.LogStream</role>
@@ -143,6 +143,9 @@
           <role>de.lightful.maven.plugins.drools.knowledgeio.LogStream</role>
           <role-hint>error</role-hint>
           <field-name>error</field-name>
+        </requirement>
+        <requirement>
+          <role>org.apache.maven.artifact.handler.manager.ArtifactHandlerManager</role>
         </requirement>
       </requirements>
     </component>

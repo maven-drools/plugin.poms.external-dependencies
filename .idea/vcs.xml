@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../maven-drools-samples" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../sonatype-aether" vcs="Git" />
   </component>
 </project>
 

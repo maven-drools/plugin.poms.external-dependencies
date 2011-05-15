@@ -1,4 +1,4 @@
-/*
+/*******************************************************************************
  * Copyright (c) 2009-2011 Ansgar Konermann
  *
  * This file is part of the Maven 3 Drools Plugin.
@@ -14,15 +14,15 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 package de.lightful.maven.plugins.drools.mojos;
 
-import de.lightful.maven.plugins.drools.impl.DependencyLoader;
 import de.lightful.maven.plugins.drools.impl.OutputFileWriter;
 import de.lightful.maven.plugins.drools.impl.ResourceTypeDetector;
 import de.lightful.maven.plugins.drools.impl.WellKnownNames;
 import de.lightful.maven.plugins.drools.impl.config.ConfigurationValidator;
 import de.lightful.maven.plugins.drools.impl.config.Pass;
+import de.lightful.maven.plugins.drools.impl.dependencies.DependencyLoader;
 import de.lightful.maven.plugins.drools.impl.logging.MavenInfoLogStream;
 import de.lightful.maven.plugins.drools.impl.logging.MavenLogStream;
 import de.lightful.maven.plugins.drools.impl.logging.PluginLogger;

@@ -1,4 +1,4 @@
-/*
+/*******************************************************************************
  * Copyright (c) 2009-2011 Ansgar Konermann
  *
  * This file is part of the Maven 3 Drools Plugin.
@@ -14,15 +14,17 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-package de.lightful.maven.plugins.drools.impl;
+ ******************************************************************************/
+package de.lightful.maven.plugins.drools.impl.dependencies;
 
+import de.lightful.maven.plugins.drools.impl.WellKnownNames;
 import de.lightful.maven.plugins.drools.impl.predicates.ArtifactPredicate;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFormatter;
 import de.lightful.maven.plugins.drools.knowledgeio.LogStream;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
+import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.drools.KnowledgeBase;
@@ -35,10 +37,16 @@ import org.drools.definition.KnowledgePackage;
 import org.fest.util.Arrays;
 import org.sonatype.aether.RepositorySystem;
 import org.sonatype.aether.RepositorySystemSession;
+import org.sonatype.aether.collection.CollectRequest;
 import org.sonatype.aether.collection.CollectResult;
+import org.sonatype.aether.collection.DependencyCollectionException;
 import org.sonatype.aether.graph.Dependency;
+import org.sonatype.aether.graph.DependencyFilter;
+import org.sonatype.aether.graph.DependencyNode;
 import org.sonatype.aether.repository.RemoteRepository;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
+import org.sonatype.aether.util.graph.FilteringDependencyVisitor;
+import org.sonatype.aether.util.graph.PostorderNodeListGenerator;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,10 +61,13 @@ import java.util.Set;
 
 public class DependencyLoader {
 
+  public static final String EMPTY_CLASSIFIER = "";
   private LogStream<?> debug;
   private LogStream<?> info;
   private LogStream<?> warn;
   private LogStream<?> error;
+
+  private ArtifactHandlerManager artifactHandlerManager;
 
   public KnowledgeBuilder createKnowledgeBuilderForRuleCompilation(MavenProject project, Set<Artifact> dependencyArtifacts, RepositorySystemSession repositorySession, RepositorySystem repositorySystem, List<RemoteRepository> remoteProjectRepositories) throws MojoFailureException {
     try {
@@ -87,42 +98,59 @@ public class DependencyLoader {
     final KnowledgeBaseConfiguration configuration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
     final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase(configuration);
 
-//    // Example code to experiment with Artifact Resolution:
-//    ArtifactRequest request = new ArtifactRequest();
-//    final DefaultArtifact artifactToResolve = new DefaultArtifact("org.apache.maven:maven-model:3.0");
-//    request.setArtifact(artifactToResolve);
-//    request.setRepositories(remoteProjectRepositories);
-//    info.write("Resolving artifact " + artifactToResolve + " from " + remoteProjectRepositories);
-//    ArtifactResult result;
-//    try {
-//      result = repositorySystem.resolveArtifact(repositorySession, request);
-//      info.write("Resolved artifact " + artifactToResolve + " to " + result.getArtifact().getFile() + " from " + result.getRepository());
-//    }
-//    catch (ArtifactResolutionException e) {
-//      warn.write(e.getMessage()).nl();
-//    }
-//
-//    for (Artifact dependencyArtifact : dependencyArtifacts) {
-//      // Example code to experiment with Dependency Resolution:
-//      CollectRequest collectRequest = new CollectRequest();
-//      Dependency dependency = convertToAetherDependency(dependencyArtifact);
-//      collectRequest.setRoot(dependency);
-//      collectRequest.setRepositories(remoteProjectRepositories);
-//      info.write("Resolving artifact " + artifactToResolve + " from " + remoteProjectRepositories);
-//      CollectResult collectResult;
-//      try {
-//        collectResult = repositorySystem.collectDependencies(repositorySession, collectRequest);
-//        dumpDependencyTree(collectResult);
-//      }
-//      catch (DependencyCollectionException e) {
-//        error.write(e.getMessage()).nl();
-//      }
-//    }
+    // Example code to experiment with Dependency Resolution:
+    CollectRequest collectRequest = new CollectRequest();
+    final Dependency rootDependency = convertToAetherDependency(project);
+    collectRequest.setRoot(rootDependency);
+    collectRequest.setRepositories(remoteProjectRepositories);
+    info.write("Resolving artifact " + rootDependency.getArtifact().toString() + " from " + remoteProjectRepositories);
+    CollectResult collectResult;
+    List<DependencyNode> dependenciesInLoadOrder;
+    try {
+      collectResult = repositorySystem.collectDependencies(repositorySession, collectRequest);
+      dumpDependencyTree(collectResult);
+      PostorderNodeListGenerator nodeListGenerator = new PostorderNodeListGenerator();
+      DependencyFilter excludeRootNode = new DependencyFilter() {
+        public boolean accept(DependencyNode node, List<DependencyNode> parents) {
+          return node.getDependency() != rootDependency;
+        }
+      };
+      FilteringDependencyVisitor filterRootNodeVisitor = new FilteringDependencyVisitor(nodeListGenerator, excludeRootNode);
+      DependencyNode rootNode = collectResult.getRoot();
+      rootNode.accept(filterRootNodeVisitor);
+      dependenciesInLoadOrder = nodeListGenerator.getNodes();
+      dumpDependenciesList(dependenciesInLoadOrder);
 
-    for (Artifact droolCompileArtifact : compileArtifacts) {
-      addDroolsArtifact(knowledgeBase, droolCompileArtifact);
+      // TODO: load drools artifacts based on dependency list
+//      for (DependencyNode dependencyNode : dependenciesInLoadOrder) {
+//        addDroolsArtifact(knowledgeBase, dependencyNode.getDependency().getArtifact());
+//      }
+
     }
+    catch (DependencyCollectionException e) {
+      error.write(e.getMessage()).nl();
+    }
+
+    for (Artifact artifact : compileArtifacts) {
+      addDroolsArtifact(knowledgeBase, artifact);
+    }
+
     return knowledgeBase;
+  }
+
+  private void dumpDependenciesList(List<DependencyNode> nodes) {
+    info.write("Dependency loaded in order:").nl();
+    for (DependencyNode node : nodes) {
+      info.write("    ").write(node.toString()).nl();
+    }
+  }
+
+  private Dependency convertToAetherDependency(MavenProject project) {
+    org.sonatype.aether.artifact.Artifact artifact = new DefaultArtifact(
+        project.getGroupId(), project.getArtifactId(), EMPTY_CLASSIFIER,
+        this.artifactHandlerManager.getArtifactHandler(project.getPackaging()).getExtension(), project.getVersion()
+    );
+    return new Dependency(artifact, WellKnownNames.SCOPE_COMPILE);
   }
 
   private Dependency convertToAetherDependency(Artifact mavenArtifact) {

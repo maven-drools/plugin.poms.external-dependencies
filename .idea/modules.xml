@@ -2,23 +2,33 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/api-tests/api-tests.iml" filepath="$PROJECT_DIR$/api-tests/api-tests.iml" />
-      <module fileurl="file://$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" filepath="$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-assertions/drools-assertions.iml" filepath="$PROJECT_DIR$/drools-assertions/drools-assertions.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" filepath="$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" filepath="$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" />
-      <module fileurl="file://$PROJECT_DIR$/integration-repository/integration-repository.iml" filepath="$PROJECT_DIR$/integration-repository/integration-repository.iml" />
-      <module fileurl="file://$PROJECT_DIR$/knowledge-io/knowledge-io.iml" filepath="$PROJECT_DIR$/knowledge-io/knowledge-io.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" filepath="$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-api/mortgage-scoring-api.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-api/mortgage-scoring-api.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-client/mortgage-scoring-client.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-client/mortgage-scoring-client.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-facts/mortgage-scoring-facts.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-facts/mortgage-scoring-facts.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-rules/mortgage-scoring-rules.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-rules/mortgage-scoring-rules.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-service/mortgage-scoring-service.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-service/mortgage-scoring-service.iml" />
-      <module fileurl="file://$PROJECT_DIR$/person-fact-model/person-fact-model.iml" filepath="$PROJECT_DIR$/person-fact-model/person-fact-model.iml" />
-      <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/samples-parent.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/samples-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether.iml" group="aether and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-api/aether-api.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-api/aether-api.iml" group="aether and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-connector-asynchttpclient/aether-connector-asynchttpclient.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-connector-asynchttpclient/aether-connector-asynchttpclient.iml" group="aether and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-connector-file/aether-connector-file.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-connector-file/aether-connector-file.iml" group="aether and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-connector-wagon/aether-connector-wagon.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-connector-wagon/aether-connector-wagon.iml" group="aether and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-demo/aether-demo.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-demo/aether-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-impl/aether-impl.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-impl/aether-impl.iml" group="aether and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-spi/aether-spi.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-spi/aether-spi.iml" group="aether and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-test-util/aether-test-util.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-test-util/aether-test-util.iml" group="aether and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-util/aether-util.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-util/aether-util.iml" group="aether and modules" />
+      <module fileurl="file://$PROJECT_DIR$/api-tests/api-tests.iml" filepath="$PROJECT_DIR$/api-tests/api-tests.iml" group="project and modules" />
+      <module fileurl="file://$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" filepath="$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" group="project and modules" />
+      <module fileurl="file://$PROJECT_DIR$/drools-assertions/drools-assertions.iml" filepath="$PROJECT_DIR$/drools-assertions/drools-assertions.iml" group="project and modules" />
+      <module fileurl="file://$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" filepath="$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" group="project and modules" />
+      <module fileurl="file://$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" filepath="$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" group="project and modules" />
+      <module fileurl="file://$PROJECT_DIR$/integration-repository/integration-repository.iml" filepath="$PROJECT_DIR$/integration-repository/integration-repository.iml" group="project and modules" />
+      <module fileurl="file://$PROJECT_DIR$/knowledge-io/knowledge-io.iml" filepath="$PROJECT_DIR$/knowledge-io/knowledge-io.iml" group="project and modules" />
+      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" group="project and modules" />
+      <module fileurl="file://$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" filepath="$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" group="project and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-api/mortgage-scoring-api.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-api/mortgage-scoring-api.iml" group="samples-parent and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-client/mortgage-scoring-client.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-client/mortgage-scoring-client.iml" group="samples-parent and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-facts/mortgage-scoring-facts.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-facts/mortgage-scoring-facts.iml" group="samples-parent and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-rules/mortgage-scoring-rules.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-rules/mortgage-scoring-rules.iml" group="samples-parent and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-service/mortgage-scoring-service.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-service/mortgage-scoring-service.iml" group="samples-parent and modules" />
+      <module fileurl="file://$PROJECT_DIR$/person-fact-model/person-fact-model.iml" filepath="$PROJECT_DIR$/person-fact-model/person-fact-model.iml" group="project and modules" />
+      <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" group="project and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/samples-parent.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/samples-parent.iml" group="samples-parent and modules" />
     </modules>
   </component>
 </project>
