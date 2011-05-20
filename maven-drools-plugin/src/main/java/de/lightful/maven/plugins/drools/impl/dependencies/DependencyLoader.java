@@ -15,15 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package de.lightful.maven.plugins.drools.impl.dependencies;
 
 import de.lightful.maven.plugins.drools.impl.WellKnownNames;
-import de.lightful.maven.plugins.drools.impl.predicates.ArtifactPredicate;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFormatter;
 import de.lightful.maven.plugins.drools.knowledgeio.LogStream;
-import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
+import org.apache.maven.artifact.handler.ArtifactHandler;
 import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
@@ -35,8 +35,10 @@ import org.drools.builder.KnowledgeBuilderConfiguration;
 import org.drools.builder.KnowledgeBuilderFactory;
 import org.drools.definition.KnowledgePackage;
 import org.fest.util.Arrays;
+import org.sonatype.aether.RepositoryException;
 import org.sonatype.aether.RepositorySystem;
 import org.sonatype.aether.RepositorySystemSession;
+import org.sonatype.aether.artifact.Artifact;
 import org.sonatype.aether.collection.CollectRequest;
 import org.sonatype.aether.collection.CollectResult;
 import org.sonatype.aether.collection.DependencyCollectionException;
@@ -44,7 +46,10 @@ import org.sonatype.aether.graph.Dependency;
 import org.sonatype.aether.graph.DependencyFilter;
 import org.sonatype.aether.graph.DependencyNode;
 import org.sonatype.aether.repository.RemoteRepository;
+import org.sonatype.aether.resolution.ArtifactRequest;
+import org.sonatype.aether.resolution.ArtifactResult;
 import org.sonatype.aether.util.artifact.DefaultArtifact;
+import org.sonatype.aether.util.filter.AndDependencyFilter;
 import org.sonatype.aether.util.graph.FilteringDependencyVisitor;
 import org.sonatype.aether.util.graph.PostorderNodeListGenerator;
 
@@ -57,7 +62,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
-import java.util.Set;
 
 public class DependencyLoader {
 
@@ -68,18 +72,22 @@ public class DependencyLoader {
   private LogStream<?> error;
 
   private ArtifactHandlerManager artifactHandlerManager;
+  private RepositorySystem repositorySystem;
 
-  public KnowledgeBuilder createKnowledgeBuilderForRuleCompilation(MavenProject project, Set<Artifact> dependencyArtifacts, RepositorySystemSession repositorySession, RepositorySystem repositorySystem, List<RemoteRepository> remoteProjectRepositories) throws MojoFailureException {
+  public KnowledgeBuilder createKnowledgeBuilderForRuleCompilation(MavenProject project, RepositorySystemSession session, List<RemoteRepository> repositories) throws MojoFailureException {
     try {
-      URLClassLoader classLoader = createCompileClassLoader(dependencyArtifacts);
+      final CollectResult collectResult = collectAllDependencies(project, session, repositories);
+      final List<Artifact> knowledgeModulesInLoadOrder = resolveKnowledgeModuleArtifacts(collectResult, session, repositories);
+      final List<Artifact> jarArtifactsInLoadOrder = resolveJarArtifacts(collectResult, session, repositories);
+
+      URLClassLoader classLoader = createCompileClassLoader(jarArtifactsInLoadOrder);
       info.write("\n\nUsing class loader with these URLs:").nl();
       int i = 1;
       for (URL url : classLoader.getURLs()) {
         info.write("URL in use (#" + i + "): ").write(url.toString()).nl();
       }
       KnowledgeBuilderConfiguration configuration = KnowledgeBuilderFactory.newKnowledgeBuilderConfiguration(new Properties(), classLoader);
-      KnowledgeBase existingKnowledge = createKnowledgeBaseFromDependencies(classLoader, dependencyArtifacts, project, repositorySystem,
-                                                                            repositorySession, remoteProjectRepositories);
+      KnowledgeBase existingKnowledge = createKnowledgeBaseFromDependencies(classLoader, knowledgeModulesInLoadOrder);
       return KnowledgeBuilderFactory.newKnowledgeBuilder(existingKnowledge, configuration);
     }
     catch (DependencyResolutionRequiredException e) {
@@ -91,81 +99,105 @@ public class DependencyLoader {
     catch (IOException e) {
       throw new MojoFailureException("Error while creating drools KnowledgeBuilder.", e);
     }
+    catch (RepositoryException e) {
+      throw new MojoFailureException("Repository backend failed.", e);
+    }
   }
 
-  private KnowledgeBase createKnowledgeBaseFromDependencies(URLClassLoader classLoader, Set<Artifact> dependencyArtifacts, MavenProject project, RepositorySystem repositorySystem, RepositorySystemSession repositorySession, List<RemoteRepository> remoteProjectRepositories) throws MojoFailureException {
-    List<Artifact> compileArtifacts = filterArtifacts(ArtifactPredicate.DROOLS_KNOWLEDGE_MODULE_FOR_COMPILATION, dependencyArtifacts);
-    final KnowledgeBaseConfiguration configuration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
-    final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase(configuration);
+  private List<Artifact> resolveJarArtifacts(CollectResult collectResult, RepositorySystemSession session, List<RemoteRepository> repositories) throws RepositoryException {
+    final List<DependencyNode> droolsDependencies = getJavaDependencies(collectResult.getRequest().getRoot(), collectResult);
+    return resolveArtifacts(droolsDependencies, session, repositories);
+  }
 
-    // Example code to experiment with Dependency Resolution:
+  private List<Artifact> resolveKnowledgeModuleArtifacts(CollectResult collectResult, RepositorySystemSession session, List<RemoteRepository> repositories) throws RepositoryException {
+    final List<DependencyNode> droolsDependencies = getDroolsDependencies(collectResult.getRequest().getRoot(), collectResult);
+    return resolveArtifacts(droolsDependencies, session, repositories);
+  }
+
+  private List<Artifact> resolveArtifacts(List<DependencyNode> dependencyNodes, RepositorySystemSession repositorySession, List<RemoteRepository> remoteProjectRepositories) throws RepositoryException {
+    List<Artifact> artifacts = new ArrayList<Artifact>(dependencyNodes.size());
+    for (DependencyNode dependencyNode : dependencyNodes) {
+      ArtifactRequest request = new ArtifactRequest();
+      request.setDependencyNode(dependencyNode);
+      request.setRepositories(remoteProjectRepositories);
+      final ArtifactResult artifactResult = repositorySystem.resolveArtifact(repositorySession, request);
+      artifacts.add(artifactResult.getArtifact());
+    }
+    return artifacts;
+  }
+
+  private CollectResult collectAllDependencies(MavenProject mavenProject, RepositorySystemSession repositorySession, List<RemoteRepository> remoteProjectRepositories) throws MojoFailureException {
     CollectRequest collectRequest = new CollectRequest();
-    final Dependency rootDependency = convertToAetherDependency(project);
-    collectRequest.setRoot(rootDependency);
+    collectRequest.setRoot(createDependencyFrom(mavenProject));
     collectRequest.setRepositories(remoteProjectRepositories);
-    info.write("Resolving artifact " + rootDependency.getArtifact().toString() + " from " + remoteProjectRepositories);
+
     CollectResult collectResult;
-    List<DependencyNode> dependenciesInLoadOrder;
     try {
       collectResult = repositorySystem.collectDependencies(repositorySession, collectRequest);
       dumpDependencyTree(collectResult);
-      PostorderNodeListGenerator nodeListGenerator = new PostorderNodeListGenerator();
-      DependencyFilter excludeRootNode = new DependencyFilter() {
-        public boolean accept(DependencyNode node, List<DependencyNode> parents) {
-          return node.getDependency() != rootDependency;
-        }
-      };
-      FilteringDependencyVisitor filterRootNodeVisitor = new FilteringDependencyVisitor(nodeListGenerator, excludeRootNode);
-      DependencyNode rootNode = collectResult.getRoot();
-      rootNode.accept(filterRootNodeVisitor);
-      dependenciesInLoadOrder = nodeListGenerator.getNodes();
-      dumpDependenciesList(dependenciesInLoadOrder);
-
-      // TODO: load drools artifacts based on dependency list
-//      for (DependencyNode dependencyNode : dependenciesInLoadOrder) {
-//        addDroolsArtifact(knowledgeBase, dependencyNode.getDependency().getArtifact());
-//      }
-
     }
     catch (DependencyCollectionException e) {
-      error.write(e.getMessage()).nl();
+      throw new MojoFailureException("Unable to collect dependencies", e);
     }
+    return collectResult;
+  }
 
-    for (Artifact artifact : compileArtifacts) {
-      addDroolsArtifact(knowledgeBase, artifact);
+  private List<DependencyNode> getJavaDependencies(Dependency rootDependency, CollectResult collectResult) {
+    return getDependenciesInPostorder(collectResult, createFilterForJarDependencies(rootDependency));
+  }
+
+  private DependencyFilter createFilterForJarDependencies(Dependency rootDependency) {
+    DependencyFilter excludeRootNode = new FilterRootNode(rootDependency);
+    DependencyFilter acceptOnlyDroolsModules = new AcceptOnlyJars(artifactHandlerManager);
+    return new AndDependencyFilter(excludeRootNode, acceptOnlyDroolsModules);
+  }
+
+  private List<DependencyNode> getDroolsDependencies(Dependency rootDependency, CollectResult collectResult) {
+    return getDependenciesInPostorder(collectResult, createFilterForDroolsDependencies(rootDependency));
+  }
+
+  private List<DependencyNode> getDependenciesInPostorder(CollectResult collectResult, DependencyFilter filterForDroolsDependencies) {
+    PostorderNodeListGenerator nodeListGenerator = new PostorderNodeListGenerator();
+    FilteringDependencyVisitor filterForDroolsNodes = new FilteringDependencyVisitor(nodeListGenerator, filterForDroolsDependencies);
+    DependencyNode rootNode = collectResult.getRoot();
+    rootNode.accept(filterForDroolsNodes);
+    return nodeListGenerator.getNodes();
+  }
+
+  private AndDependencyFilter createFilterForDroolsDependencies(Dependency rootDependency) {
+    DependencyFilter excludeRootNode = new FilterRootNode(rootDependency);
+    DependencyFilter acceptOnlyDroolsModules = new AcceptOnlyDroolsModules(artifactHandlerManager);
+    return new AndDependencyFilter(excludeRootNode, acceptOnlyDroolsModules);
+  }
+
+  private KnowledgeBase createKnowledgeBaseFromDependencies(URLClassLoader classLoader, List<Artifact> knowledgeModules) throws MojoFailureException {
+    final KnowledgeBaseConfiguration configuration = KnowledgeBaseFactory.newKnowledgeBaseConfiguration(null, classLoader);
+    final KnowledgeBase knowledgeBase = KnowledgeBaseFactory.newKnowledgeBase(configuration);
+
+    for (Artifact knowledgeModule : knowledgeModules) {
+      addKnowledgeModule(knowledgeBase, knowledgeModule);
     }
 
     return knowledgeBase;
   }
 
-  private void dumpDependenciesList(List<DependencyNode> nodes) {
-    info.write("Dependency loaded in order:").nl();
-    for (DependencyNode node : nodes) {
-      info.write("    ").write(node.toString()).nl();
-    }
-  }
-
-  private Dependency convertToAetherDependency(MavenProject project) {
+  private Dependency createDependencyFrom(MavenProject project) {
+    final String artifactType = project.getPackaging();
     org.sonatype.aether.artifact.Artifact artifact = new DefaultArtifact(
-        project.getGroupId(), project.getArtifactId(), EMPTY_CLASSIFIER,
-        this.artifactHandlerManager.getArtifactHandler(project.getPackaging()).getExtension(), project.getVersion()
+        project.getGroupId(), project.getArtifactId(), EMPTY_CLASSIFIER, fileExtensionOf(artifactType), project.getVersion()
     );
     return new Dependency(artifact, WellKnownNames.SCOPE_COMPILE);
   }
 
-  private Dependency convertToAetherDependency(Artifact mavenArtifact) {
-    org.sonatype.aether.artifact.Artifact artifact = new DefaultArtifact(
-        mavenArtifact.getGroupId(), mavenArtifact.getArtifactId(), mavenArtifact.getClassifier(),
-        mavenArtifact.getArtifactHandler().getExtension(), mavenArtifact.getVersion()
-    );
-    return new Dependency(artifact, mavenArtifact.getScope());
+  private String fileExtensionOf(String artifactType) {
+    return artifactHandlerManager.getArtifactHandler(artifactType).getExtension();
   }
 
   private void dumpDependencyTree(CollectResult collectResult) {
     info.write("Resolved dependencies of " + collectResult.getRoot().toString() + ".").nl();
   }
 
-  private void addDroolsArtifact(KnowledgeBase knowledgeBase, Artifact compileArtifact) throws MojoFailureException {
+  private void addKnowledgeModule(KnowledgeBase knowledgeBase, Artifact compileArtifact) throws MojoFailureException {
     final Collection<KnowledgePackage> knowledgePackages = loadKnowledgePackages(compileArtifact);
     knowledgeBase.addKnowledgePackages(knowledgePackages);
     info.write("Loaded drools dependency " + coordinatesOf(compileArtifact)).nl();
@@ -189,15 +221,14 @@ public class DependencyLoader {
   }
 
   private String coordinatesOf(Artifact artifact) {
-    return artifact.getGroupId() + ":" + artifact.getArtifactId() + ":" + artifact.getType() + ":" + artifact.getVersion();
+    return artifact.getGroupId() + ":" + artifact.getArtifactId() + ":" + artifact.getExtension() + ":" + artifact.getVersion();
   }
 
-  private URLClassLoader createCompileClassLoader(Set<Artifact> dependencyArtifacts) throws DependencyResolutionRequiredException, IOException {
-    List<Artifact> compileArtifacts = filterArtifacts(ArtifactPredicate.JAR_FOR_COMPILATION, dependencyArtifacts);
+  private URLClassLoader createCompileClassLoader(List<Artifact> artifacts) throws DependencyResolutionRequiredException, IOException {
 
     ArrayList<URL> classpathUrls = new ArrayList<URL>();
-    for (Artifact compileArtifact : compileArtifacts) {
-      URL classpathElementUrl = compileArtifact.getFile().toURI().toURL();
+    for (Artifact artifact : artifacts) {
+      URL classpathElementUrl = artifact.getFile().toURI().toURL();
       classpathUrls.add(classpathElementUrl);
     }
     final URL[] urls = classpathUrls.toArray(new URL[classpathUrls.size()]);
@@ -228,37 +259,62 @@ public class DependencyLoader {
     return classLoader;
   }
 
-  private List<Artifact> filterArtifacts(ArtifactPredicate keepPredicate, Set<Artifact> unfilteredArtifacts) {
-
-    int i = 1;
-    List<Artifact> filteredArtifacts = new ArrayList<Artifact>();
-    for (Artifact artifact : unfilteredArtifacts) {
-      if (keepPredicate.isTrueFor(artifact)) {
-        filteredArtifacts.add(artifact);
-      }
-      dumpArtifactInfo(i, artifact);
-      i++;
-    }
-    return filteredArtifacts;
-  }
-
   private void dumpArtifactInfo(int i, Artifact artifact) {
-    debug.write("Dependency Artifact #" + i + ": Id=" + artifact.getId()).nl();
     debug.write("Dependency Artifact #" + i + ": GroupId=" + artifact.getGroupId()).nl();
     debug.write("Dependency Artifact #" + i + ": ArtifactId=" + artifact.getArtifactId()).nl();
-    debug.write("Dependency Artifact #" + i + ": Type=" + artifact.getType()).nl();
+    debug.write("Dependency Artifact #" + i + ": Type=" + artifact.getExtension()).nl();
     debug.write("Dependency Artifact #" + i + ": Classifier=" + artifact.getClassifier()).nl();
-    debug.write("Dependency Artifact #" + i + ": Scope=" + artifact.getScope()).nl();
-
     debug.write("Dependency Artifact #" + i + ": BaseVersion=" + artifact.getBaseVersion()).nl();
     debug.write("Dependency Artifact #" + i + ": Version=" + artifact.getVersion()).nl();
-    debug.write("Dependency Artifact #" + i + ": AvailableVersions=" + artifact.getAvailableVersions()).nl();
     final File artifactFile = artifact.getFile();
     if (artifactFile != null) {
       debug.write("Dependency Artifact #" + i + ": File=" + artifactFile.getAbsolutePath()).nl();
     }
     else {
       debug.write("Dependency Artifact #" + i + ": File={null}").nl();
+    }
+  }
+
+  private static class FilterRootNode implements DependencyFilter {
+
+    private final Dependency rootDependency;
+
+    public FilterRootNode(Dependency rootDependency) {
+      this.rootDependency = rootDependency;
+    }
+
+    public boolean accept(DependencyNode node, List<DependencyNode> parents) {
+      return node.getDependency() != rootDependency;
+    }
+  }
+
+  private static class AcceptOnlyDroolsModules implements DependencyFilter {
+
+    private ArtifactHandlerManager artifactHandlerManager;
+
+    public AcceptOnlyDroolsModules(ArtifactHandlerManager artifactHandlerManager) {
+      this.artifactHandlerManager = artifactHandlerManager;
+    }
+
+    public boolean accept(DependencyNode node, List<DependencyNode> parents) {
+      final ArtifactHandler artifactHandler = artifactHandlerManager.getArtifactHandler(WellKnownNames.ARTIFACT_TYPE_DROOLS_KNOWLEDGE_MODULE);
+      final String knowledgeModuleExtension = artifactHandler.getExtension();
+      return node.getDependency().getArtifact().getExtension().equals(knowledgeModuleExtension);
+    }
+  }
+
+  private class AcceptOnlyJars implements DependencyFilter {
+
+    private ArtifactHandlerManager artifactHandlerManager;
+
+    public AcceptOnlyJars(ArtifactHandlerManager artifactHandlerManager) {
+      this.artifactHandlerManager = artifactHandlerManager;
+    }
+
+    public boolean accept(DependencyNode node, List<DependencyNode> parents) {
+      final ArtifactHandler artifactHandler = artifactHandlerManager.getArtifactHandler(WellKnownNames.ARTIFACT_TYPE_JAR);
+      final String jarFileExtension = artifactHandler.getExtension();
+      return node.getDependency().getArtifact().getExtension().equals(jarFileExtension);
     }
   }
 }

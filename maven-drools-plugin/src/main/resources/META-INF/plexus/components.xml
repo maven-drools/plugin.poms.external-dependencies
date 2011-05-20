@@ -147,6 +147,9 @@
         <requirement>
           <role>org.apache.maven.artifact.handler.manager.ArtifactHandlerManager</role>
         </requirement>
+        <requirement>
+          <role>org.sonatype.aether.RepositorySystem</role>
+        </requirement>
       </requirements>
     </component>
 

@@ -15,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
+
 package de.lightful.maven.plugins.drools.mojos;
 
 import de.lightful.maven.plugins.drools.impl.OutputFileWriter;
@@ -120,8 +121,7 @@ public class CompileMojo extends AbstractMojo {
   }
 
   private void runAllPasses() throws MojoFailureException {
-    knowledgeBuilder = dependencyLoader.createKnowledgeBuilderForRuleCompilation(project, project.getDependencyArtifacts(),
-                                                                                 repositorySession, repositorySystem, remoteProjectRepositories);
+    knowledgeBuilder = dependencyLoader.createKnowledgeBuilderForRuleCompilation(project, repositorySession, remoteProjectRepositories);
     for (Pass pass : passes) {
       executePass(pass);
     }
