@@ -232,30 +232,30 @@ public class DependencyLoader {
       classpathUrls.add(classpathElementUrl);
     }
     final URL[] urls = classpathUrls.toArray(new URL[classpathUrls.size()]);
-    info.write("Passing URLs to new URLClassLoader instance: ").write(Arrays.format(urls)).nl();
+    debug.write("Passing URLs to new URLClassLoader instance: ").write(Arrays.format(urls)).nl();
     URLClassLoader classLoader = new URLClassLoader(urls, ClassLoader.getSystemClassLoader()) {
       @Override
       public Class<?> loadClass(String name) throws ClassNotFoundException {
-        info.write("Loading class '" + name + "'").nl();
+        debug.write("Loading class '" + name + "'").nl();
         final Class<?> loadedClass = super.loadClass(name);
-        info.write("Loading class '" + name + "': loaded class [" + loadedClass + "]").nl();
+        debug.write("Loading class '" + name + "': loaded class [" + loadedClass + "]").nl();
         return loadedClass;
       }
 
       @Override
       protected Class<?> findClass(String name) throws ClassNotFoundException {
-        info.write("Finding class '" + name + "'").nl();
+        debug.write("Finding class '" + name + "'").nl();
         final Class<?> foundClass = super.findClass(name);
-        info.write("Finding class '" + name + "': found class [" + foundClass + "]").nl();
+        debug.write("Finding class '" + name + "': found class [" + foundClass + "]").nl();
         return foundClass;
       }
     };
 
-    info.write("Adding classpath URLs to classloader:").nl();
+    debug.write("Adding classpath URLs to classloader:").nl();
     for (URL classpathUrl : classpathUrls) {
-      info.write("   | " + classpathUrl).nl();
+      debug.write("   | " + classpathUrl).nl();
     }
-    info.write("   #").nl();
+    debug.write("   #").nl();
     return classLoader;
   }
 

@@ -5,6 +5,10 @@ import com.example.model.person.*;
 
 dialect "java"
 
+declare type_a
+  value: int
+end
+
 rule "use a fruit type"
   when
     Fruit( name == "APPLE" )

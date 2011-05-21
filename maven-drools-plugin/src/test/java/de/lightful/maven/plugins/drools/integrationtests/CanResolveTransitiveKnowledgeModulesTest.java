@@ -1,4 +1,4 @@
-/*
+/*******************************************************************************
  * Copyright (c) 2009-2011 Ansgar Konermann
  *
  * This file is part of the Maven 3 Drools Plugin.
@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 package de.lightful.maven.plugins.drools.integrationtests;
 
 import de.lightful.maven.plugins.drools.impl.WellKnownNames;
@@ -34,7 +34,7 @@ import static de.lightful.maven.plugins.drools.impl.WellKnownNames.FILE_EXTENSIO
 @VerifyUsingProject("can_resolve_transitive_knowledge_modules")
 public class CanResolveTransitiveKnowledgeModulesTest extends MavenVerifierTest {
 
-  private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact.user_of_a_and_b-1.0.0" + "." + FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
+  private static final String EXPECTED_OUTPUT_FILE = "modules/user_of_a_and_b/target/plugintest.artifact.user_of_a_and_b-1.0.0" + "." + FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
 
   @Inject
   private Verifier verifier;

@@ -1,4 +1,4 @@
-/*
+/*******************************************************************************
  * Copyright (c) 2009-2011 Ansgar Konermann
  *
  * This file is part of the Maven 3 Drools Plugin.
@@ -14,7 +14,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ ******************************************************************************/
 package de.lightful.maven.plugins.drools.impl.logging;
 
 import de.lightful.maven.plugins.drools.impl.config.Pass;
@@ -23,11 +23,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.drools.builder.KnowledgeBuilderError;
 import org.drools.builder.KnowledgeBuilderErrors;
 import org.fest.util.Arrays;
-import org.jfrog.maven.annomojo.annotations.MojoComponent;
 
 import java.io.File;
-
-import static org.fest.assertions.Assertions.assertThat;
 
 public class PluginLogger {
 
@@ -92,34 +89,30 @@ public class PluginLogger {
       debug.write("Compilation of " + fileToCompile.getAbsolutePath() + " completed successfully.").nl();
       return;
     }
-    debug.write("Error(s) occurred while compiling " + fileToCompile + ":");
+    error.write("Error(s) occurred while compiling " + fileToCompile + ":");
     formatCompilerErrors(errors);
     throw new MojoFailureException("Compilation errors occurred.");
   }
 
   private void formatCompilerErrors(KnowledgeBuilderErrors errors) {
     int i = 0;
-    for (KnowledgeBuilderError error : errors) {
+    for (KnowledgeBuilderError builderError : errors) {
       i++;
-      debug.write("Error #" + i);
-      final int[] errorLines = error.getErrorLines();
+      error.write("Error #" + i);
+      final int[] errorLines = builderError.getErrorLines();
       if (errorLines.length > 0) {
-        debug.write(" [occurred in line(s) ");
+        error.write(" [occurred in line(s) ");
         for (int errorLineIndex = 0; errorLineIndex < errorLines.length; errorLineIndex++) {
-          debug.write("" + errorLines[errorLineIndex]);
+          error.write("" + errorLines[errorLineIndex]);
           if (errorLineIndex + 1 < errorLines.length) {
-            debug.write(", ");
+            error.write(", ");
           }
         }
-        debug.write("]");
+        error().write("]");
       }
-      debug.write(": ");
-      debug.write(error.getMessage());
-      debug.nl();
+      error.write(": ");
+      error.write(builderError.getMessage());
+      error.nl();
     }
-  }
-
-  public void logCompileProgress(File fileToCompile) {
-    info.write("  Compiling rule file '" + fileToCompile.getAbsolutePath() + "' ...").nl();
   }
 }
