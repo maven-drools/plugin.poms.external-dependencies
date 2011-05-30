@@ -137,7 +137,7 @@
     <dependency><!-- for Arrays.format() -->
       <groupId>org.easytesting</groupId>
       <artifactId>fest-util</artifactId>
-      <version>1.1.4</version>
+      <version>1.1.6</version>
     </dependency>
 
     <dependency><!-- @Inject: -->
