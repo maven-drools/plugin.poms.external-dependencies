@@ -2,16 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether.iml" group="aether and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-api/aether-api.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-api/aether-api.iml" group="aether and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-connector-asynchttpclient/aether-connector-asynchttpclient.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-connector-asynchttpclient/aether-connector-asynchttpclient.iml" group="aether and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-connector-file/aether-connector-file.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-connector-file/aether-connector-file.iml" group="aether and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-connector-wagon/aether-connector-wagon.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-connector-wagon/aether-connector-wagon.iml" group="aether and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-demo/aether-demo.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-demo/aether-demo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-impl/aether-impl.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-impl/aether-impl.iml" group="aether and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-spi/aether-spi.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-spi/aether-spi.iml" group="aether and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-test-util/aether-test-util.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-test-util/aether-test-util.iml" group="aether and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../sonatype-aether/aether-util/aether-util.iml" filepath="$PROJECT_DIR$/../sonatype-aether/aether-util/aether-util.iml" group="aether and modules" />
       <module fileurl="file://$PROJECT_DIR$/api-tests/api-tests.iml" filepath="$PROJECT_DIR$/api-tests/api-tests.iml" group="project and modules" />
       <module fileurl="file://$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" filepath="$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" group="project and modules" />
       <module fileurl="file://$PROJECT_DIR$/drools-assertions/drools-assertions.iml" filepath="$PROJECT_DIR$/drools-assertions/drools-assertions.iml" group="project and modules" />
