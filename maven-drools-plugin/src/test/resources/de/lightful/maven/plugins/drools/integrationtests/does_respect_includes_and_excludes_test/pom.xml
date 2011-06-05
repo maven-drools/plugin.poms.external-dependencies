@@ -31,9 +31,9 @@
         <version>${project.version}</version>
         <dependencies>
           <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-compiler</artifactId>
-            <version>[5.1.1]</version>
+            <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
+            <artifactId>drools_050101</artifactId>
+            <version>${project.version}</version>
           </dependency>
         </dependencies>
         <extensions>true</extensions>

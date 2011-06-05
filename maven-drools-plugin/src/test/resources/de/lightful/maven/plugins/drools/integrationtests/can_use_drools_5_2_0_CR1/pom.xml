@@ -29,24 +29,18 @@
         <groupId>${project.groupId}</groupId>
         <artifactId>${project.artifactId}</artifactId>
         <version>${project.version}</version>
+        <extensions>true</extensions>
         <dependencies>
           <dependency>
             <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-            <artifactId>drools_050101</artifactId>
+            <artifactId>drools_0502CR1</artifactId>
             <version>${project.version}</version>
           </dependency>
         </dependencies>
-        <extensions>true</extensions>
         <configuration>
           <passes>
             <pass>
               <ruleSourceRoot>\${basedir}/src/main/rules/pass-one</ruleSourceRoot>
-            </pass>
-            <pass>
-              <ruleSourceRoot>\${basedir}/src/main/rules/pass-two</ruleSourceRoot>
-            </pass>
-            <pass>
-              <ruleSourceRoot>\${basedir}/src/main/rules/pass-three</ruleSourceRoot>
             </pass>
           </passes>
         </configuration>

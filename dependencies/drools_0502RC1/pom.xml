@@ -31,7 +31,7 @@
   <artifactId>drools_0502CR1</artifactId>
   <version>0.0.16-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Use Drools 5.2 CR1</name>
+  <name>Maven Drools Plugin :: Drools Dependencies :: Drools 5.2.0.CR1</name>
 
   <properties>
     <drools.version>5.2.0.CR1</drools.version>
