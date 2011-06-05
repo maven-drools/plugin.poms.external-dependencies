@@ -16,46 +16,44 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>project-parent</artifactId>
-    <groupId>de.lightful.maven.plugins.drools</groupId>
+    <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
+    <artifactId>dependency-modules</artifactId>
     <version>0.0.16-SNAPSHOT</version>
   </parent>
 
-  <artifactId>knowledge-io</artifactId>
+  <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
+  <artifactId>drools_0502CR1</artifactId>
   <version>0.0.16-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Use Drools 5.2 CR1</name>
 
-  <name>Maven Drools Plugin :: Knowledge I/O</name>
+  <properties>
+    <drools.version>5.2.0.CR1</drools.version>
+  </properties>
 
   <dependencies>
     <dependency>
-      <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-      <artifactId>${drools.dependencies.default}</artifactId>
-      <type>pom</type>
+      <groupId>org.drools</groupId>
+      <artifactId>knowledge-api</artifactId>
+      <version>${drools.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.easytesting</groupId>
-      <artifactId>fest-assert</artifactId>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <version>${drools.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.maven</groupId>
-      <artifactId>maven-plugin-api</artifactId>
-      <version>${dependency.maven.version}</version>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-compiler</artifactId>
+      <version>${drools.version}</version>
     </dependency>
-
   </dependencies>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-invoker-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>
