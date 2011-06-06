@@ -33,7 +33,7 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <drools.version>[5.1.1]</drools.version>
-    <drools.dependencies.default>drools_050101</drools.dependencies.default>
+    <drools.dependencies.default>drools_0502CR1</drools.dependencies.default>
     <repository.integrationtests>${project.basedir}/../target/it-repository</repository.integrationtests>
     <repository.deploymenttests>file://${project.basedir}/../target/deployment-repository</repository.deploymenttests>
     <repository.regular>${env.HOME}/.m2/repository</repository.regular>
