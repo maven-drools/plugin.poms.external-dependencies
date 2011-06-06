@@ -30,14 +30,6 @@
         <artifactId>${project.artifactId}</artifactId>
         <version>${project.version}</version>
         <extensions>true</extensions>
-        <dependencies>
-          <dependency>
-            <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-            <artifactId>drools_050101</artifactId>
-            <version>${project.version}</version>
-            <type>pom</type>
-          </dependency>
-        </dependencies>
         <configuration>
           <passes>
             <pass>
