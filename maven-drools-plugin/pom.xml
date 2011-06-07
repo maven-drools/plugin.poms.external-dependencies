@@ -41,7 +41,7 @@
   <dependencies>
     <dependency>
       <groupId>de.lightful.maven.plugins.drools</groupId>
-      <artifactId>knowledge-io</artifactId>
+      <artifactId>knowledge-io.050101</artifactId>
     </dependency>
     <dependency>
       <groupId>de.lightful.maven.plugins.drools</groupId>
@@ -81,9 +81,8 @@
     <!-- Drools Dependencies: -->
     <dependency>
       <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-      <artifactId>drools</artifactId>
+      <artifactId>drools.050101</artifactId>
       <version>${project.version}</version>
-      <classifier>${classifier.dependencies.drools}</classifier>
       <type>pom</type>
     </dependency>
 

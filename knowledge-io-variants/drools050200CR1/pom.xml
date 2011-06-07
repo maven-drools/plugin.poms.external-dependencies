@@ -11,12 +11,13 @@
   </parent>
 
   <groupId>de.lightful.maven.plugins.drools</groupId>
-  <artifactId>knowledge-io</artifactId>
-  <version>0.0.16-drools050200CR1-SNAPSHOT</version>
+  <artifactId>knowledge-io.050200CR1</artifactId>
+  <version>0.0.16-SNAPSHOT</version>
   <name>Maven Drools Plugin :: Knowledge I/O :: Variant "Drools 5.2.0 CR1"</name>
 
   <build>
     <sourceDirectory>../src/main/java</sourceDirectory>
+    <testSourceDirectory>../src/test/java</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -28,12 +29,10 @@
   <dependencies>
     <dependency>
       <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-      <artifactId>dependencies</artifactId>
+      <artifactId>drools.050200CR1</artifactId>
       <version>${project.parent.version}</version>
-      <classifier>${classifier.drools050200CR1}</classifier>
       <type>pom</type>
     </dependency>
-
   </dependencies>
 
 </project>

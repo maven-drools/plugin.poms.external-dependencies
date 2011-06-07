@@ -22,38 +22,20 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-    <artifactId>dependency-modules</artifactId>
+    <groupId>de.lightful.maven.plugins.drools</groupId>
+    <artifactId>project-parent</artifactId>
     <version>0.0.16-SNAPSHOT</version>
   </parent>
 
   <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-  <artifactId>drools</artifactId>
-  <version>0.0.16-drools050101-SNAPSHOT</version>
+  <artifactId>drools-dependencies-variants</artifactId>
+  <version>0.0.16-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Maven Drools Plugin :: Drools Dependencies :: Drools 5.1.1</name>
+  <name>Maven Drools Plugin :: Drools Dependencies Variants</name>
 
-  <properties>
-    <drools.version>5.1.1</drools.version>
-  </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.drools</groupId>
-      <artifactId>drools-api</artifactId>
-      <version>${drools.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.drools</groupId>
-      <artifactId>drools-core</artifactId>
-      <version>${drools.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.drools</groupId>
-      <artifactId>drools-compiler</artifactId>
-      <version>${drools.version}</version>
-    </dependency>
-  </dependencies>
-
+  <modules>
+    <module>drools-dependencies-050101</module>
+    <module>drools-dependencies-drools050200CR1</module>
+  </modules>
 
 </project>

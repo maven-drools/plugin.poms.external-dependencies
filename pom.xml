@@ -42,7 +42,8 @@
 
   <modules>
     <module>api-tests</module>
-    <module>knowledge-io</module>
+    <module>drools-dependencies-variants</module>
+    <module>knowledge-io-variants</module>
     <module>maven-verifier-testng</module>
     <module>drools-assertions</module>
     <module>drools-fruit-types</module>
@@ -51,8 +52,6 @@
     <module>person-fact-model</module>
     <module>integration-repository</module>
     <module>maven-drools-plugin</module>
-    <module>drools-dependencies</module>
-    <module>knowledge-io-variants</module>
   </modules>
 
   <dependencyManagement>
@@ -122,7 +121,12 @@
       </dependency>
       <dependency>
         <groupId>de.lightful.maven.plugins.drools</groupId>
-        <artifactId>knowledge-io</artifactId>
+        <artifactId>knowledge-io.050101</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <artifactId>knowledge-io.050200CR1</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -131,13 +135,6 @@
         <version>${project.version}</version>
         <type>pom</type>
         <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-        <artifactId>drools</artifactId>
-        <version>${project.version}</version>
-        <classifier>${classifier.dependencies.drools}</classifier>
-        <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
@@ -304,34 +301,5 @@
 
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>depend-on-drools51</id>
-      <activation>
-        <property>
-          <name>drools.version</name>
-          <value>5.1</value>
-        </property>
-      </activation>
-      <properties>
-        <drools.version>[5.1.1]</drools.version>
-        <classifier.dependencies.drools>drools050101</classifier.dependencies.drools>
-      </properties>
-    </profile>
-    <profile>
-      <id>depend-on-drools52</id>
-      <activation>
-        <property>
-          <name>drools.version</name>
-          <value>5.2</value>
-        </property>
-      </activation>
-      <properties>
-        <drools.version>[5.2.0.CR1]</drools.version>
-        <classifier.dependencies.drools>drools050200CR1</classifier.dependencies.drools>
-      </properties>
-    </profile>
-  </profiles>
 
 </project>

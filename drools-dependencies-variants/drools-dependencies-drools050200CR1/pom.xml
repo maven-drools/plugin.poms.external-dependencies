@@ -22,19 +22,37 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <artifactId>project-parent</artifactId>
-    <groupId>de.lightful.maven.plugins.drools</groupId>
+    <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
+    <artifactId>drools-dependencies-variants</artifactId>
     <version>0.0.16-SNAPSHOT</version>
   </parent>
 
   <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-  <artifactId>dependency-modules</artifactId>
+  <artifactId>drools.050200CR1</artifactId>
+  <version>0.0.16-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Maven Drools Plugin :: Drools Dependencies</name>
+  <name>Maven Drools Plugin :: Drools Dependencies :: Drools 5.2.0.CR1</name>
 
-  <modules>
-    <module>drools050101</module>
-    <module>drools050200CR1</module>
-  </modules>
+  <properties>
+    <drools.version>5.2.0.CR1</drools.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>knowledge-api</artifactId>
+      <version>${drools.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <version>${drools.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-compiler</artifactId>
+      <version>${drools.version}</version>
+    </dependency>
+  </dependencies>
 
 </project>
