@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>de.lightful.maven.plugins.drools</groupId>
+    <artifactId>knowledge-io-variants</artifactId>
+    <version>0.0.16-SNAPSHOT</version>
+  </parent>
+
+  <groupId>de.lightful.maven.plugins.drools</groupId>
+  <artifactId>knowledge-io</artifactId>
+  <version>0.0.16-drools050101-SNAPSHOT</version>
+  <name>Maven Drools Plugin :: Knowledge I/O :: Variant "Drools 5.1.1"</name>
+
+  <build>
+    <sourceDirectory>../src/main/java</sourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-invoker-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
+      <artifactId>dependencies</artifactId>
+      <version>${project.parent.version}</version>
+      <classifier>${classifier.drools050101}</classifier>
+      <type>pom</type>
+    </dependency>
+  </dependencies>
+
+</project>

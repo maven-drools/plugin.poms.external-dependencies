@@ -81,7 +81,9 @@
     <!-- Drools Dependencies: -->
     <dependency>
       <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-      <artifactId>${drools.dependencies.default}</artifactId>
+      <artifactId>drools</artifactId>
+      <version>${project.version}</version>
+      <classifier>${classifier.dependencies.drools}</classifier>
       <type>pom</type>
     </dependency>
 

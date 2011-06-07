@@ -30,10 +30,11 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <dependency.drools.version>5.1.1</dependency.drools.version>
     <dependency.maven.version>3.0.3</dependency.maven.version>
+    <classifier.drools050101>drools050101</classifier.drools050101>
+    <classifier.drools050200CR1>drools050200CR1</classifier.drools050200CR1>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <drools.version>[5.1.1]</drools.version>
-    <drools.dependencies.default>drools_050101</drools.dependencies.default>
     <repository.integrationtests>${project.basedir}/../target/it-repository</repository.integrationtests>
     <repository.deploymenttests>file://${project.basedir}/../target/deployment-repository</repository.deploymenttests>
     <repository.regular>${env.HOME}/.m2/repository</repository.regular>
@@ -50,7 +51,8 @@
     <module>person-fact-model</module>
     <module>integration-repository</module>
     <module>maven-drools-plugin</module>
-    <module>dependencies</module>
+    <module>drools-dependencies</module>
+    <module>knowledge-io-variants</module>
   </modules>
 
   <dependencyManagement>
@@ -132,21 +134,15 @@
       </dependency>
       <dependency>
         <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-        <artifactId>drools_050001</artifactId>
+        <artifactId>drools</artifactId>
         <version>${project.version}</version>
+        <classifier>${classifier.dependencies.drools}</classifier>
         <type>pom</type>
       </dependency>
       <dependency>
-        <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-        <artifactId>drools_050101</artifactId>
-        <version>${project.version}</version>
-        <type>pom</type>
-      </dependency>
-      <dependency>
-        <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-        <artifactId>drools_0502CR1</artifactId>
-        <version>${project.version}</version>
-        <type>pom</type>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-plugin-api</artifactId>
+        <version>3.0.3</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -308,5 +304,34 @@
 
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>depend-on-drools51</id>
+      <activation>
+        <property>
+          <name>drools.version</name>
+          <value>5.1</value>
+        </property>
+      </activation>
+      <properties>
+        <drools.version>[5.1.1]</drools.version>
+        <classifier.dependencies.drools>drools050101</classifier.dependencies.drools>
+      </properties>
+    </profile>
+    <profile>
+      <id>depend-on-drools52</id>
+      <activation>
+        <property>
+          <name>drools.version</name>
+          <value>5.2</value>
+        </property>
+      </activation>
+      <properties>
+        <drools.version>[5.2.0.CR1]</drools.version>
+        <classifier.dependencies.drools>drools050200CR1</classifier.dependencies.drools>
+      </properties>
+    </profile>
+  </profiles>
 
 </project>
