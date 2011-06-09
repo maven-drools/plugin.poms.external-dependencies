@@ -23,24 +23,24 @@
 
   <parent>
     <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-    <artifactId>drools-dependencies-variants</artifactId>
+    <artifactId>drools-dependencies</artifactId>
     <version>0.0.16-SNAPSHOT</version>
   </parent>
 
   <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-  <artifactId>drools.050200CR1</artifactId>
+  <artifactId>drools.050101</artifactId>
   <version>0.0.16-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Maven Drools Plugin :: Drools Dependencies :: Drools 5.2.0.CR1</name>
+  <name>Maven Drools Plugin :: Drools Dependencies :: Drools 5.1.1</name>
 
   <properties>
-    <drools.version>5.2.0.CR1</drools.version>
+    <drools.version>5.1.1</drools.version>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.drools</groupId>
-      <artifactId>knowledge-api</artifactId>
+      <artifactId>drools-api</artifactId>
       <version>${drools.version}</version>
     </dependency>
     <dependency>
@@ -54,5 +54,6 @@
       <version>${drools.version}</version>
     </dependency>
   </dependencies>
+
 
 </project>

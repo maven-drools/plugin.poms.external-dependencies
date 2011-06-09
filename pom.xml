@@ -42,7 +42,7 @@
 
   <modules>
     <module>api-tests</module>
-    <module>drools-dependencies-variants</module>
+    <module>drools-dependencies</module>
     <module>knowledge-io-variants</module>
     <module>maven-verifier-testng</module>
     <module>drools-assertions</module>

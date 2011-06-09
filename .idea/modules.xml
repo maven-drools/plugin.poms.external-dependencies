@@ -5,9 +5,9 @@
       <module fileurl="file://$PROJECT_DIR$/api-tests/api-tests.iml" filepath="$PROJECT_DIR$/api-tests/api-tests.iml" group="project and modules" />
       <module fileurl="file://$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" filepath="$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" group="project and modules" />
       <module fileurl="file://$PROJECT_DIR$/drools-assertions/drools-assertions.iml" filepath="$PROJECT_DIR$/drools-assertions/drools-assertions.iml" group="project and modules" />
+      <module fileurl="file://$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies.iml" filepath="$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies-050101/drools-dependencies-050101.iml" filepath="$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies-050101/drools-dependencies-050101.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies-drools050200CR1/drools-dependencies-drools050200CR1.iml" filepath="$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies-drools050200CR1/drools-dependencies-drools050200CR1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies-variants.iml" filepath="$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies-variants.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" filepath="$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" group="project and modules" />
       <module fileurl="file://$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" filepath="$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" group="project and modules" />
       <module fileurl="file://$PROJECT_DIR$/knowledge-io-variants/drools050101/drools050101.iml" filepath="$PROJECT_DIR$/knowledge-io-variants/drools050101/drools050101.iml" />
