@@ -13,6 +13,7 @@
       <repositories>
         <repository>
           <id>de.lightful-releases</id>
+          <name>de.lightful Releases</name>
           <url>http://lightful.de/mvnrepo/public/releases/</url>
           <releases>
             <enabled>true</enabled>
@@ -27,8 +28,9 @@
         </repository>
 
         <repository>
-          <id>jboss-maven2-release-repository</id>
-          <url>http://repository.jboss.org/maven2/</url>
+          <id>jboss-releases</id>
+          <name>JBoss Releases</name>
+          <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
           <releases>
             <enabled>true</enabled>
             <updatePolicy>daily</updatePolicy>
