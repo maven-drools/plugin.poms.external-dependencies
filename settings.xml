@@ -1,0 +1,40 @@
+<settings>
+  <proxies/>
+  <mirrors/>
+
+  <profiles>
+    <profile>
+      <id>@CI.CODEBETTER</id>
+
+      <properties>
+        <mirrorUrl>http://repo1.maven.org/maven2/</mirrorUrl>
+      </properties>
+
+      <repositories>
+        <repository>
+          <id>de.lightful-releases</id>
+          <url>http://lightful.de/mvnrepo/public/releases/</url>
+          <releases>
+            <enabled>true</enabled>
+            <updatePolicy>daily</updatePolicy>
+            <checksumPolicy>fail</checksumPolicy>
+          </releases>
+          <snapshots>
+            <enabled>false</enabled>
+            <updatePolicy>never</updatePolicy>
+            <checksumPolicy>fail</checksumPolicy>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+
+  <activeProfiles>
+    <activeProfile>@CI.CODEBETTER</activeProfile>
+  </activeProfiles>
+
+  <pluginGroups>
+    <pluginGroup>com.googlecode.maven-overview-plugin</pluginGroup>
+  </pluginGroups>
+
+</settings>
