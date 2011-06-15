@@ -48,6 +48,7 @@
         <pluginRepository>
           <id>de.lightful-releases</id>
           <name>de.lightful Releases</name>
+          <url>http://lightful.de/mvnrepo/public/releases/</url>
           <releases>
             <enabled>true</enabled>
             <updatePolicy>always</updatePolicy>
