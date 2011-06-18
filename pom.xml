@@ -69,7 +69,7 @@
       <dependency>
         <groupId>org.apache.maven.shared</groupId>
         <artifactId>maven-verifier</artifactId>
-        <version>1.2</version>
+        <version>1.3</version>
       </dependency>
 
       <dependency>
@@ -140,6 +140,18 @@
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-plugin-api</artifactId>
         <version>3.0.3</version>
+      </dependency>
+      <dependency>
+        <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
+        <artifactId>drools.050101</artifactId>
+        <version>0.0.16-SNAPSHOT</version>
+        <type>pom</type>
+      </dependency>
+      <dependency>
+        <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
+        <artifactId>drools.050200CR1</artifactId>
+        <version>0.0.16-SNAPSHOT</version>
+        <type>pom</type>
       </dependency>
     </dependencies>
   </dependencyManagement>
