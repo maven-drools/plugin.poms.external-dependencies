@@ -26,8 +26,8 @@
   </dependencies>
 
   <modules>
-    <module>drools050101</module>
-    <module>drools050200CR1</module>
+    <module>knowledge-io-5.1.1</module>
+    <module>knowledge-io-5.2.0.Final</module>
   </modules>
 
 </project>

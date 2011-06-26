@@ -40,12 +40,13 @@
 
   <dependencies>
     <dependency>
-      <groupId>de.lightful.maven.plugins.drools</groupId>
-      <artifactId>knowledge-io.050101</artifactId>
+      <groupId>de.lightful.maven.plugins.drools.knowledge-io</groupId>
+      <artifactId>knowledge-io-5.1.1</artifactId>
+      <version>${project.parent.version}</version>
     </dependency>
     <!-- Drools Dependencies: -->
     <dependency>
-      <groupId>de.lightful.maven.plugins.drools</groupId>
+      <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
       <artifactId>dependencies-5.1.1</artifactId>
       <version>${project.parent.version}</version>
       <type>pom</type>

@@ -10,7 +10,7 @@
     <version>0.0.16-SNAPSHOT</version>
   </parent>
 
-  <groupId>de.lightful.maven.plugins.drools</groupId>
+  <groupId>de.lightful.maven.plugins.drools.knowledge-io</groupId>
   <artifactId>knowledge-io-5.1.1</artifactId>
   <version>0.0.16-SNAPSHOT</version>
   <name>Maven Drools Plugin :: Knowledge I/O :: Variant "Drools 5.1.1"</name>
@@ -28,7 +28,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>de.lightful.maven.plugins.drools</groupId>
+      <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
       <artifactId>dependencies-5.1.1</artifactId>
       <version>${project.parent.version}</version>
       <type>pom</type>

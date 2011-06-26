@@ -27,7 +27,7 @@
     <version>0.0.16-SNAPSHOT</version>
   </parent>
 
-  <groupId>de.lightful.maven.plugins.drools</groupId>
+  <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
   <artifactId>dependencies-5.2.0.Final</artifactId>
   <version>0.0.16-SNAPSHOT</version>
   <packaging>pom</packaging>
