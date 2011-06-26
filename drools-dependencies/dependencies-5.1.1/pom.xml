@@ -27,8 +27,8 @@
     <version>0.0.16-SNAPSHOT</version>
   </parent>
 
-  <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-  <artifactId>drools.050101</artifactId>
+  <groupId>de.lightful.maven.plugins.drools</groupId>
+  <artifactId>dependencies-5.1.1</artifactId>
   <version>0.0.16-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Maven Drools Plugin :: Drools Dependencies :: Drools 5.1.1</name>
@@ -54,6 +54,5 @@
       <version>${drools.version}</version>
     </dependency>
   </dependencies>
-
 
 </project>

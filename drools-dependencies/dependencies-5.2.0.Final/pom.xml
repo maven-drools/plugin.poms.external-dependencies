@@ -27,14 +27,14 @@
     <version>0.0.16-SNAPSHOT</version>
   </parent>
 
-  <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-  <artifactId>drools.050200CR1</artifactId>
+  <groupId>de.lightful.maven.plugins.drools</groupId>
+  <artifactId>dependencies-5.2.0.Final</artifactId>
   <version>0.0.16-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Maven Drools Plugin :: Drools Dependencies :: Drools 5.2.0.CR1</name>
+  <name>Maven Drools Plugin :: Drools Dependencies :: Drools 5.2.0.Final</name>
 
   <properties>
-    <drools.version>5.2.0.CR1</drools.version>
+    <drools.version>5.2.0.Final</drools.version>
   </properties>
 
   <dependencies>

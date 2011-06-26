@@ -172,54 +172,11 @@
 
     <pluginManagement>
       <plugins>
-        <plugin>
-          <artifactId>maven-surefire-plugin</artifactId>
 
-          <executions>
-            <execution>
-              <id>default-test</id>
-              <phase>test</phase>
-              <goals>
-                <goal>test</goal>
-              </goals>
-              <configuration>
-                <excludes>
-                  <exclude>../**/integrationtests/*Test.java</exclude>
-                </excludes>
-              </configuration>
-            </execution>
-            <execution>
-              <id>integration-tests</id>
-              <phase>integration-test</phase>
-              <goals>
-                <goal>test</goal>
-              </goals>
-              <configuration>
-                <includes>
-                  <include>../**/integrationtests/*Test.java</include>
-                </includes>
-                <systemProperties>
-                  <localRepository>${repository.integrationtests}</localRepository>
-                </systemProperties>
-                <systemPropertyVariables>
-                  <project.version>${project.version}</project.version>
-                  <repository.integrationtests>${repository.integrationtests}</repository.integrationtests>
-                  <repository.deploymenttests>${repository.deploymenttests}</repository.deploymenttests>
-                </systemPropertyVariables>
-                <failIfNoTests>true</failIfNoTests>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
+
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-invoker-plugin</artifactId>
-        </plugin>
-
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-archetype-plugin</artifactId>
-          <version>2.0</version>
         </plugin>
 
         <plugin>

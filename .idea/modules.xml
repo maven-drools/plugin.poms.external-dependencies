@@ -4,28 +4,20 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/api-tests/api-tests.iml" filepath="$PROJECT_DIR$/api-tests/api-tests.iml" group="project and modules" />
       <module fileurl="file://$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" filepath="$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" group="project and modules" />
+      <module fileurl="file://$PROJECT_DIR$/drools-dependencies/dependencies-5.1.1/dependencies-5.1.1.iml" filepath="$PROJECT_DIR$/drools-dependencies/dependencies-5.1.1/dependencies-5.1.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/drools-dependencies/drools-dependencies-drools050200CR1/dependencies-5.2.0.Final.iml" filepath="$PROJECT_DIR$/drools-dependencies/drools-dependencies-drools050200CR1/dependencies-5.2.0.Final.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-assertions/drools-assertions.iml" filepath="$PROJECT_DIR$/drools-assertions/drools-assertions.iml" group="project and modules" />
       <module fileurl="file://$PROJECT_DIR$/drools-dependencies/drools-dependencies.iml" filepath="$PROJECT_DIR$/drools-dependencies/drools-dependencies.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies.iml" filepath="$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies-050101/drools-dependencies-050101.iml" filepath="$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies-050101/drools-dependencies-050101.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies-drools050200CR1/drools-dependencies-drools050200CR1.iml" filepath="$PROJECT_DIR$/drools-dependencies-variants/drools-dependencies-drools050200CR1/drools-dependencies-drools050200CR1.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" filepath="$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" group="project and modules" />
       <module fileurl="file://$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" filepath="$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" group="project and modules" />
-      <module fileurl="file://$PROJECT_DIR$/drools-dependencies/drools-dependencies-050101/drools.050101.iml" filepath="$PROJECT_DIR$/drools-dependencies/drools-dependencies-050101/drools.050101.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-dependencies/drools-dependencies-drools050200CR1/drools.050200CR1.iml" filepath="$PROJECT_DIR$/drools-dependencies/drools-dependencies-drools050200CR1/drools.050200CR1.iml" />
       <module fileurl="file://$PROJECT_DIR$/knowledge-io-variants/drools050101/drools050101.iml" filepath="$PROJECT_DIR$/knowledge-io-variants/drools050101/drools050101.iml" />
       <module fileurl="file://$PROJECT_DIR$/knowledge-io-variants/drools050200CR1/drools050200CR1.iml" filepath="$PROJECT_DIR$/knowledge-io-variants/drools050200CR1/drools050200CR1.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/ide-test-settings/ide-test-settings.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/ide-test-settings/ide-test-settings.iml" />
       <module fileurl="file://$PROJECT_DIR$/integration-repository/integration-repository.iml" filepath="$PROJECT_DIR$/integration-repository/integration-repository.iml" group="project and modules" />
       <module fileurl="file://$PROJECT_DIR$/knowledge-io-variants/knowledge-io-variants.iml" filepath="$PROJECT_DIR$/knowledge-io-variants/knowledge-io-variants.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" group="project and modules" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin-050101/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin-050101/maven-drools-plugin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin-050101/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin-050101/maven-drools-plugin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin-050101/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin-050101/maven-drools-plugin.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin-050101/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin-050101/maven-drools-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin-050101/maven-drools-plugin-050101.iml" filepath="$PROJECT_DIR$/maven-drools-plugin-050101/maven-drools-plugin-050101.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.drools050101/maven-drools-plugin.drools050101.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.drools050101/maven-drools-plugin.drools050101.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin-050101/maven-drools-plugin.drools050101.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin-050101/maven-drools-plugin.drools050101.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" filepath="$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" group="project and modules" />
       <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-api/mortgage-scoring-api.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-api/mortgage-scoring-api.iml" group="samples-parent and modules" />
       <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-client/mortgage-scoring-client.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-client/mortgage-scoring-client.iml" group="samples-parent and modules" />
@@ -35,7 +27,6 @@
       <module fileurl="file://$PROJECT_DIR$/person-fact-model/person-fact-model.iml" filepath="$PROJECT_DIR$/person-fact-model/person-fact-model.iml" group="project and modules" />
       <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" group="project and modules" />
       <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/samples-parent.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/samples-parent.iml" group="samples-parent and modules" />
-      <module fileurl="file://$PROJECT_DIR$/variant-drools050200CR1/variant-drools050200CR1.iml" filepath="$PROJECT_DIR$/variant-drools050200CR1/variant-drools050200CR1.iml" />
     </modules>
   </component>
 </project>

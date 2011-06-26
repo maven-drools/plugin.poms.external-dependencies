@@ -34,8 +34,8 @@
   <name>Maven Drools Plugin :: Drools Dependencies</name>
 
   <modules>
-    <module>drools-dependencies-050101</module>
-    <module>drools-dependencies-drools050200CR1</module>
+    <module>dependencies-5.1.1</module>
+    <module>dependencies-5.2.0.Final</module>
   </modules>
 
 </project>
