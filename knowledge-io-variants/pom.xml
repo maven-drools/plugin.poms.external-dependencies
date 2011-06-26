@@ -9,8 +9,8 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>de.lightful.maven.plugins.drools</groupId>
-  <artifactId>knowledge-io-variants</artifactId>
+  <groupId>de.lightful.maven.plugins.drools.knowledge-io</groupId>
+  <artifactId>variants</artifactId>
   <packaging>pom</packaging>
   <name>Maven Drools Plugin :: Knowledge I/O Variants</name>
 

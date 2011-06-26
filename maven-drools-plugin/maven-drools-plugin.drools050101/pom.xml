@@ -45,8 +45,9 @@
     </dependency>
     <!-- Drools Dependencies: -->
     <dependency>
-      <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-      <artifactId>drools.050101</artifactId>
+      <groupId>de.lightful.maven.plugins.drools</groupId>
+      <artifactId>dependencies-5.1.1</artifactId>
+      <version>${project.parent.version}</version>
       <type>pom</type>
     </dependency>
   </dependencies>

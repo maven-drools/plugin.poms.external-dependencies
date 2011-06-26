@@ -5,13 +5,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>de.lightful.maven.plugins.drools</groupId>
-    <artifactId>knowledge-io-variants</artifactId>
+    <groupId>de.lightful.maven.plugins.drools.knowledge-io</groupId>
+    <artifactId>variants</artifactId>
     <version>0.0.16-SNAPSHOT</version>
   </parent>
 
   <groupId>de.lightful.maven.plugins.drools</groupId>
-  <artifactId>knowledge-io.050101</artifactId>
+  <artifactId>knowledge-io-5.1.1</artifactId>
   <version>0.0.16-SNAPSHOT</version>
   <name>Maven Drools Plugin :: Knowledge I/O :: Variant "Drools 5.1.1"</name>
 
@@ -28,8 +28,8 @@
 
   <dependencies>
     <dependency>
-      <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-      <artifactId>drools.050101</artifactId>
+      <groupId>de.lightful.maven.plugins.drools</groupId>
+      <artifactId>dependencies-5.1.1</artifactId>
       <version>${project.parent.version}</version>
       <type>pom</type>
     </dependency>
