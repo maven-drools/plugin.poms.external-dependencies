@@ -2,30 +2,24 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/api-tests/api-tests.iml" filepath="$PROJECT_DIR$/api-tests/api-tests.iml" group="project and modules" />
-      <module fileurl="file://$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" filepath="$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" group="project and modules" />
-      <module fileurl="file://$PROJECT_DIR$/drools-dependencies/dependencies-5.1.1/dependencies-5.1.1.iml" filepath="$PROJECT_DIR$/drools-dependencies/dependencies-5.1.1/dependencies-5.1.1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-dependencies/dependencies-5.2.0.Final/dependencies-5.2.0.Final.iml" filepath="$PROJECT_DIR$/drools-dependencies/dependencies-5.2.0.Final/dependencies-5.2.0.Final.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-assertions/drools-assertions.iml" filepath="$PROJECT_DIR$/drools-assertions/drools-assertions.iml" group="project and modules" />
-      <module fileurl="file://$PROJECT_DIR$/drools-dependencies/drools-dependencies.iml" filepath="$PROJECT_DIR$/drools-dependencies/drools-dependencies.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" filepath="$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" group="project and modules" />
-      <module fileurl="file://$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" filepath="$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" group="project and modules" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/ide-test-settings/ide-test-settings.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/ide-test-settings/ide-test-settings.iml" />
-      <module fileurl="file://$PROJECT_DIR$/integration-repository/integration-repository.iml" filepath="$PROJECT_DIR$/integration-repository/integration-repository.iml" group="project and modules" />
-      <module fileurl="file://$PROJECT_DIR$/knowledge-io-variants/drools050101/knowledge-io-5.1.1.iml" filepath="$PROJECT_DIR$/knowledge-io-variants/drools050101/knowledge-io-5.1.1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/knowledge-io-variants/drools050200CR1/knowledge-io-5.2.0.Final.iml" filepath="$PROJECT_DIR$/knowledge-io-variants/drools050200CR1/knowledge-io-5.2.0.Final.iml" />
-      <module fileurl="file://$PROJECT_DIR$/knowledge-io-variants/knowledge-io-variants.iml" filepath="$PROJECT_DIR$/knowledge-io-variants/knowledge-io-variants.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" group="project and modules" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.drools050101/maven-drools-plugin.drools050101.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.drools050101/maven-drools-plugin.drools050101.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" filepath="$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" group="project and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-api/mortgage-scoring-api.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-api/mortgage-scoring-api.iml" group="samples-parent and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-client/mortgage-scoring-client.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-client/mortgage-scoring-client.iml" group="samples-parent and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-facts/mortgage-scoring-facts.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-facts/mortgage-scoring-facts.iml" group="samples-parent and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-rules/mortgage-scoring-rules.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-rules/mortgage-scoring-rules.iml" group="samples-parent and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-service/mortgage-scoring-service.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/mortgage-scoring-service/mortgage-scoring-service.iml" group="samples-parent and modules" />
-      <module fileurl="file://$PROJECT_DIR$/person-fact-model/person-fact-model.iml" filepath="$PROJECT_DIR$/person-fact-model/person-fact-model.iml" group="project and modules" />
-      <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" group="project and modules" />
-      <module fileurl="file://$PROJECT_DIR$/../maven-drools-samples/samples-parent.iml" filepath="$PROJECT_DIR$/../maven-drools-samples/samples-parent.iml" group="samples-parent and modules" />
+      <module fileurl="file://$PROJECT_DIR$/api-tests/api-tests.iml" filepath="$PROJECT_DIR$/api-tests/api-tests.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" filepath="$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/drools-dependencies-variants/dependencies-5.1.1/dependencies-5.1.1.iml" filepath="$PROJECT_DIR$/drools-dependencies-variants/dependencies-5.1.1/dependencies-5.1.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/drools-dependencies-variants/dependencies-5.2.0.Final/dependencies-5.2.0.Final.iml" filepath="$PROJECT_DIR$/drools-dependencies-variants/dependencies-5.2.0.Final/dependencies-5.2.0.Final.iml" />
+      <module fileurl="file://$PROJECT_DIR$/drools-assertions/drools-assertions.iml" filepath="$PROJECT_DIR$/drools-assertions/drools-assertions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/drools-dependencies/drools-dependencies-variants.iml" filepath="$PROJECT_DIR$/drools-dependencies/drools-dependencies-variants.iml" group="drools-dependencies and modules" />
+      <module fileurl="file://$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" filepath="$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" />
+      <module fileurl="file://$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" filepath="$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" />
+      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/ide-test-settings/ide-test-settings.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/ide-test-settings/ide-test-settings.iml" group="maven-drools-plugin and modules" />
+      <module fileurl="file://$PROJECT_DIR$/integration-repository/integration-repository.iml" filepath="$PROJECT_DIR$/integration-repository/integration-repository.iml" />
+      <module fileurl="file://$PROJECT_DIR$/knowledge-io-variants/knowledge-io-5.1.1/knowledge-io-5.1.1.iml" filepath="$PROJECT_DIR$/knowledge-io-variants/knowledge-io-5.1.1/knowledge-io-5.1.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/knowledge-io-variants/knowledge-io-5.2.0.Final/knowledge-io-5.2.0.Final.iml" filepath="$PROJECT_DIR$/knowledge-io-variants/knowledge-io-5.2.0.Final/knowledge-io-5.2.0.Final.iml" />
+      <module fileurl="file://$PROJECT_DIR$/knowledge-io-variants/knowledge-io-variants.iml" filepath="$PROJECT_DIR$/knowledge-io-variants/knowledge-io-variants.iml" group="knowledge-io-variants and modules" />
+      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" group="maven-drools-plugin and modules" />
+      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.drools050101/maven-drools-plugin.drools050101.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.drools050101/maven-drools-plugin.drools050101.iml" group="maven-drools-plugin and modules" />
+      <module fileurl="file://$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" filepath="$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" />
+      <module fileurl="file://$PROJECT_DIR$/person-fact-model/person-fact-model.iml" filepath="$PROJECT_DIR$/person-fact-model/person-fact-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" />
     </modules>
   </component>
 </project>

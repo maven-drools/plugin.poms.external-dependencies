@@ -13,7 +13,7 @@
   <groupId>de.lightful.maven.plugins.drools.knowledge-io</groupId>
   <artifactId>knowledge-io-5.2.0.Final</artifactId>
   <version>0.0.16-SNAPSHOT</version>
-  <name>Maven Drools Plugin :: Knowledge I/O :: Variant "Drools 5.2.0 CR1"</name>
+  <name>Maven Drools Plugin :: Knowledge I/O :: Variant "Drools 5.2.0.Final"</name>
 
   <build>
     <sourceDirectory>../src/main/java</sourceDirectory>

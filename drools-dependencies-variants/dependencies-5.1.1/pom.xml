@@ -23,7 +23,7 @@
 
   <parent>
     <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-    <artifactId>drools-dependencies</artifactId>
+    <artifactId>variants</artifactId>
     <version>0.0.16-SNAPSHOT</version>
   </parent>
 
