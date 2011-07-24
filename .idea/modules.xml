@@ -4,19 +4,19 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/api-tests/api-tests.iml" filepath="$PROJECT_DIR$/api-tests/api-tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" filepath="$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../maven-drools-providers/drools-5.1.1/drools-5.1.1.iml" filepath="$PROJECT_DIR$/../maven-drools-providers/drools-5.1.1/drools-5.1.1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../maven-drools-providers/drools-5.2.0.Final/drools-5.2.0.Final.iml" filepath="$PROJECT_DIR$/../maven-drools-providers/drools-5.2.0.Final/drools-5.2.0.Final.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-assertions/drools-assertions.iml" filepath="$PROJECT_DIR$/drools-assertions/drools-assertions.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" filepath="$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-runtime-5.1.1-provider-impl/drools-runtime-provider-5.1.1.iml" filepath="$PROJECT_DIR$/drools-runtime-5.1.1-provider-impl/drools-runtime-provider-5.1.1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drools-runtime-provider-5.2.0.Final/drools-runtime-provider-5.2.0.Final.iml" filepath="$PROJECT_DIR$/drools-runtime-provider-5.2.0.Final/drools-runtime-provider-5.2.0.Final.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" filepath="$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/ide-test-settings/ide-test-settings.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/ide-test-settings/ide-test-settings.iml" group="maven-drools-plugin and modules" />
       <module fileurl="file://$PROJECT_DIR$/integration-repository/integration-repository.iml" filepath="$PROJECT_DIR$/integration-repository/integration-repository.iml" />
       <module fileurl="file://$PROJECT_DIR$/knowledge-io-5.1.1/knowledge-io.iml" filepath="$PROJECT_DIR$/knowledge-io-5.1.1/knowledge-io.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" group="maven-drools-plugin and modules" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.drools050101/maven-drools-plugin.drools050101.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.drools050101/maven-drools-plugin.drools050101.iml" group="maven-drools-plugin and modules" />
+      <module fileurl="file://$PROJECT_DIR$/../maven-drools-providers/maven-drools-providers.iml" filepath="$PROJECT_DIR$/../maven-drools-providers/maven-drools-providers.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" filepath="$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" />
       <module fileurl="file://$PROJECT_DIR$/person-fact-model/person-fact-model.iml" filepath="$PROJECT_DIR$/person-fact-model/person-fact-model.iml" />
       <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../de.lightful/standard-poms/standard-plugins/standard-plugins.iml" filepath="$PROJECT_DIR$/../de.lightful/standard-poms/standard-plugins/standard-plugins.iml" />
     </modules>
   </component>
 </project>

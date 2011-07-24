@@ -20,6 +20,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>de.lightful.poms</groupId>
+    <artifactId>standard-plugins</artifactId>
+    <version>4</version>
+  </parent>
+
   <groupId>de.lightful.maven.plugins.drools</groupId>
   <artifactId>project-parent</artifactId>
   <version>0.0.16-SNAPSHOT</version>
@@ -27,23 +33,21 @@
   <packaging>pom</packaging>
 
   <properties>
+    <drools.runtime.default>drools-5.1.1</drools.runtime.default>
+
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <dependency.drools.version>5.1.1</dependency.drools.version>
     <dependency.maven.version>3.0.3</dependency.maven.version>
-    <classifier.drools050101>drools050101</classifier.drools050101>
-    <classifier.drools050200CR1>drools050200CR1</classifier.drools050200CR1>
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <drools.version>[5.1.1]</drools.version>
-    <repository.integrationtests>${project.basedir}/../../target/it-repository</repository.integrationtests>
-    <repository.deploymenttests>file://${project.basedir}/../../target/deployment-repository</repository.deploymenttests>
+    <repository.integrationtests>${project.basedir}/../target/it-repository</repository.integrationtests>
+    <repository.deploymenttests>file://${project.basedir}/../target/deployment-repository</repository.deploymenttests>
     <repository.regular>${env.HOME}/.m2/repository</repository.regular>
   </properties>
 
   <modules>
     <module>api-tests</module>
-    <module>drools-runtime-provider-5.1.1</module>
-    <module>drools-runtime-provider-5.2.0.Final</module>
     <module>knowledge-io</module>
     <module>maven-verifier-testng</module>
     <module>drools-assertions</module>
@@ -122,12 +126,7 @@
       </dependency>
       <dependency>
         <groupId>de.lightful.maven.plugins.drools</groupId>
-        <artifactId>knowledge-io.050101</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>de.lightful.maven.plugins.drools</groupId>
-        <artifactId>knowledge-io.050200CR1</artifactId>
+        <artifactId>knowledge-io</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
@@ -143,15 +142,15 @@
         <version>3.0.3</version>
       </dependency>
       <dependency>
-        <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-        <artifactId>drools.050101</artifactId>
-        <version>0.0.16-SNAPSHOT</version>
+        <groupId>de.lightful.maven.plugins.drools.providers</groupId>
+        <artifactId>drools-5.1.1</artifactId>
+        <version>0.1.0</version>
         <type>pom</type>
       </dependency>
       <dependency>
-        <groupId>de.lightful.maven.plugins.drools.dependencies</groupId>
-        <artifactId>drools.050200CR1</artifactId>
-        <version>0.0.16-SNAPSHOT</version>
+        <groupId>de.lightful.maven.plugins.drools.providers</groupId>
+        <artifactId>${drools.runtime}</artifactId>
+        <version>0.1.0</version>
         <type>pom</type>
       </dependency>
     </dependencies>
@@ -206,45 +205,6 @@
             </execution>
           </executions>
         </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-          <version>2.4.3</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>2.3.2</version>
-          <configuration>
-            <source>1.5</source>
-            <target>1.5</target>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>2.5</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <version>2.1</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.7.2</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>2.1.2</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.7</version>
-        </plugin>
       </plugins>
 
     </pluginManagement>
@@ -261,11 +221,6 @@
           <showDeprecation>true</showDeprecation>
           <showWarnings>true</showWarnings>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-scm-plugin</artifactId>
-        <version>1.4</version>
       </plugin>
 
       <plugin>
@@ -286,7 +241,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <version>1.0</version>
         <executions>
           <execution>
             <id>enforce-sane-build</id>
@@ -314,5 +268,32 @@
 
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>drools-5.1.1</id>
+      <activation>
+        <property>
+          <name>drools.runtime.version</name>
+          <value>5.1.1</value>
+        </property>
+      </activation>
+      <properties>
+        <drools.runtime>drools-5.1.1</drools.runtime>
+      </properties>
+    </profile>
+    <profile>
+      <id>drools-5.2.0.Final</id>
+      <activation>
+        <property>
+          <name>drools.runtime.version</name>
+          <value>5.2.0.Final</value>
+        </property>
+      </activation>
+      <properties>
+        <drools.runtime>drools-5.2.0.Final</drools.runtime>
+      </properties>
+    </profile>
+  </profiles>
 
 </project>
