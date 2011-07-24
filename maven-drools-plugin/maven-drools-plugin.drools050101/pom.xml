@@ -40,7 +40,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>de.lightful.maven.plugins.drools.knowledge-io</groupId>
+      <groupId>de.lightful.maven.plugins.drools</groupId>
       <artifactId>knowledge-io-5.1.1</artifactId>
       <version>${project.parent.version}</version>
     </dependency>

@@ -42,8 +42,9 @@
 
   <modules>
     <module>api-tests</module>
-    <module>drools-dependencies-variants</module>
-    <module>knowledge-io-variants</module>
+    <module>drools-runtime-provider-5.1.1</module>
+    <module>drools-runtime-provider-5.2.0.Final</module>
+    <module>knowledge-io</module>
     <module>maven-verifier-testng</module>
     <module>drools-assertions</module>
     <module>drools-fruit-types</module>
