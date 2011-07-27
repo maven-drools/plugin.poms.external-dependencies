@@ -257,31 +257,4 @@
     </plugins>
   </build>
 
-  <profiles>
-    <profile>
-      <id>drools-5.1.1</id>
-      <activation>
-        <property>
-          <name>drools.runtime.version</name>
-          <value>5.1.1</value>
-        </property>
-      </activation>
-      <properties>
-        <drools.runtime>drools-5.1.1</drools.runtime>
-      </properties>
-    </profile>
-    <profile>
-      <id>drools-5.2.0.Final</id>
-      <activation>
-        <property>
-          <name>drools.runtime.version</name>
-          <value>5.2.0.Final</value>
-        </property>
-      </activation>
-      <properties>
-        <drools.runtime>drools-5.2.0.Final</drools.runtime>
-      </properties>
-    </profile>
-  </profiles>
-
 </project>

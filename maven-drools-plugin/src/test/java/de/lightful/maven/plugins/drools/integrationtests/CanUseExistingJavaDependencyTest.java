@@ -39,7 +39,7 @@ import static org.fest.assertions.Assertions.assertThat;
 @Test
 @VerifyUsingProject("can_use_existing_java_dependency")
 @ExecuteGoals("clean")
-public class CanUseExistingJavaModelTest extends MavenVerifierTest {
+public class CanUseExistingJavaDependencyTest extends MavenVerifierTest {
 
   private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + "." + FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
   private static final String EXPECTED_PACKAGE_NAME = "rules.test";
