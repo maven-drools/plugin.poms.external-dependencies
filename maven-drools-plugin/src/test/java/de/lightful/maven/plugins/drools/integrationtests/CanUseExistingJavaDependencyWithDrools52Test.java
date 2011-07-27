@@ -20,6 +20,7 @@ package de.lightful.maven.plugins.drools.integrationtests;
 import de.lightful.maven.plugins.drools.impl.WellKnownNames;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.testing.ExecuteGoals;
+import de.lightful.maven.plugins.testing.MavenDebug;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
 import de.lightful.maven.plugins.testing.SettingsFile;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
@@ -57,6 +58,7 @@ public class CanUseExistingJavaDependencyWithDrools52Test extends MavenVerifierT
 
   @Test
   @DefaultSettingsFile
+  @MavenDebug
   public void testPackageFileContainsPackagedRule() throws Exception {
     verifier.executeGoal(WellKnownNames.GOAL_COMPILE);
     verifier.verifyErrorFreeLog();
