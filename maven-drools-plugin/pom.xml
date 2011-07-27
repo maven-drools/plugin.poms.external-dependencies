@@ -30,7 +30,7 @@
     <version>0.0.16-SNAPSHOT</version>
   </parent>
 
-  <groupId>de.lightful.maven.plugins.drools</groupId>
+  <groupId>de.lightful.maven.plugins</groupId>
   <artifactId>maven-drools-plugin</artifactId>
   <version>0.0.16-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
@@ -40,6 +40,10 @@
   <url>http://wiki.github.com/ansgarkonermann/maven-drools-plugin</url>
 
   <dependencies>
+    <dependency>
+      <groupId>de.lightful.maven.plugins.drools</groupId>
+      <artifactId>knowledge-io</artifactId>
+    </dependency>
     <dependency>
       <groupId>de.lightful.maven.plugins.drools</groupId>
       <artifactId>integration-repository</artifactId>
@@ -74,17 +78,27 @@
       <version>${dependency.maven.version}</version>
     </dependency>
 
+
     <!-- Drools Dependencies: -->
     <dependency>
-      <groupId>de.lightful.maven.plugins.drools.providers</groupId>
-      <artifactId>${drools.runtime}</artifactId>
-      <type>pom</type>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-api</artifactId>
+      <version>5.1.1</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>de.lightful.maven.plugins.drools</groupId>
-      <artifactId>knowledge-io</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <version>5.1.1</version>
+      <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-compiler</artifactId>
+      <version>5.1.1</version>
+      <scope>provided</scope>
+    </dependency>
+
 
     <!-- Test Dependencies -->
     <dependency>
@@ -177,79 +191,68 @@
         <version>0.0.12</version>
       </extension>
     </extensions>
-
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-invoker-plugin</artifactId>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-          <configuration>
-            <encoding>UTF-8</encoding>
-            <useDefaultDelimiters>true</useDefaultDelimiters>
-            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-          </configuration>
-          <executions>
-            <execution>
-              <id>resources</id>
-              <goals>
-                <goal>resources</goal>
-              </goals>
-              <phase>process-resources</phase>
-            </execution>
-            <execution>
-              <id>test-resources</id>
-              <goals>
-                <goal>testResources</goal>
-              </goals>
-              <phase>process-test-resources</phase>
-              <configuration>
-                <escapeString>\</escapeString>
-                <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-plugin-plugin</artifactId>
-          <version>2.6</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.apache.maven.plugin-tools</groupId>
-              <artifactId>maven-plugin-tools-api</artifactId>
-              <version>2.6</version>
-            </dependency>
-            <dependency>
-              <groupId>org.jfrog.maven.annomojo</groupId>
-              <artifactId>maven-plugin-tools-anno</artifactId>
-              <version>1.4.0</version>
-              <scope>runtime</scope>
-            </dependency>
-          </dependencies>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-release-plugin</artifactId>
-          <configuration>
-            <localRepoDirectory>${repository.integrationtests}</localRepoDirectory>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>com.google.code.maven-replacer-plugin</groupId>
-          <artifactId>maven-replacer-plugin</artifactId>
-          <version>1.3.7</version>
-          <executions/>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-
     <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <useDefaultDelimiters>true</useDefaultDelimiters>
+          <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>resources</id>
+            <goals>
+              <goal>resources</goal>
+            </goals>
+            <phase>process-resources</phase>
+          </execution>
+          <execution>
+            <id>test-resources</id>
+            <goals>
+              <goal>testResources</goal>
+            </goals>
+            <phase>process-test-resources</phase>
+            <configuration>
+              <escapeString>\</escapeString>
+              <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>2.6</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-tools-api</artifactId>
+            <version>2.6</version>
+          </dependency>
+          <dependency>
+            <groupId>org.jfrog.maven.annomojo</groupId>
+            <artifactId>maven-plugin-tools-anno</artifactId>
+            <version>1.4.0</version>
+            <scope>runtime</scope>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <localRepoDirectory>${repository.integrationtests}</localRepoDirectory>
+        </configuration>
+      </plugin>
+
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
+
         <executions>
           <execution>
             <id>default-test</id>
@@ -290,18 +293,16 @@
       <plugin>
         <artifactId>maven-invoker-plugin</artifactId>
       </plugin>
+
       <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
+        <artifactId>maven-archetype-plugin</artifactId>
+        <version>2.0</version>
       </plugin>
-      <plugin>
-        <artifactId>maven-plugin-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-      </plugin>
+
       <plugin>
         <groupId>com.google.code.maven-replacer-plugin</groupId>
         <artifactId>maven-replacer-plugin</artifactId>
+        <version>1.3.7</version>
         <executions>
           <execution>
             <phase>validate</phase>
@@ -312,7 +313,7 @@
         </executions>
         <configuration>
           <file>src/test/resources/build.properties.in</file>
-          <outputFile>../build.properties</outputFile>
+          <outputFile>build.properties</outputFile>
           <regex>false</regex>
           <replacements>
             <replacement>
@@ -330,9 +331,15 @@
           </replacements>
         </configuration>
       </plugin>
+
     </plugins>
 
+    <testResources>
+      <testResource>
+        <directory>${project.basedir}/src/test/resources</directory>
+        <filtering>true</filtering>
+      </testResource>
+    </testResources>
   </build>
-
 
 </project>
