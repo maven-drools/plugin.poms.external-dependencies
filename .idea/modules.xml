@@ -12,11 +12,12 @@
       <module fileurl="file://$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" filepath="$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" />
       <module fileurl="file://$PROJECT_DIR$/integration-repository/integration-repository.iml" filepath="$PROJECT_DIR$/integration-repository/integration-repository.iml" />
       <module fileurl="file://$PROJECT_DIR$/knowledge-io/knowledge-io.iml" filepath="$PROJECT_DIR$/knowledge-io/knowledge-io.iml" />
-      <module fileurl="file://$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/maven-drools-plugin/maven-drools-plugin.iml" group="maven-drools-plugin and modules" />
+      <module fileurl="file://$PROJECT_DIR$/maven-drools-support.iml" filepath="$PROJECT_DIR$/maven-drools-support.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" filepath="$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mojos/mojos.iml" filepath="$PROJECT_DIR$/mojos/mojos.iml" />
       <module fileurl="file://$PROJECT_DIR$/person-fact-model/person-fact-model.iml" filepath="$PROJECT_DIR$/person-fact-model/person-fact-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugin/plugin.iml" filepath="$PROJECT_DIR$/plugin/plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/project.iml" filepath="$PROJECT_DIR$/project.iml" />
-      <module fileurl="file://$PROJECT_DIR$/project-parent.iml" filepath="$PROJECT_DIR$/project-parent.iml" />
       <module fileurl="file://$PROJECT_DIR$/../de.lightful/standard-poms/standard-plugins/standard-plugins.iml" filepath="$PROJECT_DIR$/../de.lightful/standard-poms/standard-plugins/standard-plugins.iml" />
       <module fileurl="file://$PROJECT_DIR$/test-site/test-site.iml" filepath="$PROJECT_DIR$/test-site/test-site.iml" />
     </modules>

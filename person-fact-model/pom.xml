@@ -16,16 +16,17 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>de.lightful.maven.plugins.drools</groupId>
+    <groupId>de.lightful.maven.drools</groupId>
     <artifactId>project-parent</artifactId>
     <version>0.0.16-SNAPSHOT</version>
   </parent>
 
-  <groupId>de.lightful.maven.plugins.drools</groupId>
+  <groupId>de.lightful.maven.drools</groupId>
   <artifactId>person-fact-model</artifactId>
   <version>0.0.16-SNAPSHOT</version>
 
@@ -34,7 +35,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>de.lightful.maven.plugins.drools</groupId>
+      <groupId>de.lightful.maven.drools</groupId>
       <artifactId>integration-repository</artifactId>
       <type>pom</type>
     </dependency>

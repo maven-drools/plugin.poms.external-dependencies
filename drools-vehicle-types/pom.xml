@@ -22,7 +22,7 @@
 
   <parent>
     <artifactId>project-parent</artifactId>
-    <groupId>de.lightful.maven.plugins.drools</groupId>
+    <groupId>de.lightful.maven.drools</groupId>
     <version>0.0.16-SNAPSHOT</version>
   </parent>
 
@@ -35,7 +35,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>de.lightful.maven.plugins.drools</groupId>
+      <groupId>de.lightful.maven.drools</groupId>
       <artifactId>integration-repository</artifactId>
       <type>pom</type>
     </dependency>

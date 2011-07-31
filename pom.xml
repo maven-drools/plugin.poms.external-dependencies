@@ -26,7 +26,7 @@
     <version>4</version>
   </parent>
 
-  <groupId>de.lightful.maven.plugins.drools</groupId>
+  <groupId>de.lightful.maven.drools</groupId>
   <artifactId>project-parent</artifactId>
   <version>0.0.16-SNAPSHOT</version>
   <name>Maven Drools Plugin :: Project Parent</name>
@@ -56,8 +56,9 @@
     <module>cities-fact-model</module>
     <module>person-fact-model</module>
     <module>integration-repository</module>
-    <module>maven-drools-plugin</module>
+    <module>plugin</module>
     <module>archetypes</module>
+    <module>plugin</module>
   </modules>
 
   <dependencyManagement>
@@ -94,44 +95,44 @@
         <version>1</version>
       </dependency>
       <dependency>
-        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <groupId>de.lightful.maven.drools</groupId>
         <artifactId>maven-verifier-testng</artifactId>
         <version>${project.version}</version>
       </dependency>
 
       <dependency>
-        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <groupId>de.lightful.maven.drools</groupId>
         <artifactId>person-fact-model</artifactId>
         <version>${project.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <groupId>de.lightful.maven.drools</groupId>
         <artifactId>cities-fact-model</artifactId>
         <version>${project.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <groupId>de.lightful.maven.drools</groupId>
         <artifactId>drools-fruit-types</artifactId>
         <version>${project.version}</version>
         <type>knowledge-module</type>
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <groupId>de.lightful.maven.drools</groupId>
         <artifactId>drools-vehicle-types</artifactId>
         <version>${project.version}</version>
         <type>knowledge-module</type>
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <groupId>de.lightful.maven.drools</groupId>
         <artifactId>knowledge-io</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
-        <groupId>de.lightful.maven.plugins.drools</groupId>
+        <groupId>de.lightful.maven.drools</groupId>
         <artifactId>integration-repository</artifactId>
         <version>${project.version}</version>
         <type>pom</type>
