@@ -1,0 +1,28 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <artifactId>project-parent</artifactId>
+    <groupId>de.lightful.maven.plugins.drools</groupId>
+    <version>0.0.16-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>de.lightful.maven.plugins.drools</groupId>
+  <artifactId>archetypes</artifactId>
+  <packaging>pom</packaging>
+
+  <name>Maven Drools Support :: Archetypes</name>
+  <description>Archetypes to set up Drools-based Maven projects quickly</description>
+
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <modules>
+    <module>knowledge-module</module>
+  </modules>
+
+
+</project>

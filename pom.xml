@@ -57,6 +57,7 @@
     <module>person-fact-model</module>
     <module>integration-repository</module>
     <module>maven-drools-plugin</module>
+    <module>archetypes</module>
   </modules>
 
   <dependencyManagement>
