@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/api-tests/api-tests.iml" filepath="$PROJECT_DIR$/api-tests/api-tests.iml" />
-      <module fileurl="file://$PROJECT_DIR$/archetypes/knowledge-module/archetype-experimental.iml" filepath="$PROJECT_DIR$/archetypes/knowledge-module/archetype-experimental.iml" />
       <module fileurl="file://$PROJECT_DIR$/archetype-experimental/archetype-experimental.iml" filepath="$PROJECT_DIR$/archetype-experimental/archetype-experimental.iml" />
       <module fileurl="file://$PROJECT_DIR$/archetypes/archetypes.iml" filepath="$PROJECT_DIR$/archetypes/archetypes.iml" />
       <module fileurl="file://$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" filepath="$PROJECT_DIR$/cities-fact-model/cities-fact-model.iml" />
@@ -15,6 +14,7 @@
       <module fileurl="file://$PROJECT_DIR$/integration-repository/integration-repository.iml" filepath="$PROJECT_DIR$/integration-repository/integration-repository.iml" />
       <module fileurl="file://$PROJECT_DIR$/plugin/integrationtests/integrationtests.iml" filepath="$PROJECT_DIR$/plugin/integrationtests/integrationtests.iml" />
       <module fileurl="file://$PROJECT_DIR$/knowledge-io/knowledge-io.iml" filepath="$PROJECT_DIR$/knowledge-io/knowledge-io.iml" />
+      <module fileurl="file://$PROJECT_DIR$/archetypes/knowledge-module/knowledge-module.iml" filepath="$PROJECT_DIR$/archetypes/knowledge-module/knowledge-module.iml" />
       <module fileurl="file://$PROJECT_DIR$/plugin/mojos/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/plugin/mojos/maven-drools-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-drools-support.iml" filepath="$PROJECT_DIR$/maven-drools-support.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" filepath="$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" />

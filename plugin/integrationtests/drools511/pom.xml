@@ -31,9 +31,18 @@
   <version>0.0.16-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Maven Drools Support :: Plugin :: Parent</name>
+  <name>Maven Drools Support :: Plugin :: Integration Tests :: Drools 5.1.1</name>
 
   <dependencies>
+
+    <dependency>
+      <!-- want to use WellKnownNames -->
+      <groupId>de.lightful.maven.plugins</groupId>
+      <artifactId>maven-drools-plugin</artifactId>
+      <version>${project.version}</version>
+      <scope>test</scope>
+    </dependency>
+
     <!-- Drools Dependencies: -->
     <dependency>
       <groupId>org.drools</groupId>
@@ -54,5 +63,13 @@
       <scope>provided</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

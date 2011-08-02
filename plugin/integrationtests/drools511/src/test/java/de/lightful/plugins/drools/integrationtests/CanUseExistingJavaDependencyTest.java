@@ -32,6 +32,8 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 @Test
 @VerifyUsingProject("can_use_existing_java_dependency")
 @ExecuteGoals("clean")
@@ -61,16 +63,16 @@ public class CanUseExistingJavaDependencyTest extends MavenVerifierTest {
     KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
     final Iterable<KnowledgePackage> knowledgePackages = knowledgePackageFile.getKnowledgePackages();
 
-    Assertions.assertThat(knowledgePackages).as("Knowledge packages").hasSize(1);
+    assertThat(knowledgePackages).as("Knowledge packages").hasSize(1);
     final KnowledgePackage knowledgePackage = knowledgePackages.iterator().next();
-    Assertions.assertThat(knowledgePackage.getName()).as("Knowledge package name").isEqualTo(EXPECTED_PACKAGE_NAME);
+    assertThat(knowledgePackage.getName()).as("Knowledge package name").isEqualTo(EXPECTED_PACKAGE_NAME);
     final Collection<Rule> rules = knowledgePackage.getRules();
-    Assertions.assertThat(rules).as("Rules in loaded package").hasSize(2);
+    assertThat(rules).as("Rules in loaded package").hasSize(2);
     Collection<String> ruleNames = new ArrayList<String>();
     for (Rule rule : rules) {
       ruleNames.add(rule.getName());
     }
-    Assertions.assertThat(ruleNames).containsOnly("Check if Peter is at least 18 years old",
-                                                  "Cities on different continents have huge distance");
+    assertThat(ruleNames).containsOnly("Check if Peter is at least 18 years old",
+                                       "Cities on different continents have huge distance");
   }
 }

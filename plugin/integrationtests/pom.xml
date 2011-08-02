@@ -33,18 +33,7 @@
 
   <name>Maven Drools Support :: Plugin :: Integration Tests</name>
 
-  <modules>
-    <module>drools511</module>
-    <module>drools520</module>
-  </modules>
-
   <dependencies>
-    <dependency>
-      <groupId>de.lightful.maven.plugins</groupId>
-      <artifactId>maven-drools-plugin</artifactId>
-      <version>${project.version}</version>
-      <scope>test</scope>
-    </dependency>
     <dependency>
       <groupId>de.lightful.maven.drools</groupId>
       <artifactId>maven-verifier-testng</artifactId>
@@ -73,6 +62,7 @@
     <dependency>
       <groupId>org.apache.maven.plugin-testing</groupId>
       <artifactId>maven-plugin-testing-harness</artifactId>
+      <version>2.0-alpha-1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -110,6 +100,7 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <dependency>
       <groupId>org.easytesting</groupId>
       <artifactId>fest-assert</artifactId>
@@ -127,6 +118,7 @@
 
   <build>
 
+
     <extensions>
       <!-- required for mapping between packaging type and file extension -->
       <extension>
@@ -135,6 +127,38 @@
         <version>0.0.12</version>
       </extension>
     </extensions>
+
+
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <executions>
+            <execution>
+              <id>integration-tests</id>
+              <phase>integration-test</phase>
+              <goals>
+                <goal>test</goal>
+              </goals>
+              <configuration>
+                <includes>
+                  <include>**/integrationtests/*Test.java</include>
+                </includes>
+                <systemProperties>
+                  <localRepository>${repository.integrationtests}</localRepository>
+                </systemProperties>
+                <systemPropertyVariables>
+                  <project.version>${project.version}</project.version>
+                  <repository.integrationtests>${repository.integrationtests}</repository.integrationtests>
+                  <repository.deploymenttests>${repository.deploymenttests}</repository.deploymenttests>
+                </systemPropertyVariables>
+                <failIfNoTests>true</failIfNoTests>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
 
     <plugins>
       <plugin>
@@ -162,33 +186,6 @@
             <configuration>
               <escapeString>\</escapeString>
               <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>integration-tests</id>
-            <phase>integration-test</phase>
-            <goals>
-              <goal>test</goal>
-            </goals>
-            <configuration>
-              <includes>
-                <include>**/integrationtests/drools_5_1_1/*Test.java</include>
-              </includes>
-              <systemProperties>
-                <localRepository>${repository.integrationtests}</localRepository>
-              </systemProperties>
-              <systemPropertyVariables>
-                <project.version>${project.version}</project.version>
-                <repository.integrationtests>${repository.integrationtests}</repository.integrationtests>
-                <repository.deploymenttests>${repository.deploymenttests}</repository.deploymenttests>
-              </systemPropertyVariables>
-              <failIfNoTests>true</failIfNoTests>
             </configuration>
           </execution>
         </executions>
@@ -225,10 +222,14 @@
             </replacement>
           </replacements>
         </configuration>
+        <inherited>false</inherited>
       </plugin>
-
     </plugins>
   </build>
 
+  <modules>
+    <module>drools511</module>
+    <module>drools520</module>
+  </modules>
 
 </project>

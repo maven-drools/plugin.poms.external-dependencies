@@ -27,6 +27,8 @@ import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 @Test
 @DefaultSettingsFile
 @ExecuteGoals(WellKnownNames.GOAL_CLEAN)
@@ -46,7 +48,7 @@ public class CanCompileEmptyFilesetTest extends MavenVerifierTest {
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
 
     KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
-    Assertions.assertThat(knowledgePackageFile).as("KnowledgePackageFile").isNotNull();
-    Assertions.assertThat(knowledgePackageFile.getKnowledgePackages()).as("Knowledge Packages").isEmpty();
+    assertThat(knowledgePackageFile).as("KnowledgePackageFile").isNotNull();
+    assertThat(knowledgePackageFile.getKnowledgePackages()).as("Knowledge Packages").isEmpty();
   }
 }

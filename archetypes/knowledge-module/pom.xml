@@ -24,7 +24,7 @@
   <version>0.0.16-SNAPSHOT</version>
   <packaging>maven-archetype</packaging>
 
-  <name>Maven Drools Supprt :: Archetypes :: Knowledge Module</name>
+  <name>Maven Drools Support :: Archetypes :: Knowledge Module</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

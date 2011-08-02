@@ -32,6 +32,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 @Test
 @DefaultSettingsFile
 @ExecuteGoals("clean")
@@ -58,6 +60,6 @@ public class DoesRespectIncludesAndExcludesTest extends MavenVerifierTest {
     for (KnowledgePackage knowledgePackage : knowledgePackages) {
       allKnowledgePackagesByName.put(knowledgePackage.getName(), knowledgePackage);
     }
-    Assertions.assertThat(allKnowledgePackagesByName.keySet()).containsOnly(EXPECTED_PACKAGE_NAMES.toArray());
+    assertThat(allKnowledgePackagesByName.keySet()).containsOnly(EXPECTED_PACKAGE_NAMES.toArray());
   }
 }

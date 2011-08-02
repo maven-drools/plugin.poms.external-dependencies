@@ -29,7 +29,7 @@
   <groupId>de.lightful.maven.drools</groupId>
   <artifactId>project-parent</artifactId>
   <version>0.0.16-SNAPSHOT</version>
-  <name>Maven Drools Support :: Project Parent</name>
+  <name>Maven Drools Support</name>
   <packaging>pom</packaging>
 
   <properties>

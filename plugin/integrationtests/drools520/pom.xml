@@ -25,6 +25,6 @@
   <version>0.0.16-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
 
-  <name>Maven Drools Support :: Plugin :: Parent</name>
+  <name>Maven Drools Support :: Plugin :: Integration Tests :: Drools 5.2.0.Final</name>
 
 </project>

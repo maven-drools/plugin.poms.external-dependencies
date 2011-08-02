@@ -26,13 +26,16 @@ import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 
+import static de.lightful.maven.plugins.drools.impl.WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
+import static org.fest.assertions.Assertions.assertThat;
+
 @Test
 @DefaultSettingsFile
 @VerifyUsingProject("can_compile_single_file")
 @ExecuteGoals("clean")
 public class CanCompileMinimumDrlFileTest extends MavenVerifierTest {
 
-  private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + "." + WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
+  private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + "." + FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
 
   @Inject
   private Verifier verifier;
@@ -49,7 +52,7 @@ public class CanCompileMinimumDrlFileTest extends MavenVerifierTest {
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
 
     KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
-    Assertions.assertThat(knowledgePackageFile.getFile()).exists();
-    Assertions.assertThat(knowledgePackageFile.getKnowledgePackages()).as("collection of knowledge packages").hasSize(1);
+    assertThat(knowledgePackageFile.getFile()).exists();
+    assertThat(knowledgePackageFile.getKnowledgePackages()).as("collection of knowledge packages").hasSize(1);
   }
 }

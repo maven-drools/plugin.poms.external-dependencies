@@ -25,7 +25,7 @@
   <version>0.0.16-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Maven Drools Support :: Plugin :: Parent</name>
+  <name>Maven Drools Support :: Plugin</name>
 
   <modules>
     <module>maven-drools-plugin</module>

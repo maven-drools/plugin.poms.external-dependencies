@@ -38,6 +38,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
+import static org.fest.assertions.Assertions.assertThat;
+
 @Test
 @VerifyUsingProject("can_use_existing_drools_binary")
 @ExecuteGoals("clean")
@@ -60,14 +62,14 @@ public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
     KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
     final Iterable<KnowledgePackage> knowledgePackages = knowledgePackageFile.getKnowledgePackages();
 
-    Assertions.assertThat(knowledgePackages).as("Knowledge packages").hasSize(1);
+    assertThat(knowledgePackages).as("Knowledge packages").hasSize(1);
     final KnowledgePackage knowledgePackage = knowledgePackages.iterator().next();
-    Assertions.assertThat(knowledgePackage.getName()).as("Knowledge package name").isEqualTo(EXPECTED_PACKAGE_NAME);
+    assertThat(knowledgePackage.getName()).as("Knowledge package name").isEqualTo(EXPECTED_PACKAGE_NAME);
     final Collection<Rule> rules = knowledgePackage.getRules();
-    Assertions.assertThat(rules).as("Rules in loaded package").hasSize(2);
+    assertThat(rules).as("Rules in loaded package").hasSize(2);
 
     final Rule rule = rules.iterator().next();
-    Assertions.assertThat(rule.getName()).as("Rule Name").isEqualTo(EXPECTED_RULE_NAME);
+    assertThat(rule.getName()).as("Rule Name").isEqualTo(EXPECTED_RULE_NAME);
   }
 
   @Test
@@ -123,7 +125,7 @@ public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
       }
     });
 
-    Assertions.assertThat(resultObjects).containsOnly(
+    assertThat(resultObjects).containsOnly(
         "TOO_LIGHT",
         "NO_SLOW_BULKY_CARS_PLEASE"
     );

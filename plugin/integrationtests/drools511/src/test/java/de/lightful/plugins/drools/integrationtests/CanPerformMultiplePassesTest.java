@@ -30,13 +30,16 @@ import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
 
+import static de.lightful.maven.plugins.drools.impl.WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
+import static org.fest.assertions.Assertions.assertThat;
+
 @Test
 @SettingsFile("/de/lightful/maven/plugins/drools/integrationtests/integration-settings.xml")
 @VerifyUsingProject("can_execute_multiple_passes")
 @ExecuteGoals("clean")
 public class CanPerformMultiplePassesTest extends MavenVerifierTest {
 
-  private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + "." + WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
+  private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + "." + FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
 
   @Inject
   private Verifier verifier;
@@ -48,9 +51,9 @@ public class CanPerformMultiplePassesTest extends MavenVerifierTest {
     verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
 
     KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
-    Assertions.assertThat(knowledgePackageFile.getFile()).exists();
+    assertThat(knowledgePackageFile.getFile()).exists();
     final Iterable<KnowledgePackage> knowledgePackages = knowledgePackageFile.getKnowledgePackages();
-    Assertions.assertThat(knowledgePackages).as("collection of knowledge packages").hasSize(2);
+    assertThat(knowledgePackages).as("collection of knowledge packages").hasSize(2);
 
     Map<String, KnowledgePackage> knowledgePackageMap = new HashMap<String, KnowledgePackage>();
 
@@ -58,12 +61,12 @@ public class CanPerformMultiplePassesTest extends MavenVerifierTest {
       knowledgePackageMap.put(knowledgePackage.getName(), knowledgePackage);
     }
 
-    Assertions.assertThat(knowledgePackageMap.containsKey("model")).overridingErrorMessage("Resulting target artifact must contain package named 'model'.");
-    Assertions.assertThat(knowledgePackageMap.containsKey("rules")).overridingErrorMessage("Resulting target artifact must contain package named 'rules'.");
+    assertThat(knowledgePackageMap.containsKey("model")).overridingErrorMessage("Resulting target artifact must contain package named 'model'.");
+    assertThat(knowledgePackageMap.containsKey("rules")).overridingErrorMessage("Resulting target artifact must contain package named 'rules'.");
 
     KnowledgePackage modelPackage = knowledgePackageMap.get("model");
-    Assertions.assertThat(modelPackage.getRules()).as("Collection of rules in package 'model'").hasSize(0);
+    assertThat(modelPackage.getRules()).as("Collection of rules in package 'model'").hasSize(0);
     KnowledgePackage rulesPackage = knowledgePackageMap.get("rules");
-    Assertions.assertThat(rulesPackage.getRules()).as("Collection of rules in package 'rules'").hasSize(1);
+    assertThat(rulesPackage.getRules()).as("Collection of rules in package 'rules'").hasSize(1);
   }
 }
