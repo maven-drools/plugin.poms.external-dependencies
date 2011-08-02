@@ -10,8 +10,12 @@
       <module fileurl="file://$PROJECT_DIR$/drools-assertions/drools-assertions.iml" filepath="$PROJECT_DIR$/drools-assertions/drools-assertions.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" filepath="$PROJECT_DIR$/drools-fruit-types/drools-fruit-types.iml" />
       <module fileurl="file://$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" filepath="$PROJECT_DIR$/drools-vehicle-types/drools-vehicle-types.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugin/integrationtests/drools511/drools511.iml" filepath="$PROJECT_DIR$/plugin/integrationtests/drools511/drools511.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugin/integrationtests/drools520/drools520.iml" filepath="$PROJECT_DIR$/plugin/integrationtests/drools520/drools520.iml" />
       <module fileurl="file://$PROJECT_DIR$/integration-repository/integration-repository.iml" filepath="$PROJECT_DIR$/integration-repository/integration-repository.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugin/integrationtests/integrationtests.iml" filepath="$PROJECT_DIR$/plugin/integrationtests/integrationtests.iml" />
       <module fileurl="file://$PROJECT_DIR$/knowledge-io/knowledge-io.iml" filepath="$PROJECT_DIR$/knowledge-io/knowledge-io.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugin/mojos/maven-drools-plugin.iml" filepath="$PROJECT_DIR$/plugin/mojos/maven-drools-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-drools-support.iml" filepath="$PROJECT_DIR$/maven-drools-support.iml" />
       <module fileurl="file://$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" filepath="$PROJECT_DIR$/maven-verifier-testng/maven-verifier-testng.iml" />
       <module fileurl="file://$PROJECT_DIR$/mojos/mojos.iml" filepath="$PROJECT_DIR$/mojos/mojos.iml" />

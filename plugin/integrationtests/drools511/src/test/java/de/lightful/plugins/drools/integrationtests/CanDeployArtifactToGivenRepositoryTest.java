@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools.integrationtests;
+package de.lightful.plugins.drools.integrationtests;
 
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
@@ -28,33 +28,28 @@ import javax.inject.Inject;
 import java.io.File;
 import java.net.URL;
 
-import static de.lightful.maven.plugins.drools.impl.WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
-import static de.lightful.maven.plugins.drools.impl.WellKnownNames.GOAL_CLEAN;
-import static de.lightful.maven.plugins.drools.impl.WellKnownNames.GOAL_DEPLOY;
-import static org.fest.assertions.Assertions.assertThat;
-
 @Test
 @VerifyUsingProject("can_deploy_artifact_to_given_repository")
 @DefaultSettingsFile
 public class CanDeployArtifactToGivenRepositoryTest extends MavenVerifierTest {
 
-  public static final String EXPECTED_ARTIFACT_NAME = "de/lightful/maven/plugins/plugintest/drools/plugintest.artifact/1.0.0/plugintest.artifact-1.0.0" + "." + FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
+  public static final String EXPECTED_ARTIFACT_NAME = "de/lightful/maven/plugins/plugintest/drools/plugintest.artifact/1.0.0/plugintest.artifact-1.0.0" + "." + WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
 
   @Inject
   private Verifier verifier;
 
   @Test
   @Parameters("repository.deploymenttests")
-  @ExecuteGoals(GOAL_CLEAN)
+  @ExecuteGoals(WellKnownNames.GOAL_CLEAN)
   public void testFileGetsDeployedToExpectedLocation(String deploymentRepositoryUrl) throws Exception {
-    verifier.executeGoal(GOAL_DEPLOY);
+    verifier.executeGoal(WellKnownNames.GOAL_DEPLOY);
     verifier.verifyErrorFreeLog();
 
     URL repositoryUrl = new URL(deploymentRepositoryUrl);
     File repositoryDirectory = new File(repositoryUrl.getFile());
 
-    assertThat(repositoryDirectory).exists().isDirectory();
+    Assertions.assertThat(repositoryDirectory).exists().isDirectory();
     File expectedDeployedArtifact = new File(repositoryDirectory, EXPECTED_ARTIFACT_NAME);
-    assertThat(expectedDeployedArtifact).exists().isFile();
+    Assertions.assertThat(expectedDeployedArtifact).exists().isFile();
   }
 }

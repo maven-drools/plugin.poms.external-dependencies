@@ -20,17 +20,39 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>de.lightful.maven.drools.plugin</groupId>
+    <artifactId>integrationtests</artifactId>
+    <version>0.0.16-SNAPSHOT</version>
+  </parent>
+
   <groupId>de.lightful.maven.drools.plugin</groupId>
-  <artifactId>parent</artifactId>
+  <artifactId>integrationtests-drools511</artifactId>
   <version>0.0.16-SNAPSHOT</version>
-  <packaging>pom</packaging>
+  <packaging>jar</packaging>
 
   <name>Maven Drools Support :: Plugin :: Parent</name>
 
-  <modules>
-    <module>maven-drools-plugin</module>
-    <module>integrationtests</module>
-  </modules>
-
+  <dependencies>
+    <!-- Drools Dependencies: -->
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-api</artifactId>
+      <version>5.1.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <version>5.1.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-compiler</artifactId>
+      <version>5.1.1</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
 
 </project>

@@ -21,16 +21,10 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>de.lightful.maven.drools.plugin</groupId>
-  <artifactId>parent</artifactId>
+  <artifactId>integrationtests-drools520</artifactId>
   <version>0.0.16-SNAPSHOT</version>
-  <packaging>pom</packaging>
+  <packaging>maven-plugin</packaging>
 
   <name>Maven Drools Support :: Plugin :: Parent</name>
-
-  <modules>
-    <module>maven-drools-plugin</module>
-    <module>integrationtests</module>
-  </modules>
-
 
 </project>

@@ -15,29 +15,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools.integrationtests;
+package de.lightful.plugins.drools.integrationtests;
 
+import de.lightful.maven.plugins.drools.impl.WellKnownNames;
+import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
 import de.lightful.maven.plugins.testing.ExecuteGoals;
 import de.lightful.maven.plugins.testing.MavenVerifierTest;
 import de.lightful.maven.plugins.testing.VerifyUsingProject;
-import org.apache.maven.it.VerificationException;
 import org.apache.maven.it.Verifier;
 import org.testng.annotations.Test;
 
 import javax.inject.Inject;
 
 @Test
-@VerifyUsingProject("fails_on_simple_syntax_error")
 @DefaultSettingsFile
-@ExecuteGoals("clean")
-public class FailsOnSimpleSyntaxErrorTest extends MavenVerifierTest {
+@ExecuteGoals(WellKnownNames.GOAL_CLEAN)
+@VerifyUsingProject("can_compile_empty_fileset")
+public class CanCompileEmptyFilesetTest extends MavenVerifierTest {
+
+  private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + "." + WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
 
   @Inject
   private Verifier verifier;
 
-  @Test(expectedExceptions = VerificationException.class)
-  public void testFailsOnSimpleSyntaxError() throws Exception {
-    verifier.executeGoal("compile");
+  @Test
+  @ExecuteGoals("compile")
+  public void testPackageFileContainsAllTheExpectedRules() throws Exception {
+    verifier.executeGoal(WellKnownNames.GOAL_COMPILE);
     verifier.verifyErrorFreeLog();
+    verifier.assertFilePresent(EXPECTED_OUTPUT_FILE);
+
+    KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
+    Assertions.assertThat(knowledgePackageFile).as("KnowledgePackageFile").isNotNull();
+    Assertions.assertThat(knowledgePackageFile.getKnowledgePackages()).as("Knowledge Packages").isEmpty();
   }
 }

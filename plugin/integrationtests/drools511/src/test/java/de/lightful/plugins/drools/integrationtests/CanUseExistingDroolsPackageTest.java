@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools.integrationtests;
+package de.lightful.plugins.drools.integrationtests;
 
 import de.lightful.maven.plugins.drools.impl.WellKnownNames;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
@@ -38,15 +38,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
 
-import static de.lightful.maven.plugins.drools.impl.WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
-import static org.fest.assertions.Assertions.assertThat;
-
 @Test
 @VerifyUsingProject("can_use_existing_drools_binary")
 @ExecuteGoals("clean")
 public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
 
-  private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + "." + FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
+  private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + "." + WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
   private static final String EXPECTED_RULE_NAME = "Accept only heavy melons";
   private static final String EXPECTED_PACKAGE_NAME = "rules";
 
@@ -63,14 +60,14 @@ public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
     KnowledgePackageFile knowledgePackageFile = new KnowledgePackageFile(expectedOutputFile(verifier, EXPECTED_OUTPUT_FILE));
     final Iterable<KnowledgePackage> knowledgePackages = knowledgePackageFile.getKnowledgePackages();
 
-    assertThat(knowledgePackages).as("Knowledge packages").hasSize(1);
+    Assertions.assertThat(knowledgePackages).as("Knowledge packages").hasSize(1);
     final KnowledgePackage knowledgePackage = knowledgePackages.iterator().next();
-    assertThat(knowledgePackage.getName()).as("Knowledge package name").isEqualTo(EXPECTED_PACKAGE_NAME);
+    Assertions.assertThat(knowledgePackage.getName()).as("Knowledge package name").isEqualTo(EXPECTED_PACKAGE_NAME);
     final Collection<Rule> rules = knowledgePackage.getRules();
-    assertThat(rules).as("Rules in loaded package").hasSize(2);
+    Assertions.assertThat(rules).as("Rules in loaded package").hasSize(2);
 
     final Rule rule = rules.iterator().next();
-    assertThat(rule.getName()).as("Rule Name").isEqualTo(EXPECTED_RULE_NAME);
+    Assertions.assertThat(rule.getName()).as("Rule Name").isEqualTo(EXPECTED_RULE_NAME);
   }
 
   @Test
@@ -126,7 +123,7 @@ public class CanUseExistingDroolsPackageTest extends MavenVerifierTest {
       }
     });
 
-    assertThat(resultObjects).containsOnly(
+    Assertions.assertThat(resultObjects).containsOnly(
         "TOO_LIGHT",
         "NO_SLOW_BULKY_CARS_PLEASE"
     );

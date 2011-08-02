@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools.integrationtests;
+package de.lightful.plugins.drools.integrationtests;
 
 import de.lightful.maven.plugins.drools.impl.WellKnownNames;
 import de.lightful.maven.plugins.drools.knowledgeio.KnowledgePackageFile;
@@ -32,16 +32,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static de.lightful.maven.plugins.drools.impl.WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
-import static org.fest.assertions.Assertions.assertThat;
-
 @Test
 @DefaultSettingsFile
 @ExecuteGoals("clean")
 @VerifyUsingProject("does_respect_includes_and_excludes_test")
 public class DoesRespectIncludesAndExcludesTest extends MavenVerifierTest {
 
-  private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + "." + FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
+  private static final String EXPECTED_OUTPUT_FILE = "target/plugintest.artifact-1.0.0" + "." + WellKnownNames.FILE_EXTENSION_DROOLS_KNOWLEDGE_MODULE;
   private static final List<String> EXPECTED_PACKAGE_NAMES = Arrays.asList("included_by_default", "included_higher_level", "included_lowest_level");
 
   @Inject
@@ -61,6 +58,6 @@ public class DoesRespectIncludesAndExcludesTest extends MavenVerifierTest {
     for (KnowledgePackage knowledgePackage : knowledgePackages) {
       allKnowledgePackagesByName.put(knowledgePackage.getName(), knowledgePackage);
     }
-    assertThat(allKnowledgePackagesByName.keySet()).containsOnly(EXPECTED_PACKAGE_NAMES.toArray());
+    Assertions.assertThat(allKnowledgePackagesByName.keySet()).containsOnly(EXPECTED_PACKAGE_NAMES.toArray());
   }
 }

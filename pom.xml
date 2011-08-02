@@ -29,7 +29,7 @@
   <groupId>de.lightful.maven.drools</groupId>
   <artifactId>project-parent</artifactId>
   <version>0.0.16-SNAPSHOT</version>
-  <name>Maven Drools Plugin :: Project Parent</name>
+  <name>Maven Drools Support :: Project Parent</name>
   <packaging>pom</packaging>
 
   <properties>
@@ -58,7 +58,6 @@
     <module>integration-repository</module>
     <module>plugin</module>
     <module>archetypes</module>
-    <module>plugin</module>
   </modules>
 
   <dependencyManagement>
@@ -141,7 +140,12 @@
       <dependency>
         <groupId>org.apache.maven</groupId>
         <artifactId>maven-plugin-api</artifactId>
-        <version>3.0.3</version>
+        <version>${dependency.maven.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.plugin-testing</groupId>
+        <artifactId>maven-plugin-testing-harness</artifactId>
+        <version>2.0-alpha-1</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

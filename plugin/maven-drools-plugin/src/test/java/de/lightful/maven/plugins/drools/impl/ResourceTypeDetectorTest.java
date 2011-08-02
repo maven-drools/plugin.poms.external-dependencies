@@ -24,8 +24,6 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 
-import static org.fest.assertions.Assertions.assertThat;
-
 @Test
 public class ResourceTypeDetectorTest {
 

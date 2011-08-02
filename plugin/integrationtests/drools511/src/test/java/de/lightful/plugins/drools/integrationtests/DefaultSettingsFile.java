@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.lightful.maven.plugins.drools.integrationtests;
+package de.lightful.plugins.drools.integrationtests;
 
 import de.lightful.maven.plugins.testing.SettingsFile;
 
