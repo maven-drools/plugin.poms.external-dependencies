@@ -100,8 +100,8 @@
   </distributionManagement>
 
   <scm>
-    <connection>scm:git:git@github.com:de-lightful-poms/standard-plugins.git</connection>
-    <developerConnection>scm:git:git@github.com:de-lightful-poms/standard-plugins.git</developerConnection>
+    <connection>scm:git:git@github.com:maven-drools/plugin.poms.external-dependencies.git</connection>
+    <developerConnection>scm:git:git@github.com:maven-drools/plugin.poms.external-dependencies.git</developerConnection>
   </scm>
 
 </project>
