@@ -23,131 +23,70 @@
   <parent>
     <groupId>de.lightful.poms</groupId>
     <artifactId>standard-plugins</artifactId>
-    <version>4</version>
+    <version>7</version>
   </parent>
 
-  <groupId>de.lightful.maven.drools</groupId>
-  <artifactId>project-parent</artifactId>
-  <version>0.0.16-SNAPSHOT</version>
-  <name>Maven Drools Support</name>
+  <groupId>de.lightful.maven.drools.plugin.poms</groupId>
+  <artifactId>external-dependencies</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <name>Maven Drools Support :: Plugin :: External Dependencies</name>
+
   <properties>
-    <drools.runtime.default>drools-5.1.1</drools.runtime.default>
-
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <dependency.drools.version>5.1.1</dependency.drools.version>
     <dependency.maven.version>3.0.3</dependency.maven.version>
-
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <drools.version>[5.1.1]</drools.version>
-    <repository.integrationtests>${project.basedir}/../target/it-repository</repository.integrationtests>
-    <repository.deploymenttests>file://${project.basedir}/../target/deployment-repository</repository.deploymenttests>
-    <repository.regular>${env.HOME}/.m2/repository</repository.regular>
   </properties>
-
-  <modules>
-    <module>api-tests</module>
-    <module>knowledge-io</module>
-    <module>maven-verifier-testng</module>
-    <module>drools-assertions</module>
-    <module>drools-fruit-types</module>
-    <module>drools-vehicle-types</module>
-    <module>cities-fact-model</module>
-    <module>person-fact-model</module>
-    <module>integration-repository</module>
-    <module>plugin</module>
-    <module>archetypes</module>
-  </modules>
 
   <dependencyManagement>
     <dependencies>
+
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
-        <version>6.0.1</version>
+        <version>[6.2, 7.0)</version>
+        <scope>test</scope>
       </dependency>
       <dependency>
         <groupId>org.easytesting</groupId>
         <artifactId>fest-assert</artifactId>
-        <version>1.4</version>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven.shared</groupId>
-        <artifactId>maven-verifier</artifactId>
-        <version>1.3</version>
+        <version>[1.4, 2.0)</version>
+        <scope>test</scope>
       </dependency>
 
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.6.1</version>
+        <version>1.6.2</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
         <version>1.6.1</version>
       </dependency>
+
       <dependency>
         <groupId>javax.inject</groupId>
         <artifactId>javax.inject</artifactId>
-        <version>1</version>
+        <version>[1, 2)</version>
       </dependency>
       <dependency>
-        <groupId>de.lightful.maven.drools</groupId>
-        <artifactId>maven-verifier-testng</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>de.lightful.maven.drools</groupId>
-        <artifactId>person-fact-model</artifactId>
-        <version>${project.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>de.lightful.maven.drools</groupId>
-        <artifactId>cities-fact-model</artifactId>
-        <version>${project.version}</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>de.lightful.maven.drools</groupId>
-        <artifactId>drools-fruit-types</artifactId>
-        <version>${project.version}</version>
-        <type>knowledge-module</type>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>de.lightful.maven.drools</groupId>
-        <artifactId>drools-vehicle-types</artifactId>
-        <version>${project.version}</version>
-        <type>knowledge-module</type>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>de.lightful.maven.drools</groupId>
-        <artifactId>knowledge-io</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>de.lightful.maven.drools</groupId>
-        <artifactId>integration-repository</artifactId>
-        <version>${project.version}</version>
-        <type>pom</type>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.apache.maven</groupId>
-        <artifactId>maven-plugin-api</artifactId>
-        <version>${dependency.maven.version}</version>
+        <groupId>org.apache.maven.shared</groupId>
+        <artifactId>maven-verifier</artifactId>
+        <version>1.3</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven.plugin-testing</groupId>
         <artifactId>maven-plugin-testing-harness</artifactId>
         <version>2.0-alpha-1</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-plugin-api</artifactId>
+        <version>${dependency.maven.version}</version>
+      </dependency>
     </dependencies>
+
   </dependencyManagement>
 
   <distributionManagement>
@@ -158,109 +97,11 @@
       <url>scp://lightful.de/mvnrepo/public/releases</url>
       <layout>default</layout>
     </repository>
-    <snapshotRepository>
-      <id>nexus@home</id>
-      <name>Ansgars Privates Repository (Snapshots)</name>
-      <url>http://www.bln.itikko.net:8080/nexus/content/repositories/snapshots/</url>
-      <layout>default</layout>
-    </snapshotRepository>
   </distributionManagement>
 
   <scm>
-    <connection>scm:git:git@github.com:ansgarkonermann/maven-drools-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:ansgarkonermann/maven-drools-plugin.git</developerConnection>
+    <connection>scm:git:git@github.com:de-lightful-poms/standard-plugins.git</connection>
+    <developerConnection>scm:git:git@github.com:de-lightful-poms/standard-plugins.git</developerConnection>
   </scm>
-
-  <build>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ssh</artifactId>
-        <version>1.0-beta-5</version>
-      </extension>
-    </extensions>
-
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-invoker-plugin</artifactId>
-          <version>1.5</version>
-          <executions>
-            <execution>
-              <id>install-integration-test-artifacts</id>
-              <phase>pre-integration-test</phase>
-              <goals>
-                <goal>install</goal>
-              </goals>
-              <configuration>
-                <localRepositoryPath>${repository.integrationtests}</localRepositoryPath>
-              </configuration>
-            </execution>
-          </executions>
-        </plugin>
-      </plugins>
-
-    </pluginManagement>
-
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <showDeprecation>true</showDeprecation>
-          <showWarnings>true</showWarnings>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <scmCommentPrefix xml:space="preserve">[MDP:RELEASE]_</scmCommentPrefix>
-          <goals>deploy</goals>
-          <pushChanges>true</pushChanges>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>enforce-sane-build</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <phase>validate</phase>
-            <configuration>
-              <rules>
-                <requireMavenVersion>
-                  <version>3.0.3</version>
-                </requireMavenVersion>
-                <requireJavaVersion>
-                  <version>1.5.0</version>
-                </requireJavaVersion>
-                <requireProperty>
-                  <property>mirrorUrl</property>
-                  <message>Please specify a Java property 'mirrorUrl' pointing to your local Maven repository manager. In a pinch, you could also use Maven Central, but this will probably make your build very slow. Example: mvn -DmirrorUrl=http://localhost:8080/nexus/content/groups/public clean integration-test</message>
-                </requireProperty>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-    </plugins>
-  </build>
 
 </project>

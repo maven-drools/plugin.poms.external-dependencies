@@ -1,6 +1,0 @@
-package model;
-
-declare Age
-  person: Person
-  age: Integer
-end
