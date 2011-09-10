@@ -55,10 +55,6 @@
             <artifactId>bsh</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>com.beust</groupId>
-            <artifactId>jcommander</artifactId>
-          </exclusion>
-          <exclusion>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
           </exclusion>
