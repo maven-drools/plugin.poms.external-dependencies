@@ -51,10 +51,6 @@
             <artifactId>junit</artifactId>
           </exclusion>
           <exclusion>
-            <groupId>org.beanshell</groupId>
-            <artifactId>bsh</artifactId>
-          </exclusion>
-          <exclusion>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
           </exclusion>
