@@ -32,16 +32,14 @@
   <version>0.5.2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>Maven Drools Support :: Plugin :: External Dependencies</name>
+  <name>Maven Drools Support :: Plugin :: Dependency Management :: External Dependencies</name>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <dependency.maven.version>3.0.3</dependency.maven.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
-
       <dependency>
         <groupId>org.testng</groupId>
         <artifactId>testng</artifactId>
@@ -54,7 +52,6 @@
         <version>[1.4, 2.0)</version>
         <scope>test</scope>
       </dependency>
-
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
@@ -65,7 +62,6 @@
         <artifactId>slf4j-simple</artifactId>
         <version>1.6.1</version>
       </dependency>
-
       <dependency>
         <groupId>javax.inject</groupId>
         <artifactId>javax.inject</artifactId>
@@ -93,18 +89,7 @@
         <version>${dependency.maven.version}</version>
       </dependency>
     </dependencies>
-
   </dependencyManagement>
-
-  <distributionManagement>
-    <downloadUrl>http://lightful.de/mvnrepo/public/releases</downloadUrl>
-    <repository>
-      <id>de.lightful.releases</id>
-      <name>Public Release Repository on lightful.de</name>
-      <url>scp://lightful.de/mvnrepo/public/releases</url>
-      <layout>default</layout>
-    </repository>
-  </distributionManagement>
 
   <scm>
     <connection>scm:git:git@github.com:maven-drools/plugin.poms.external-dependencies.git</connection>
