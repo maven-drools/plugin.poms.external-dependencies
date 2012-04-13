@@ -27,7 +27,7 @@
 
   <groupId>de.lightful.maven.drools.plugin.dependency-management</groupId>
   <artifactId>external-dependencies</artifactId>
-  <version>0.5.7-SNAPSHOT</version>
+  <version>0.5.6-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Maven Drools Support :: Plugin :: Dependency Management :: External Dependencies</name>
