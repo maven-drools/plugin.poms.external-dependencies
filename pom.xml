@@ -21,8 +21,8 @@
 
   <parent>
     <groupId>de.lightful.poms</groupId>
-    <artifactId>standard-build</artifactId>
-    <version>33</version>
+    <artifactId>standard-oss-build</artifactId>
+    <version>2</version>
   </parent>
 
   <groupId>de.lightful.maven.drools.plugin.dependency-management</groupId>
